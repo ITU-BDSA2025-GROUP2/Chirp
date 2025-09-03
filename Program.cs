@@ -14,18 +14,15 @@ using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
     }
 }
 
-    if (args[0] == "read")
+if (args[0] == "read")
+{
+    foreach (var rs in records)
     {
-
-        foreach (var rs in records)
-        {
-            DateTimeOffset dataTimeOffSet = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(rs.Timestamp));
-            DateTime time = dataTimeOffSet.DateTime;
-            Console.WriteLine(rs.Author + " @ " + time + " " + rs.Message);
-        }
-
-
-}
+        DateTimeOffset dataTimeOffSet = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(rs.Timestamp));
+        DateTime time = dataTimeOffSet.DateTime;
+        Console.WriteLine(rs.Author + " @ " + time + " " + rs.Message);
+    }
+}  
 else if (args[0] == "cheep")
 {
     long time = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
@@ -47,10 +44,4 @@ else if (args[0] == "cheep")
     {
         csvWriter.WriteRecords(records); 
     }
-
-
-
 }
-  
-
-
