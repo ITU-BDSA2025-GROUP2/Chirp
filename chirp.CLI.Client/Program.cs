@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using CsvHelper;
-
 using SimpleDB;
 
 IDatabaseRepository<Messages> database = new CSVDatabase<Messages>();
@@ -9,12 +8,7 @@ if (args[0] == "read")
 {
 
     var record = database.Read();
-    foreach (var rs in record)
-    {
-        DateTimeOffset dataTimeOffSet = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(rs.Timestamp));
-        DateTime time = dataTimeOffSet.DateTime;
-        Console.WriteLine(rs.Author + " @ " + time + " " + rs.Message);
-    }
+    UserInterface.PrintCheeps(record);
 
 }
 else if (args[0] == "cheep")
@@ -30,6 +24,6 @@ else if (args[0] == "cheep")
         }
         msg = msg + " " + arg;
     }
-    var newRecord = new Messages {Author = name, Message = msg, Timestamp = time.ToString()};
+    var newRecord = new Messages { Author = name, Message = msg, Timestamp = time.ToString() };
     database.Store(newRecord);
 }
