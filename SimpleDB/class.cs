@@ -1,12 +1,12 @@
 using CsvHelper.Configuration;
-using TinyCsvParser.Mapping;
 
-public class Messages
+
+public record Messages
 {
-    public string Author { get; set; }
-    public string Message { get; set; }
-    public string Timestamp { get; set; }
-}
+    public required string Author { get; init; }
+    public required string Message { get; init; }
+    public required string Timestamp { get; init; }  
+};
 
 public class csvMessageMapping : ClassMap<Messages>
 {
