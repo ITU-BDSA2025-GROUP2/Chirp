@@ -1,10 +1,6 @@
 ﻿using CsvHelper;
 using Microsoft.VisualBasic;
 using System.Globalization;
-List<Messages> records = new List<Messages>();
-
-
-
 
 if (args[0] == "read")
 {
