@@ -19,8 +19,11 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
+
         using var writer = new StreamWriter("../chirp_cli_db.csv", true);
         using var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
+
         csvWriter.WriteRecord(record);
+        csvWriter.NextRecord();
     }
 }
