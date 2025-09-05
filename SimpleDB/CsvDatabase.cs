@@ -6,7 +6,6 @@ using System.Globalization;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
-
     public IEnumerable<T> Read(int? limit = null)
     {
         using var reader = new StreamReader("../chirp_cli_db.csv");
