@@ -8,7 +8,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
     public IEnumerable<T> Read(int? limit = null)
     {
-        using var reader = new StreamReader("../chirp_cli_db.csv");
+        using var reader = new StreamReader("../SimpleDB/chirp_cli_db.csv");
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
         csv.Context.RegisterClassMap<csvMessageMapping>();
         var record = csv.GetRecords<Messages>().ToList();
@@ -19,7 +19,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     public void Store(T record)
     {
 
-        using var writer = new StreamWriter("../chirp_cli_db.csv", true);
+        using var writer = new StreamWriter("../SimpleDB/chirp_cli_db.csv", true);
         using var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
 
         csvWriter.WriteRecord(record);
