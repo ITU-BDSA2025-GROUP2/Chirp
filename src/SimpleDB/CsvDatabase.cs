@@ -1,16 +1,15 @@
 ﻿namespace SimpleDB;
 
 using CsvHelper;
-using Microsoft.VisualBasic;
 using System.Globalization;
 
-public sealed class CSVDatabase<T> : IDatabaseRepository<T>
+public sealed class CsvDatabase<T> : IDatabaseRepository<T>
 {
     public IEnumerable<T> Read(int? limit = null)
     {
         using var reader = new StreamReader("../SimpleDB/chirp_cli_db.csv");
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-        csv.Context.RegisterClassMap<csvMessageMapping>();
+        csv.Context.RegisterClassMap<CsvMessageMapping>();
         var record = csv.GetRecords<Messages>().ToList();
 
         return (IEnumerable<T>)record;

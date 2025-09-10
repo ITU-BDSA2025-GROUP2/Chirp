@@ -1,5 +1,6 @@
+namespace SimpleDB;
+    
 using CsvHelper.Configuration;
-
 
 public record Messages
 {
@@ -8,10 +9,10 @@ public record Messages
     public required string Timestamp { get; init; }  
 };
 
-public class csvMessageMapping : ClassMap<Messages>
+public class CsvMessageMapping : ClassMap<Messages>
 {
-    public csvMessageMapping()
-        : base()
+    public CsvMessageMapping()
+        //: base()
     {
         Map(x => x.Author).Name("Author");
         Map(x => x.Message).Name("Message");
