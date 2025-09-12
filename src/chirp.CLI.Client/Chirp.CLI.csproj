@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SimpleDB\SimpleDB.csproj" />
+    <ProjectReference Include="../SimpleDB/SimpleDB.csproj" />
     <PackageReference Include="docopt.net" Version="0.8.1" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-rc.1.25451.107" />
     <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta5.25306.1" />
@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\..\data\chirp_cli_db.csv" >
-      <Link>data\chirp_cli_db.csv</Link>
+    <Content Include="../../data/chirp_cli_db.csv" >
+      <Link>data/chirp_cli_db.csv</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
 

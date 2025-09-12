@@ -19,12 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Chirp.CLI.Client\Chirp.CLI.csproj" />
+    <ProjectReference Include="../../src/Chirp.CLI.Client/Chirp.CLI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\..\data\chirp_cli_db.csv" >
-      <Link>data\chirp_cli_db.csv</Link>
+    <Content Include="../../data/chirp_cli_db.csv" >
+      <Link>data/chirp_cli_db.csv</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
 
