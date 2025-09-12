@@ -5,6 +5,10 @@ using System.Globalization;
 
 public sealed class CsvDatabase<T> : IDatabaseRepository<T>
 {
+    //code for singleton implementation taken from: https://csharpindepth.com/Articles/Singleton
+    private static CsvDatabase<T> _instance;
+    private static readonly object _padlock = new object();
+    
     //private readonly string _file;
     private readonly StreamReader _reader;
     private readonly StreamWriter _writer;
@@ -16,6 +20,21 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
         _reader = new StreamReader(stream, leaveOpen: true);
         _writer = new StreamWriter(stream, leaveOpen: true);
     }
+    
+    public static CsvDatabase<T> Instance(string file)
+    {
+        //ensures that another instance cannot be created while the process of making sure only on instance is present is still running
+        //can be removed as it can affect performance (will just be less secure if we work with threads)
+        lock (_padlock)
+        {
+            if (_instance == null)
+            {
+                _instance = new CsvDatabase<T>(file);
+            }
+            return _instance;
+        }
+    }
+    
     
     public IEnumerable<T> Read(int? limit = null)
     {
