@@ -44,6 +44,7 @@ jobs:
         - name: Setup .NET
           uses: actions/setup-dotnet@v3
           with:
+            fetch-depth: 0
             dotnet-version: 8.0.x
 
         - name: Build
@@ -52,7 +53,7 @@ jobs:
             tag=$(git describe --tags --abbrev=0)
             release_name="Chirp-$tag-${{ matrix.target }}"
 
-            dotnet publish chirp.CLI.Client/chirp.CLI.csproj --framework net8.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name"
+            dotnet publish Chirp.CLI.sln --framework net8.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name"
             
             if [ "${{ matrix.target }}" == "win-x64" ]; then
                 7z a -tzip "${release_name}.zip" "./${release_name}/*"
