@@ -1,16 +1,22 @@
-﻿using System.Diagnostics;
-
-namespace SimpleDB.Tests;
+﻿namespace SimpleDB.Tests;
 
 public class CsvDatabaseTest
 {
+    private readonly CsvDatabase<Messages> _csvDatabase;
+    private readonly string _fileName = "chirp_cli_db.csv";
+    
+    // Instantiate the class here
+    public CsvDatabaseTest()
+    {
+        _csvDatabase = new CsvDatabase<Messages>(_fileName);
+    }
+    
+    
     [Fact]
     public void CsvDatabaseInstantiate()
     {
-        var csvDatabase = new CsvDatabase<string>();
-        
-        Assert.NotNull(csvDatabase);
-        Assert.Equal(typeof(CsvDatabase<string>), csvDatabase.GetType());
+        Assert.NotNull(_csvDatabase);
+        Assert.Equal(typeof(CsvDatabase<Messages>), _csvDatabase.GetType());
     }
 
     [Theory]
@@ -18,9 +24,9 @@ public class CsvDatabaseTest
     [InlineData("hello")]   // string         
     [InlineData(true)] // boolean
     [InlineData(3.14)] // double
-    public void CsvDatabaseInstantiateGenerics<T>(T sample)
+    public void CsvDatabaseInstantiateGenerics<T>(T type)
     {
-        var csvDatabase = new CsvDatabase<T>();
+        var csvDatabase = new CsvDatabase<T>(_fileName);
         Assert.NotNull(csvDatabase);
         Assert.Equal(typeof(CsvDatabase<T>), csvDatabase.GetType());
     }
@@ -28,8 +34,35 @@ public class CsvDatabaseTest
     [Fact]
     public void Read()
     {
-        var csvDatabase = new CsvDatabase<string>();
+        var read = _csvDatabase.Read();
         
-        csvDatabase.Read();
+        Assert.NotNull(read);
+        Assert.Equal(typeof(List<Messages>), read.GetType());
+    }
+
+    [Fact]
+    public void ReadWithLimit()
+    {
+        var read = _csvDatabase.Read(1);
+        
+        Assert.NotNull(read);
+        Assert.Equal(typeof(List<Messages>), read.GetType());
+        Assert.Equal(1, read.Count());
+    }
+
+    [Fact]
+    public void Store()
+    {
+        var record = new Messages()
+        {
+            Author = "Karam", 
+            Message = "Hello", 
+            Timestamp = "Tomorrow"
+        };
+        
+        _csvDatabase.Store(record);
+        var read = _csvDatabase.Read();
+        
+        Assert.Equal(record, read.Last());
     }
 }

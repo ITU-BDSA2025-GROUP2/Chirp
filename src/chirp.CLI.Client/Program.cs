@@ -2,12 +2,12 @@
 using CsvHelper;
 using SimpleDB;
 
-IDatabaseRepository<Messages> database = new CsvDatabase<Messages>();
+IDatabaseRepository<Messages> database = new CsvDatabase<Messages>("src/SimpleDB/CsvDatabase.cs");
 
 if (args[0] == "read")
 {
     var record = database.Read();
-    UserInterface.PrintCheeps(record);
+    UserInterfaceTests.PrintCheeps(record);
 }
 else if (args[0] == "cheep")
 {

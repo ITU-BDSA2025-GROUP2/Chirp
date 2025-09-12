@@ -10,4 +10,11 @@
         <PackageReference Include="CsvHelper" Version="33.1.0" />
     </ItemGroup>
 
+     <ItemGroup>
+       <None Remove="chirp_cli_db.csv" />
+       <Resource Include="chirp_cli_db.csv">
+         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+       </Resource>
+     </ItemGroup>
+
 </Project>

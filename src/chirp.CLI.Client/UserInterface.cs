@@ -1,3 +1,5 @@
+namespace chirp.CLI;
+
 using SimpleDB;
 
 public static class UserInterface
@@ -10,6 +12,5 @@ public static class UserInterface
             DateTime time = dataTimeOffSet.DateTime;
             Console.WriteLine(rs.Author + " @ " + time + " " + rs.Message);
         }
-        
     }
 }
