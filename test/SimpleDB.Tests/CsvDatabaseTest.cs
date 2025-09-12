@@ -1,14 +1,16 @@
 ﻿namespace SimpleDB.Tests;
 
+
+    
 public class CsvDatabaseTest
 {
-    private readonly CsvDatabase<Messages> _csvDatabase;
-    private readonly string _fileName = "chirp_cli_db.csv";
+    private readonly IDatabaseRepository<Messages> _csvDatabase;
+    //private readonly string _fileName = "chirp_cli_db.csv";
     
     // Instantiate the class here
     public CsvDatabaseTest()
     {
-        _csvDatabase = new CsvDatabase<Messages>(_fileName);
+        _csvDatabase = new CsvDatabase<Messages>();
     }
     
     
@@ -26,9 +28,16 @@ public class CsvDatabaseTest
     [InlineData(3.14)] // double
     public void CsvDatabaseInstantiateGenerics<T>(T type)
     {
-        var csvDatabase = new CsvDatabase<T>(_fileName);
+        var csvDatabase = new CsvDatabase<T>();
         Assert.NotNull(csvDatabase);
         Assert.Equal(typeof(CsvDatabase<T>), csvDatabase.GetType());
+    }
+
+    [Fact]
+    public void CsvDatabaseInstance()
+    {
+        
+        Assert.IsType<CsvDatabase<Messages>>(_csvDatabase);
     }
     
     [Fact]
@@ -57,7 +66,7 @@ public class CsvDatabaseTest
         {
             Author = "Karam", 
             Message = "Hello", 
-            Timestamp = "Tomorrow"
+            Timestamp = "112390123"
         };
         
         _csvDatabase.Store(record);

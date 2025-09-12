@@ -6,32 +6,36 @@ using System.Globalization;
 public sealed class CsvDatabase<T> : IDatabaseRepository<T>
 {
     //code for singleton implementation taken from: https://csharpindepth.com/Articles/Singleton
-    private static CsvDatabase<T> _instance;
+    private static CsvDatabase<T> _instance = null;
     private static readonly object _padlock = new object();
     
     //private readonly string _file;
-    private readonly StreamReader _reader;
-    private readonly StreamWriter _writer;
+    private static StreamReader _reader;
+    private static StreamWriter _writer;
 
-    public CsvDatabase(string file)
+
+    public CsvDatabase()
     {
-        //var _file = file;
+        var file = "chirp_cli_db.csv";
         var stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
         _reader = new StreamReader(stream, leaveOpen: true);
         _writer = new StreamWriter(stream, leaveOpen: true);
     }
-    
-    public static CsvDatabase<T> Instance(string file)
+    public static CsvDatabase<T> Instance
     {
-        //ensures that another instance cannot be created while the process of making sure only on instance is present is still running
-        //can be removed as it can affect performance (will just be less secure if we work with threads)
-        lock (_padlock)
+        get
         {
-            if (_instance == null)
+            //ensures that another instance cannot be created while the process of making sure only on instance is present is still running
+            //can be removed as it can affect performance (will just be less secure if we work with threads)
+            lock (_padlock)
             {
-                _instance = new CsvDatabase<T>(file);
+                if (_instance == null)
+                {
+                    _instance = new CsvDatabase<T>();
+                }
+                Console.Out.WriteLine("INSTANCE");
+                return _instance;
             }
-            return _instance;
         }
     }
     

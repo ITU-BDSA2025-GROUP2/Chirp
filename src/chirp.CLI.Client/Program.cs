@@ -4,10 +4,9 @@ using SimpleDB;
 using System.CommandLine;
 
 class Program {
-    
     static int Main(string[] args)
     {
-        CsvDatabase<Messages> database = new CsvDatabase<Messages>("chirp_cli_db.csv");
+        IDatabaseRepository<Messages> database = new CsvDatabase<Messages>();
 
         Option<bool> readOption = new Option<bool>("read");
         Option<string?> cheepOption = new Option<string?>("cheep", "message"); 

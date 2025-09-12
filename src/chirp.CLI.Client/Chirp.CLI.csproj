@@ -15,4 +15,10 @@
     <PackageReference Include="TinyCsvParser" Version="2.7.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Resource Include="chirp_cli_db.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
 </Project>
