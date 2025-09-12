@@ -24,7 +24,6 @@ jobs:
         run: dotnet test --no-build --verbosity normal
     release: 
         needs: build
-        runs-on: ${{ matrix.os }}   
         
         strategy:
             matrix:
@@ -33,12 +32,13 @@ jobs:
                   - kind: linux
                     os: ubuntu-latest
                     target: linux-x64
-                  - kind: windows-latest
+                  - kind: windows
                     os: windows-latest
                     target: win-x64
                   - kind: macOS
                     os: macos-latest
                     target: osx-x64
+        runs-on: ${{ matrix.os }}   
         steps:
         - uses: actions/checkout@v3
         - name: Setup .NET
