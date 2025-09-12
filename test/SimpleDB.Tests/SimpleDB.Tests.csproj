@@ -21,11 +21,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\SimpleDB\SimpleDB.csproj" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    <None Include="chirp_cli_db.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Content Include="..\..\data\chirp_cli_db.csv" >
+      <Link>data\chirp_cli_db.csv</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

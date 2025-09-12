@@ -1,5 +1,6 @@
 ﻿
 
+using chirp.CLI;
 using Xunit;
 
 namespace test;

@@ -10,16 +10,19 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
     private static readonly object _padlock = new object();
     
     //private readonly string _file;
-    private static StreamReader _reader;
-    private static StreamWriter _writer;
-
+    private readonly StreamReader _reader;
+    private readonly StreamWriter _writer;
+    private readonly CsvWriter _csvWriter;
+    private readonly CsvReader _csvReader;
 
     public CsvDatabase()
     {
-        var file = "chirp_cli_db.csv";
-        var stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+        var filePath = Path.Combine(AppContext.BaseDirectory, "data", "chirp_cli_db.csv");
+        var stream = File.Open(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
         _reader = new StreamReader(stream, leaveOpen: true);
         _writer = new StreamWriter(stream, leaveOpen: true);
+        _csvWriter = new CsvWriter(_writer, CultureInfo.InvariantCulture);
+        _csvReader = new CsvReader(_reader, CultureInfo.InvariantCulture);
     }
     public static CsvDatabase<T> Instance
     {
@@ -46,17 +49,9 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
         _reader.BaseStream.Seek(0, SeekOrigin.Begin);
         _reader.DiscardBufferedData();
         
-        using var csv = new CsvReader(_reader, CultureInfo.InvariantCulture);
-        csv.Context.RegisterClassMap<CsvMessageMapping>();
+        _csvReader.Context.RegisterClassMap<CsvMessageMapping>();
         
-        //
-        string filepath = Path.Combine(AppContext.BaseDirectory, "data", "chirp_cli_db.csv");
-        using var reader = new StreamReader(filepath);
-        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-        csv.Context.RegisterClassMap<csvMessageMapping>();
-        //
-        
-        var record = csv.GetRecords<Messages>().ToList();
+        var record = _csvReader.GetRecords<Messages>().ToList();
 
         return (IEnumerable<T>)record;
     }
@@ -65,15 +60,9 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
     {
         // Go to last line
         _writer.BaseStream.Seek(0, SeekOrigin.End);
-        using var csvWriter = new CsvWriter(_writer, CultureInfo.InvariantCulture);
-        //
-        string filepath = Path.Combine(AppContext.BaseDirectory, "data", "chirp_cli_db.csv");
-        using var writer = new StreamWriter(filepath, true);
-        using var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
-        //
         
-        csvWriter.WriteRecord(record);
-        csvWriter.NextRecord();
+        _csvWriter.WriteRecord(record);
+        _csvWriter.NextRecord();
         _writer.Flush();
     }
 }
