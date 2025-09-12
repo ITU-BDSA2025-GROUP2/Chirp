@@ -6,6 +6,28 @@ using System.Globalization;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
+    //code for singleton implementation taken from: https://csharpindepth.com/Articles/Singleton
+    private static CSVDatabase<T> instance = null;
+    private static readonly object padlock = new object();
+
+    public static CSVDatabase<T> Instance
+    {
+        get
+        {
+            //ensures that another instance cannot be created while the process of making sure only on instance is present is still running
+            //can be removed as it can affect performance (will just be less secure if we work with threads)
+            lock (padlock)
+            {
+                if (instance == null)
+                {
+                    instance = new CSVDatabase<T>();
+                }
+                return instance;
+            }
+        }
+    }
+
+
     public IEnumerable<T> Read(int? limit = null)
     {
         using var reader = new StreamReader("../chirp_cli_db.csv");
