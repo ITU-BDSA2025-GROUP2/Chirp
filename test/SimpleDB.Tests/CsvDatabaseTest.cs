@@ -10,7 +10,7 @@ public class CsvDatabaseTest
     // Instantiate the class here
     public CsvDatabaseTest()
     {
-        _csvDatabase = new CsvDatabase<Messages>();
+        _csvDatabase = CsvDatabase<Messages>.Instance;
     }
     
     
@@ -28,7 +28,7 @@ public class CsvDatabaseTest
     [InlineData(3.14)] // double
     public void CsvDatabaseInstantiateGenerics<T>(T type)
     {
-        var csvDatabase = new CsvDatabase<T>();
+        var csvDatabase = CsvDatabase<T>.Instance;
         Assert.NotNull(csvDatabase);
         Assert.Equal(typeof(CsvDatabase<T>), csvDatabase.GetType());
     }

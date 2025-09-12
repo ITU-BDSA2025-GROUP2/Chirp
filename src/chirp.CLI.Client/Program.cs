@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 public class Program {
     public static int Main(string[] args)
     {
-        IDatabaseRepository<Messages> database = new CsvDatabase<Messages>();
+        var database = CsvDatabase<Messages>.Instance;
 
         Option<bool> readOption = new Option<bool>("read");
         Option<string?> cheepOption = new Option<string?>("cheep", "message"); 

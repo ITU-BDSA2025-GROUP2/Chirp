@@ -5,9 +5,7 @@ using System.Globalization;
 
 public sealed class CsvDatabase<T> : IDatabaseRepository<T>
 {
-    //code for singleton implementation taken from: https://csharpindepth.com/Articles/Singleton
-    private static CsvDatabase<T> _instance = null;
-    private static readonly object _padlock = new object();
+    private static readonly Lazy<CsvDatabase<T>> LazyInstance = new Lazy<CsvDatabase<T>>(() => new CsvDatabase<T>());
     
     //private readonly string _file;
     private readonly StreamReader _reader;
@@ -15,7 +13,11 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
     private readonly CsvWriter _csvWriter;
     private readonly CsvReader _csvReader;
 
-    public CsvDatabase()
+
+
+    public static CsvDatabase<T> Instance { get { return LazyInstance.Value; } }
+    
+    private CsvDatabase()
     {
         var filePath = Path.Combine(AppContext.BaseDirectory, "data", "chirp_cli_db.csv");
         var stream = File.Open(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
@@ -24,6 +26,8 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
         _csvWriter = new CsvWriter(_writer, CultureInfo.InvariantCulture);
         _csvReader = new CsvReader(_reader, CultureInfo.InvariantCulture);
     }
+    
+    /*
     public static CsvDatabase<T> Instance
     {
         get
@@ -41,6 +45,11 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
             }
         }
     }
+    */
+    
+    
+    
+    
     
     
     public IEnumerable<T> Read(int? limit = null)
