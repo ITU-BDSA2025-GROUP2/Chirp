@@ -11,9 +11,9 @@ using System.CommandLine.Parsing;
 using System.CommandLine.Invocation;
 using System.CommandLine.NamingConventionBinder;
 using System.Runtime.CompilerServices;
-class Program {
+public class Program {
 
-    static int Main(string[] args)
+    public static int Main(string[] args)
     {
         IDatabaseRepository<Messages> database = new CSVDatabase<Messages>();
 
