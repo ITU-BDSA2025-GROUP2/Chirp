@@ -1,9 +1,8 @@
 name: verify and pulish newest version
 
 on:
-    push: 
-        tags:
-            "*.*.*"
+    release:
+        types: [published]
 
 jobs:
         
