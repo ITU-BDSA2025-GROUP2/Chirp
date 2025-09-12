@@ -1,10 +1,14 @@
-﻿namespace chirp.CLI;
+namespace chirp.CLI;
 
 using SimpleDB;
 using System.CommandLine;
+using System.CommandLine.Parsing;
+using System.CommandLine.Invocation;
+using System.CommandLine.NamingConventionBinder;
+using System.Runtime.CompilerServices;
 
-class Program {
-    static int Main(string[] args)
+public class Program {
+    public static int Main(string[] args)
     {
         IDatabaseRepository<Messages> database = new CsvDatabase<Messages>();
 

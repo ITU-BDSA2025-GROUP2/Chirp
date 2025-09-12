@@ -48,6 +48,14 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
         
         using var csv = new CsvReader(_reader, CultureInfo.InvariantCulture);
         csv.Context.RegisterClassMap<CsvMessageMapping>();
+        
+        //
+        string filepath = Path.Combine(AppContext.BaseDirectory, "data", "chirp_cli_db.csv");
+        using var reader = new StreamReader(filepath);
+        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+        csv.Context.RegisterClassMap<csvMessageMapping>();
+        //
+        
         var record = csv.GetRecords<Messages>().ToList();
 
         return (IEnumerable<T>)record;
@@ -58,6 +66,11 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
         // Go to last line
         _writer.BaseStream.Seek(0, SeekOrigin.End);
         using var csvWriter = new CsvWriter(_writer, CultureInfo.InvariantCulture);
+        //
+        string filepath = Path.Combine(AppContext.BaseDirectory, "data", "chirp_cli_db.csv");
+        using var writer = new StreamWriter(filepath, true);
+        using var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        //
         
         csvWriter.WriteRecord(record);
         csvWriter.NextRecord();

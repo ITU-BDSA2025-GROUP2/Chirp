@@ -1,0 +1,70 @@
+name: verify and pulish newest version
+
+on:
+    push: 
+        tags:
+            "*.*.*"
+
+jobs:
+        
+    build:
+      runs-on: ubuntu-latest
+      
+      steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+    release: 
+        needs: build
+        
+        strategy:
+            matrix:
+                kind: ['linux', 'windows', 'macOS']
+                include: 
+                  - kind: linux
+                    os: ubuntu-latest
+                    target: linux-x64
+                  - kind: windows
+                    os: windows-latest
+                    target: win-x64
+                  - kind: macOS
+                    os: macos-latest
+                    target: osx-x64
+        runs-on: ${{ matrix.os }}   
+        steps:
+        - uses: actions/checkout@v3
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v3
+          with:
+            fetch-depth: 0
+            dotnet-version: 8.0.x
+
+        - name: Build
+          shell: bash
+          run: | 
+            tag=$(git describe --tags --abbrev=0)
+            release_name="Chirp-$tag-${{ matrix.target }}"
+
+            dotnet publish Chirp.CLI.sln --framework net8.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name"
+            
+            if [ "${{ matrix.target }}" == "win-x64" ]; then
+                7z a -tzip "${release_name}.zip" "./${release_name}/*"
+            else 
+                tar czvf "${release_name}.tar.gz" "$release_name"
+            fi
+
+            rm -r "$release_name"
+        - name: Publish
+          uses: softprops/action-gh-release@v1
+          with:
+            files: "Chirp*" 
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
