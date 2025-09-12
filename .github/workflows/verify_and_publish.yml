@@ -49,10 +49,10 @@ jobs:
         - name: Build
           shell: bash
           run: | 
-            tag=$(git describe --tags -- abbrev=0)
+            tag=$(git describe --tags --abbrev=0)
             release_name="Chirp-$tag-${{ matrix.target }}"
 
-            dotnet publish chirp.CLI.Client/chirp.CLI.csproj --framework netcoreapp8.0 --runtime "${{ matrix.target }}" -c Release -o "$release-name"
+            dotnet publish chirp.CLI.Client/chirp.CLI.csproj --framework netcoreapp8.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name"
             
             if [ "${{ matrix.target }}" == "win-x64" ]; then
                 7z a -tzip "${release_name}.zip" "./${release_name}/*"
