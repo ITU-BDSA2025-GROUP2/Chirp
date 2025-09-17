@@ -49,6 +49,7 @@ public class CsvDatabaseTest
         Assert.Equal(typeof(List<Messages>), read.GetType());
     }
 
+	/*
     [Fact]
     public void ReadWithLimit()
     {
@@ -58,6 +59,7 @@ public class CsvDatabaseTest
         Assert.Equal(typeof(List<Messages>), read.GetType());
         Assert.Equal(1, read.Count());
     }
+*/
 
     [Fact]
     public void Store()

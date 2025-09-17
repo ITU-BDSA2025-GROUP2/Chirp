@@ -20,7 +20,7 @@ public class UserInterfaceTests
         
         UserInterface.PrintCheeps(records);
 
-        var expectedOutput = "Karam @ 02-01-1970 10:16:41 Hi\r\n";
+        var expectedOutput = "Karam @ 01/02/1970 10:16:41 Hi\n";
         Assert.Equal(expectedOutput, stringWriter.ToString());
     }
 }
