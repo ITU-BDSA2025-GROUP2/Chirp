@@ -8,7 +8,8 @@ using System.CommandLine.NamingConventionBinder;
 using System.Runtime.CompilerServices;
 
 public class Program {
-    public static int Main(string[] args)
+
+   public static int Main(string[] args)
     {
         var database = CsvDatabase<Messages>.Instance;
 
