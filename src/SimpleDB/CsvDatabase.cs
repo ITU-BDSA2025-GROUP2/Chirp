@@ -1,52 +1,77 @@
 ﻿namespace SimpleDB;
 
 using CsvHelper;
-using Microsoft.VisualBasic;
 using System.Globalization;
 
-public sealed class CSVDatabase<T> : IDatabaseRepository<T>
+public sealed class CsvDatabase<T> : IDatabaseRepository<T>
 {
-    //code for singleton implementation taken from: https://csharpindepth.com/Articles/Singleton
-    private static CSVDatabase<T> instance = null;
-    private static readonly object padlock = new object();
+    private static readonly Lazy<CsvDatabase<T>> LazyInstance = new Lazy<CsvDatabase<T>>(() => new CsvDatabase<T>());
+    
+    //private readonly string _file;
+    private readonly StreamReader _reader;
+    private readonly StreamWriter _writer;
+    private readonly CsvWriter _csvWriter;
+    private readonly CsvReader _csvReader;
 
-    public static CSVDatabase<T> Instance
+
+
+    public static CsvDatabase<T> Instance { get { return LazyInstance.Value; } }
+    
+    private CsvDatabase()
+    {
+        var filePath = Path.Combine(AppContext.BaseDirectory, "data", "chirp_cli_db.csv");
+        var stream = File.Open(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+        _reader = new StreamReader(stream, leaveOpen: true);
+        _writer = new StreamWriter(stream, leaveOpen: true);
+        _csvWriter = new CsvWriter(_writer, CultureInfo.InvariantCulture);
+        _csvReader = new CsvReader(_reader, CultureInfo.InvariantCulture);
+    }
+    
+    /*
+    public static CsvDatabase<T> Instance
     {
         get
         {
             //ensures that another instance cannot be created while the process of making sure only on instance is present is still running
             //can be removed as it can affect performance (will just be less secure if we work with threads)
-            lock (padlock)
+            lock (_padlock)
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new CSVDatabase<T>();
+                    _instance = new CsvDatabase<T>();
                 }
-                return instance;
+                Console.Out.WriteLine("INSTANCE");
+                return _instance;
             }
         }
     }
-
-
+    */
+    
+    
+    
+    
+    
+    
     public IEnumerable<T> Read(int? limit = null)
     {
-
-        string filepath = Path.Combine(AppContext.BaseDirectory, "data", "chirp_cli_db.csv");
-        using var reader = new StreamReader(filepath);
-        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-        csv.Context.RegisterClassMap<csvMessageMapping>();
-        var record = csv.GetRecords<Messages>().ToList();
+        // Go to first line
+        _reader.BaseStream.Seek(0, SeekOrigin.Begin);
+        _reader.DiscardBufferedData();
+        
+        _csvReader.Context.RegisterClassMap<CsvMessageMapping>();
+        
+        var record = _csvReader.GetRecords<Messages>().ToList();
 
         return (IEnumerable<T>)record;
     }
 
     public void Store(T record)
     {
-        string filepath = Path.Combine(AppContext.BaseDirectory, "data", "chirp_cli_db.csv");
-        using var writer = new StreamWriter(filepath, true);
-        using var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
-
-        csvWriter.WriteRecord(record);
-        csvWriter.NextRecord();
+        // Go to last line
+        _writer.BaseStream.Seek(0, SeekOrigin.End);
+        
+        _csvWriter.WriteRecord(record);
+        _csvWriter.NextRecord();
+        _writer.Flush();
     }
 }

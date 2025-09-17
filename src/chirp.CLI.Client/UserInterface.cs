@@ -1,4 +1,6 @@
+namespace chirp.CLI;
 
+using SimpleDB;
 
 public static class UserInterface
 {
@@ -6,10 +8,9 @@ public static class UserInterface
     {
         foreach (var rs in records)
         {
-            DateTimeOffset dataTimeOffSet = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(rs.Timestamp));
-            DateTime time = dataTimeOffSet.DateTime;
+            var dataTimeOffSet = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(rs.Timestamp));
+            var time = dataTimeOffSet.DateTime;
             Console.WriteLine(rs.Author + " @ " + time + " " + rs.Message);
         }
-        
     }
 }

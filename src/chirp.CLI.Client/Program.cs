@@ -1,30 +1,23 @@
-﻿using System.Net;
-using CsvHelper;
+namespace chirp.CLI;
+
 using SimpleDB;
-using Microsoft.VisualBasic;
-using System.Globalization;
-using System;
-using System.Collections.Generic;
-using DocoptNet;
 using System.CommandLine;
 using System.CommandLine.Parsing;
 using System.CommandLine.Invocation;
 using System.CommandLine.NamingConventionBinder;
 using System.Runtime.CompilerServices;
 
-namespace Chirp.CLI{
-    public class Program {
-
-    public static int Main(string[] args)
+public class Program {
+   public static int Main(string[] args)
     {
-        IDatabaseRepository<Messages> database = new CSVDatabase<Messages>();
+        var database = CsvDatabase<Messages>.Instance;
 
         Option<bool> readOption = new Option<bool>("read");
         Option<string?> cheepOption = new Option<string?>("cheep", "message"); 
         RootCommand rootCommand = new RootCommand
         {
-             readOption,
-             cheepOption
+            readOption,
+            cheepOption
         };
 
 
@@ -51,6 +44,4 @@ namespace Chirp.CLI{
         var parseResult = rootCommand.Parse(args);
         return parseResult.Invoke();
     }
-
-}
 }
