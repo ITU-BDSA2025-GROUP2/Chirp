@@ -11,7 +11,9 @@ using System.CommandLine.Parsing;
 using System.CommandLine.Invocation;
 using System.CommandLine.NamingConventionBinder;
 using System.Runtime.CompilerServices;
-public class Program {
+
+namespace Chirp.CLI{
+    public class Program {
 
     public static int Main(string[] args)
     {
@@ -50,4 +52,5 @@ public class Program {
         return parseResult.Invoke();
     }
 
+}
 }
