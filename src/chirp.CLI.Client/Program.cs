@@ -8,7 +8,6 @@ using System.CommandLine.NamingConventionBinder;
 using System.Runtime.CompilerServices;
 
 public class Program {
-
    public static int Main(string[] args)
     {
         var database = CsvDatabase<Messages>.Instance;
@@ -45,5 +44,4 @@ public class Program {
         var parseResult = rootCommand.Parse(args);
         return parseResult.Invoke();
     }
-
 }
