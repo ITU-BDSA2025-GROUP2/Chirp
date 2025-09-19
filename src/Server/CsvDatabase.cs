@@ -2,6 +2,7 @@
 
 using CsvHelper;
 using System.Globalization;
+using System.Net.Http.Json;
 
 public sealed class CsvDatabase<T> : IDatabaseRepository<T>
 {
@@ -67,6 +68,7 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
+        Console.WriteLine(record);
         // Go to last line
         _writer.BaseStream.Seek(0, SeekOrigin.End);
         
