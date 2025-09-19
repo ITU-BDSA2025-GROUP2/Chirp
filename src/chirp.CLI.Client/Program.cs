@@ -1,5 +1,6 @@
 namespace chirp.CLI;
 
+using Server;
 using System.CommandLine;
 
 public class Program
@@ -36,7 +37,7 @@ public class Program
                 
                 
 
-                UserInterface.PrintCheeps(readResponse);
+                //UserInterface.PrintCheeps(readResponse);
                 
 
 
