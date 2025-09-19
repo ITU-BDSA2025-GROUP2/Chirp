@@ -2,7 +2,7 @@
 
 
     
-public class CsvDatabaseTest
+public class CsvDatabaseTests
 {
     private readonly IDatabaseRepository<Messages> _csvDatabase;
     //private readonly string _fileName = "chirp_cli_db.csv";
