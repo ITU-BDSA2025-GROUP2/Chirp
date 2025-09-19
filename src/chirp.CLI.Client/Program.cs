@@ -2,6 +2,8 @@ namespace chirp.CLI;
 
 using Server;
 using System.CommandLine;
+using System.Net.Http.Json;
+using Server;
 
 public class Program
 {
@@ -32,28 +34,22 @@ public class Program
             if (read)
             {
                 // Send HTTP requests
-                var readRequestTask = client.GetAsync("/cheeps");
-                var readResponse = await readRequestTask;
+                //var readRequestTask = client.GetAsync("/cheeps");
+                var readResponse = await client.GetFromJsonAsync<IEnumerable<Messages>>("/cheeps");
+                //var ou = await readResponse.Content.ReadFromJsonAsync<IEnumerable<Messages>>();
+                UserInterface.PrintCheeps(readResponse);
                 
-                
-
-                //UserInterface.PrintCheeps(readResponse);
-                
-
-
             }
             else if (cheep != null)
             {
                 long time = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
                 string name = Environment.UserName;
-                //var newRecord = new Messages { Author = name, Message = cheep, Timestamp = time.ToString() };
-                //database.Store(newRecord);
-
-                var content = new StringContent(name.ToString() + "," + cheep.ToString() + "," + time.ToString());
+                var newRecord = new Messages { Author = name, Message = cheep, Timestamp = time.ToString() };
+                var json = JsonContent.Create(newRecord);
 
                 //Console.WriteLine(await content.ReadAsStringAsync());
 
-                var cheepRequestTask = client.PostAsync("/cheep", content);
+                var cheepRequestTask = client.PostAsync("/cheep", json);
                 var cheepResponse = await cheepRequestTask;
             }
 
