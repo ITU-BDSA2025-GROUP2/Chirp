@@ -1,14 +1,12 @@
 ﻿namespace Server.Tests;
 
-
-    
 public class CsvDatabaseTests
 {
-    private readonly IDatabaseRepository<Messages> _csvDatabase;
+    private readonly CsvDatabase<Messages> _csvDatabase;
     //private readonly string _fileName = "chirp_cli_db.csv";
     
     // Instantiate the class here
-    public CsvDatabaseTest()
+    public CsvDatabaseTests()
     {
         _csvDatabase = CsvDatabase<Messages>.Instance;
     }

@@ -1,4 +1,4 @@
-﻿using SimpleDB;
+﻿using Server;
 
 namespace chirp.CLI.Client.Tests;
 

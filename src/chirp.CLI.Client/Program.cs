@@ -36,7 +36,7 @@ public class Program
                 
                 
 
-                UserInterface.PrintCheeps(readResponse);
+                //UserInterface.PrintCheeps(readResponse);
                 
 
 
