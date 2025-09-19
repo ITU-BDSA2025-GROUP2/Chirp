@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
@@ -16,5 +16,12 @@
          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
        </Resource>
      </ItemGroup>
+
+     <ItemGroup>
+        <Content Include="../../data/chirp_cli_db.csv" >
+          <Link>data/chirp_cli_db.csv</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+      </ItemGroup>
 
 </Project>
