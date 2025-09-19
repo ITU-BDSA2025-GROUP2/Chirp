@@ -1,8 +1,5 @@
 namespace Server;
 
-using System.Net.Http.Json;
-using System.Text.Json;
-
 public class ServerProgram
 {
     public static void Main(string[] args)

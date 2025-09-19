@@ -1,9 +1,8 @@
-namespace chirp.CLI;
+namespace Chirp.CLI;
 
 using Server;
 using System.CommandLine;
 using System.Net.Http.Json;
-using Server;
 
 public class Program
 {

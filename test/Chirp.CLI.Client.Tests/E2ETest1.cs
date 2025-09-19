@@ -1,7 +1,6 @@
 ﻿namespace Chirp.CLI.Client.Tests;
 
 using Server;
-using chirp.CLI;
 using Xunit;
 
 public class E2ETest1 
