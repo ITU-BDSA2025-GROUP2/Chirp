@@ -1,4 +1,6 @@
 ﻿namespace Server;
+using System.Net.Http.Json;
+
 
 public interface IDatabaseRepository<T>
 {

@@ -1,5 +1,9 @@
 namespace Server;
-class Program
+
+using System.Net.Http.Json;
+using System.Text.Json;
+
+public class ServerProgram
 {
     public static void Main(string[] args)
     {
@@ -9,12 +13,15 @@ class Program
         
         app.MapGet("/cheeps", () =>
         {
+            
             return database.Read();
         });
 
         app.MapPost("/cheep", (Messages message) =>
         {
-           database.Store(message);
+            Console.WriteLine("IM RUNNING HERE!");
+            //var jsonString = JsonSerializer.Serialize(message);
+            database.Store(message);
         });
 
         app.Run();
