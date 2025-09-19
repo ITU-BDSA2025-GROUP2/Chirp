@@ -2,7 +2,8 @@ namespace Server;
 
 using System.Net.Http.Json;
 using System.Text.Json;
-class Program
+
+public class ServerProgram
 {
     public static void Main(string[] args)
     {
