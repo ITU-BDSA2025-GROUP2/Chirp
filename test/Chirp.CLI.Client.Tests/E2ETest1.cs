@@ -2,7 +2,6 @@
 
 using chirp.CLI;
 using Xunit;
-using Chirp.CLI;
 
 public class E2ETest1
 {

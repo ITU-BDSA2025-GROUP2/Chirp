@@ -1,6 +1,6 @@
 ﻿namespace Server.Tests;
 
-public class CsvMessageMappingTest
+public class CsvMessageMappingTests
 {
     [Fact]
     public void CsvMessageMappingInstantiate()

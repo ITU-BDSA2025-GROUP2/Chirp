@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4E87EA9B-C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.CLI.Client.Tests", "test\Chirp.CLI.Client.Tests\Chirp.CLI.Client.Tests.csproj", "{9ABCC3DD-F0CE-4B6D-87BE-4497D37D6BED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Tests", "test\Server.Tests\Server.Tests.csproj", "{9ABCC3DD-F0CE-4B6D-87BE-4497D37D6BED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Tests", "test\Server.Tests\Server.Tests.csproj", "{E1039A82-01DD-468B-8460-98591BC4F14C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +40,18 @@ Global
 		{9ABCC3DD-F0CE-4B6D-87BE-4497D37D6BED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ABCC3DD-F0CE-4B6D-87BE-4497D37D6BED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9ABCC3DD-F0CE-4B6D-87BE-4497D37D6BED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1039A82-01DD-468B-8460-98591BC4F14C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1039A82-01DD-468B-8460-98591BC4F14C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1039A82-01DD-468B-8460-98591BC4F14C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E1039A82-01DD-468B-8460-98591BC4F14C}.Debug|x64.Build.0 = Debug|Any CPU
+		{E1039A82-01DD-468B-8460-98591BC4F14C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E1039A82-01DD-468B-8460-98591BC4F14C}.Debug|x86.Build.0 = Debug|Any CPU
+		{E1039A82-01DD-468B-8460-98591BC4F14C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1039A82-01DD-468B-8460-98591BC4F14C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1039A82-01DD-468B-8460-98591BC4F14C}.Release|x64.ActiveCfg = Release|Any CPU
+		{E1039A82-01DD-468B-8460-98591BC4F14C}.Release|x64.Build.0 = Release|Any CPU
+		{E1039A82-01DD-468B-8460-98591BC4F14C}.Release|x86.ActiveCfg = Release|Any CPU
+		{E1039A82-01DD-468B-8460-98591BC4F14C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{82A900E3-48B3-441C-9B08-4C99481A4200} = {6B9F61C8-D3C0-4E1D-9296-61062A275613}
