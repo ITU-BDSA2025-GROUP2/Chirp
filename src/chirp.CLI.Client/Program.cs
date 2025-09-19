@@ -2,21 +2,17 @@ namespace chirp.CLI;
 
 using SimpleDB;
 using System.CommandLine;
-using System.CommandLine.Parsing;
-using System.CommandLine.Invocation;
-using System.CommandLine.NamingConventionBinder;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 
 public class Program
 {
 
-    public static async Task Main(string[] args)
+    public static int Main(string[] args)
     {
         // Assign Web Host 
         var baseURL = "http://localhost:5088";
         using HttpClient client = new();
-        client.BaseAddress = new Uri(baseURL);
+        client.BaseAddress =  new Uri(baseURL);
+
 
         // Instantie CSV Database
         var database = CsvDatabase<Messages>.Instance;
@@ -56,7 +52,7 @@ public class Program
 
                 var content = new StringContent(name.ToString() + "," + cheep.ToString() + "," + time.ToString());
 
-                System.Debug(content.ToString());
+                //Console.WriteLine(await content.ReadAsStringAsync());
 
                 var cheepRequestTask = client.PostAsync("/cheep", content);
                 var cheepResponse = await cheepRequestTask;
@@ -67,6 +63,6 @@ public class Program
 
         // Return results
         var parseResult = rootCommand.Parse(args);
-        //return parseResult.Invoke();
+        return parseResult.Invoke();
     }
 }
