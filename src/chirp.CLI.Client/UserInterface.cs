@@ -1,6 +1,6 @@
 namespace chirp.CLI;
 
-using SimpleDB;
+using Server;
 
 public static class UserInterface
 {

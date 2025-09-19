@@ -1,6 +1,5 @@
 namespace chirp.CLI;
 
-using SimpleDB;
 using System.CommandLine;
 
 public class Program
@@ -9,13 +8,10 @@ public class Program
     public static int Main(string[] args)
     {
         // Assign Web Host 
-        var baseURL = "http://localhost:5088";
+        var baseURL = "http://localhost:5000";
         using HttpClient client = new();
         client.BaseAddress =  new Uri(baseURL);
 
-
-        // Instantie CSV Database
-        var database = CsvDatabase<Messages>.Instance;
 
         // Set up CLI argument
         Option<bool> readOption = new Option<bool>("cheeps");
@@ -38,10 +34,12 @@ public class Program
                 var readRequestTask = client.GetAsync("/cheeps");
                 var readResponse = await readRequestTask;
                 
-                /*
-                var record = database.Read();
-                UserInterface.PrintCheeps(record);
-                */
+                
+
+                UserInterface.PrintCheeps(readResponse);
+                
+
+
             }
             else if (cheep != null)
             {
