@@ -1,4 +1,4 @@
-namespace chirp.CLI;
+namespace Chirp.CLI;
 
 using Server;
 

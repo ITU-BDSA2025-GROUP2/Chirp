@@ -1,4 +1,4 @@
-namespace chirp.CLI;
+namespace Chirp.CLI;
 
 using System.CommandLine;
 using System.Net.Http.Json;

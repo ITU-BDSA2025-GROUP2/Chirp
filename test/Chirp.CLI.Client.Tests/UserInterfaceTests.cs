@@ -1,6 +1,6 @@
 ﻿using Server;
 
-namespace chirp.CLI.Client.Tests;
+namespace Chirp.CLI.Client.Tests;
 
 public class UserInterfaceTests
 {  
