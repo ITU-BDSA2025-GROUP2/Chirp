@@ -18,7 +18,7 @@ public class E2ETest1
   {
       
       // Arrange
-      var args = new string[] { "read" };
+      var args = new string[] { "cheeps" };
       // Act
       var result = Program.Main(args);
       // Assert
