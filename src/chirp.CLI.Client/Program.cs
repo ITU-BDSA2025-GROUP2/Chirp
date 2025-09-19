@@ -1,6 +1,5 @@
 namespace chirp.CLI;
 
-using Server;
 using System.CommandLine;
 using System.Net.Http.Json;
 using Server;
