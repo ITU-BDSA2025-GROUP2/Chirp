@@ -1,4 +1,4 @@
-﻿namespace SimpleDB.Tests;
+﻿namespace Server.Tests;
 
 
     
