@@ -16,8 +16,6 @@ public class ServerProgram
 
         app.MapPost("/cheep", (Messages message) =>
         {
-            Console.WriteLine("IM RUNNING HERE!");
-            //var jsonString = JsonSerializer.Serialize(message);
             database.Store(message);
         });
 

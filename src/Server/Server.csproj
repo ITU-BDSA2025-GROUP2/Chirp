@@ -18,7 +18,7 @@
      </ItemGroup>
 
      <ItemGroup>
-        <Content Include="../../data/chirp_cli_db.csv" >
+        <Content Include="data/chirp_cli_db.csv" >
           <Link>data/chirp_cli_db.csv</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>

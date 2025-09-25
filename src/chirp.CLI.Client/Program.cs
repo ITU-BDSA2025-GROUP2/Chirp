@@ -10,7 +10,7 @@ public class Program
     public static int Main(string[] args)
     {
         // Assign Web Host 
-        var baseURL = "http://localhost:5000";
+        var baseURL = "https://bdsagroup2chirpremotedb.azurewebsites.net/";
         using HttpClient client = new();
         client.BaseAddress =  new Uri(baseURL);
 
@@ -43,7 +43,7 @@ public class Program
             {
                 long time = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
                 string name = Environment.UserName;
-                var newRecord = new Messages { Author = name, Message = cheep, Timestamp = time.ToString() };
+                var newRecord = new Messages { Author = name, Message = cheep, Timestamp = time };
                 var json = JsonContent.Create(newRecord);
 
                 //Console.WriteLine(await content.ReadAsStringAsync());

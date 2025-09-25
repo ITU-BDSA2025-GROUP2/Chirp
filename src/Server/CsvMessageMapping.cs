@@ -6,7 +6,7 @@ public record Messages
 {
     public required string Author { get; init; }
     public required string Message { get; init; }
-    public required string Timestamp { get; init; }  
+    public required long Timestamp { get; init; }  
 };
 
 public class CsvMessageMapping : ClassMap<Messages>
