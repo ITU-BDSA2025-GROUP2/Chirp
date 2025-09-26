@@ -1,16 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "q9Dx6gbap3U=",
+  "dgSpecHash": "xR6H2Fg12JXi96XCBNTMNyahYUk/SpAFBYlec/lh9YUij2PP0qChpUGRQHTaP26DqFc0Aa5lj3Y3+NNN4s/8aw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\Chirp.Razor\\Chirp.Razor.csproj",
+  "projectFilePath": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/Chirp.Razor.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Karam\\.nuget\\packages\\microsoft.data.sqlite\\8.0.8\\microsoft.data.sqlite.8.0.8.nupkg.sha512",
-    "C:\\Users\\Karam\\.nuget\\packages\\microsoft.data.sqlite.core\\8.0.8\\microsoft.data.sqlite.core.8.0.8.nupkg.sha512",
-    "C:\\Users\\Karam\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.6\\sqlitepclraw.bundle_e_sqlite3.2.1.6.nupkg.sha512",
-    "C:\\Users\\Karam\\.nuget\\packages\\sqlitepclraw.core\\2.1.6\\sqlitepclraw.core.2.1.6.nupkg.sha512",
-    "C:\\Users\\Karam\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.6\\sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",
-    "C:\\Users\\Karam\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.6\\sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
-    "C:\\Users\\Karam\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+    "/home/karamtnc/.nuget/packages/microsoft.data.sqlite/8.0.8/microsoft.data.sqlite.8.0.8.nupkg.sha512",
+    "/home/karamtnc/.nuget/packages/microsoft.data.sqlite.core/8.0.8/microsoft.data.sqlite.core.8.0.8.nupkg.sha512",
+    "/home/karamtnc/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.6/sqlitepclraw.bundle_e_sqlite3.2.1.6.nupkg.sha512",
+    "/home/karamtnc/.nuget/packages/sqlitepclraw.core/2.1.6/sqlitepclraw.core.2.1.6.nupkg.sha512",
+    "/home/karamtnc/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.6/sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",
+    "/home/karamtnc/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.6/sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
+    "/home/karamtnc/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512"
   ],
   "logs": []
 }

@@ -8,7 +8,9 @@ class DataQueries {
     public void testQuery() {
         //SQLitePCL.raw.SetProvider();
         
-        using var connection = new SqliteConnection("Data source=chirp.db");
+        // TODO: Make a function that creates the temp db using the data folder files
+        
+        using var connection = new SqliteConnection("Data source=/tmp/chirp.db");
 
         connection.Open();
 
