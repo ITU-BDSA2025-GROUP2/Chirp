@@ -1,5 +1,5 @@
-public DataQueries{
-    using var connection = new SqliteConnection("Data source=/tmp/chirp.db")
+public class DataQueries{
+    using var connection = new SqliteConnection("Data source=/tmp/chirp.db");
 
     connection.Open();
 

@@ -1,0 +1,9 @@
+/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/obj/Debug/net8.0/Chirp.Razor.csproj.AssemblyReference.cache
+/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/obj/Debug/net8.0/Chirp.Razor.GeneratedMSBuildEditorConfig.editorconfig
+/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/obj/Debug/net8.0/Chirp.Razor.AssemblyInfoInputs.cache
+/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/obj/Debug/net8.0/Chirp.Razor.AssemblyInfo.cs
+/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/obj/Debug/net8.0/Chirp.Razor.csproj.CoreCompileInputs.cache
+/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/obj/Debug/net8.0/Chirp.Razor.MvcApplicationPartsAssemblyInfo.cache
+/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/obj/Debug/net8.0/Chirp.Razor.RazorAssemblyInfo.cache
+/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/obj/Debug/net8.0/Chirp.Razor.RazorAssemblyInfo.cs
+/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/obj/Debug/net8.0/Chirp.Razor.sourcelink.json
