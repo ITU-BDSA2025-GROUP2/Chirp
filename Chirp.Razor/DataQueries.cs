@@ -1,14 +1,21 @@
+using System.Diagnostics;
 using Microsoft.Data.Sqlite;
 
 namespace Chirp.Razor;
 
 class DataQueries {
+
+
+    public void CreateDb()
+    {
+        string strCmdText;
+        strCmdText= "/C sqlite3 /tmp/chirp.db < data/schema.sql";
+        System.Diagnostics.Process.Start("CMD.exe",strCmdText);
+    }
    
 
     public void testQuery() {
-        //SQLitePCL.raw.SetProvider();
-        
-        // TODO: Make a function that creates the temp db using the data folder files
+        CreateDb();
         
         using var connection = new SqliteConnection("Data source=/tmp/chirp.db");
 
