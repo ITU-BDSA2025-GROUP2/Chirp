@@ -4,7 +4,7 @@ using Server;
 using System.CommandLine;
 using System.Net.Http.Json;
 
-public class Program
+public partial class Program
 {
 
     public static int Main(string[] args)

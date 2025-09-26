@@ -1,22 +1,23 @@
 namespace Server.Tests;
 
 using Xunit;
+using Chirp.CLI;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Server;
+
 
 //Andrew Lock ASP.NET Core in Action, Third Edition Chapter 35 and 36
 
 public class IntegrationTests :
-    IClassFixture<WebApplicationFactory<Chirp.CLI>>
+    IClassFixture<WebApplicationFactory<Program>>
 {
-    private readonly WebApplicationFactory<Chirp.CLI> _factory;
+    private readonly WebApplicationFactory<Program> _factory;
 
-    public IntegrationTests(WebApplicationFactory<Chirp.CLI> factory)
+    public IntegrationTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory;
     }
     [Fact]
-    public async Task CheepsRequest_RetrunsCheeps()
+    public async Task CheepsRequest_ReturnsCheeps()
     {
         HttpClient client = _factory.CreateClient();
 
@@ -24,7 +25,13 @@ public class IntegrationTests :
 
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
-        Assert.Equal("cheeps output", content);
+
+        var firstWord = content.Split(' ')[0];
+        
+
+
+        Assert.Equal("ropf", content);
+
     }
     /* [Fact]
     public async Task Status()
