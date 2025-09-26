@@ -1,12 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "Wd4mHAJOK+2NZZAnTmaXczoNEqH2D4wZzqtrXnFJGRiKwjmmuL+0tvAjJrQ9k26FlH9fu2a2gmT0fdlhGM1PHA==",
+  "dgSpecHash": "q9Dx6gbap3U=",
   "success": true,
-  "projectFilePath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/Chirp.Razor.csproj",
+  "projectFilePath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\Chirp.Razor\\Chirp.Razor.csproj",
   "expectedPackageFiles": [
-    "/home/madel/.nuget/packages/microsoft.data.sqlite.core/8.0.8/microsoft.data.sqlite.core.8.0.8.nupkg.sha512",
-    "/home/madel/.nuget/packages/sqlitepclraw.core/2.1.6/sqlitepclraw.core.2.1.6.nupkg.sha512",
-    "/home/madel/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512"
+    "C:\\Users\\Karam\\.nuget\\packages\\microsoft.data.sqlite\\8.0.8\\microsoft.data.sqlite.8.0.8.nupkg.sha512",
+    "C:\\Users\\Karam\\.nuget\\packages\\microsoft.data.sqlite.core\\8.0.8\\microsoft.data.sqlite.core.8.0.8.nupkg.sha512",
+    "C:\\Users\\Karam\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.6\\sqlitepclraw.bundle_e_sqlite3.2.1.6.nupkg.sha512",
+    "C:\\Users\\Karam\\.nuget\\packages\\sqlitepclraw.core\\2.1.6\\sqlitepclraw.core.2.1.6.nupkg.sha512",
+    "C:\\Users\\Karam\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.6\\sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",
+    "C:\\Users\\Karam\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.6\\sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
+    "C:\\Users\\Karam\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
   ],
   "logs": []
 }

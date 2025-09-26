@@ -1,13 +1,14 @@
 using Microsoft.Data.Sqlite;
 
-
 namespace Chirp.Razor;
 
 class DataQueries {
    
 
     public void testQuery() {
-         using var connection = new SqliteConnection("Data source=/tmp/chirp.db");
+        //SQLitePCL.raw.SetProvider();
+        
+        using var connection = new SqliteConnection("Data source=chirp.db");
 
         connection.Open();
 

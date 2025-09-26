@@ -1,4 +1,4 @@
-using Chirp.Razor.DataQueries;
+using Chirp.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 
