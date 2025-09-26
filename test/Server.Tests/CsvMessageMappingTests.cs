@@ -17,7 +17,7 @@ public class CsvMessageMappingTests
         {
             Author = "Karam", 
             Message = "Hello", 
-            Timestamp = "1231239123"
+            Timestamp = 1231239123
         };
         
         Assert.NotNull(messages);
@@ -26,6 +26,6 @@ public class CsvMessageMappingTests
         Assert.NotNull(messages.Timestamp);
         Assert.Equal("Karam",messages.Author);
         Assert.Equal("Hello",messages.Message);
-        Assert.Equal("1231239123",messages.Timestamp);
+        Assert.Equal(1231239123,messages.Timestamp);
     }
 }

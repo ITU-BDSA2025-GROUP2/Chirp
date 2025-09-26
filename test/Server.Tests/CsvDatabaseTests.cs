@@ -66,7 +66,7 @@ public class CsvDatabaseTests
         {
             Author = "Karam", 
             Message = "Hello", 
-            Timestamp = "112390123"
+            Timestamp = 112390123
         };
         
         _csvDatabase.Store(record);

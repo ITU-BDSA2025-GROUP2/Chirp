@@ -11,7 +11,7 @@ public class UserInterfaceTests
         {
             Author = "Karam",
             Message = "Hi",
-            Timestamp = "123401230"
+            Timestamp = 123401230
         };
         var records =  new List<Messages>();
         records.Add(message);
