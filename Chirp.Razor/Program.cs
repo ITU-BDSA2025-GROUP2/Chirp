@@ -1,11 +1,13 @@
+using DataQueries;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
 
-
-DataQueries.testQuery();
+DataQueries x = new DataQueries();
+x.testQuery();
 
 var app = builder.Build();
 
