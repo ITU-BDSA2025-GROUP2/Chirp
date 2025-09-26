@@ -9,7 +9,7 @@ public static class UserInterface
         foreach (var rs in records)
         {
             var dataTimeOffSet = DateTimeOffset.FromUnixTimeMilliseconds(rs.Timestamp);
-            var time = dataTimeOffSet.DateTime.ToString();
+            var time = dataTimeOffSet.DateTime;
             Console.WriteLine(rs.Author + " @ " + time + " " + rs.Message);
         }
     }

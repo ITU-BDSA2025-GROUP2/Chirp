@@ -6,13 +6,13 @@ using System.Net.Http.Json;
 
 public sealed class CsvDatabase<T> : IDatabaseRepository<T>
 {
-    private static readonly Lazy<CsvDatabase<T>> LazyInstance = new Lazy<CsvDatabase<T>>(() => new CsvDatabase<T>());
+    private static Lazy<CsvDatabase<T>> LazyInstance = new Lazy<CsvDatabase<T>>(() => new CsvDatabase<T>());
     
     //private readonly string _file;
-    private readonly StreamReader _reader;
-    private readonly StreamWriter _writer;
-    private readonly CsvWriter _csvWriter;
-    private readonly CsvReader _csvReader;
+    private StreamReader _reader;
+    private StreamWriter _writer;
+    private CsvWriter _csvWriter;
+    private CsvReader _csvReader;
 
 
 
@@ -20,12 +20,8 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
     
     private CsvDatabase()
     {
-        var filePath = Path.Combine(AppContext.BaseDirectory, "data", "chirp_cli_db.csv");
-        var stream = File.Open(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
-        _reader = new StreamReader(stream, leaveOpen: true);
-        _writer = new StreamWriter(stream, leaveOpen: true);
-        _csvWriter = new CsvWriter(_writer, CultureInfo.InvariantCulture);
-        _csvReader = new CsvReader(_reader, CultureInfo.InvariantCulture);
+        
+        
     }
     
     /*
@@ -55,6 +51,9 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
     
     public IEnumerable<T> Read(int? limit = null)
     {
+        var filePath = Path.Combine(AppContext.BaseDirectory, "data", "chirp_cli_db.csv");
+        _reader = new StreamReader(filePath);
+        _csvReader = new CsvReader(_reader, CultureInfo.InvariantCulture);
         // Go to first line
         _reader.BaseStream.Seek(0, SeekOrigin.Begin);
         _reader.DiscardBufferedData();
@@ -68,6 +67,10 @@ public sealed class CsvDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
+        var filePath = Path.Combine(AppContext.BaseDirectory, "data", "chirp_cli_db.csv");
+        _writer = new StreamWriter(filePath, true);
+        _csvWriter = new CsvWriter(_writer, CultureInfo.InvariantCulture);
+
         Console.WriteLine(record);
         // Go to last line
         _writer.BaseStream.Seek(0, SeekOrigin.End);
