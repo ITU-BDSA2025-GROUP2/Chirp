@@ -5,6 +5,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
 
 
+DataQueries.testQuery();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,3 +25,5 @@ app.UseRouting();
 app.MapRazorPages();
 
 app.Run();
+
+
