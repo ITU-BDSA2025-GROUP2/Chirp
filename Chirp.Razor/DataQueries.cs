@@ -1,28 +1,60 @@
-using System.Diagnostics;
 using Microsoft.Data.Sqlite;
 
 namespace Chirp.Razor;
 
-class DataQueries {
-
-
-    public void CreateDb()
+internal class DataQueries
+{
+    
+    private static void CreateDb()
     {
-        string strCmdText;
-        strCmdText= "/C sqlite3 /tmp/chirp.db < data/schema.sql";
-        System.Diagnostics.Process.Start("CMD.exe",strCmdText);
-    }
-   
+        var userDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        var dbPath = Path.Combine(userDir, "tmp", "chirp.db");
 
-    public void testQuery() {
-        CreateDb();
+        if (File.Exists(dbPath)) return; // Quit early if the database exists
+        var dbDir = Path.GetDirectoryName(dbPath)!;
+        Directory.CreateDirectory(dbDir);
+
+        var projectDir = AppDomain.CurrentDomain.BaseDirectory;
+        var schemaPath = Path.Combine(projectDir, "data", "schema.sql");
+        var dumpPath = Path.Combine(projectDir, "data", "dump.sql");
         
-        using var connection = new SqliteConnection("Data source=/tmp/chirp.db");
+        var connectionString = $"Data Source={dbPath}";
+
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            connection.Open();
+
+            var schemaSql = File.ReadAllText(schemaPath);
+            using (var cmd = connection.CreateCommand())
+            {
+                cmd.CommandText = schemaSql;
+                cmd.ExecuteNonQuery();
+            }
+            var dumpSql = File.ReadAllText(dumpPath);
+            using (var cmd = connection.CreateCommand())
+            {
+                cmd.CommandText = dumpSql;
+                cmd.ExecuteNonQuery();
+            }
+            
+            connection.Close();
+        }
+    }
+    
+    public void GetAllQuery(int limit = 32) {
+        var userDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        var dbPath = Path.Combine(userDir, "tmp", "chirp.db");
+        if (!File.Exists(dbPath))
+        {
+            CreateDb();
+        }
+        
+        using var connection = new SqliteConnection($"Data Source={dbPath}");
 
         connection.Open();
 
         using var command = connection.CreateCommand();
-        command.CommandText = "Select * from message limit 32";
+        command.CommandText = $"SELECT * FROM message LIMIT {limit}";
 
         using var reader = command.ExecuteReader();
 
@@ -32,6 +64,8 @@ class DataQueries {
 
             Console.WriteLine(message);
         }
+
+        connection.Close();
     }
 
 }

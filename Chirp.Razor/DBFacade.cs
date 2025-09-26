@@ -10,7 +10,7 @@ public class DBFacade
 
     public void RunQueries()
     {
-        Dq.testQuery();
+        Dq.GetAllQuery();
     }
     
 }

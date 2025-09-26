@@ -7,7 +7,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
 
 DataQueries x = new DataQueries();
-x.testQuery();
+x.GetAllQuery();
 
 var app = builder.Build();
 
