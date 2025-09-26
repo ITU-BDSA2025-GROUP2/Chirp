@@ -1,7 +1,7 @@
 using Microsoft.Data.Sqlite;
 
 
-
+namespace Chirp.Razor;
 
 class DataQueries {
    
