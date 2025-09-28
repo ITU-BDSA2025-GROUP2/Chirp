@@ -32,8 +32,6 @@ public class IntegrationTests :
 
         var readResponse = await response.Content.ReadFromJsonAsync<IEnumerable<Messages>>();
 
-
-
         var firstMessage = readResponse?.FirstOrDefault();
 
         Assert.Equal("ropf", firstMessage?.Author);
@@ -41,6 +39,30 @@ public class IntegrationTests :
         Assert.Equal("1690891760", firstMessage?.Timestamp.ToString());
     }
 
+    [Fact]
+    public async Task StoreRequest_ReturnsNewStoredCheep()
+    {
 
+        var newRecord = new Messages { Author = "Vee", Message = "test", Timestamp = 123456789 };
+        var json = JsonContent.Create(newRecord);
+
+        HttpClient client = _factory.CreateClient();
+
+        var response = await client.PostAsync("/cheep", json);
+
+        response.EnsureSuccessStatusCode();
+
+        var answer = await client.GetAsync("/cheeps");
+
+        answer.EnsureSuccessStatusCode();
+
+        var readResponse = await answer.Content.ReadFromJsonAsync<IEnumerable<Messages>>();
+
+        var firstMessage = readResponse?.LastOrDefault();
+
+        Assert.Equal("Vee", firstMessage?.Author);
+        Assert.Equal("test", firstMessage?.Message);
+        Assert.Equal("123456789", firstMessage?.Timestamp.ToString());
+    }
 
 }
