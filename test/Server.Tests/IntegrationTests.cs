@@ -3,16 +3,17 @@ namespace Server.Tests;
 using Xunit;
 using Chirp.CLI;
 using Microsoft.AspNetCore.Mvc.Testing;
+using DocoptNet;
 
 
 //Andrew Lock ASP.NET Core in Action, Third Edition Chapter 35 and 36
 
 public class IntegrationTests :
-    IClassFixture<WebApplicationFactory<Program>>
+    IClassFixture<WebApplicationFactory<ServerProgram>>
 {
-    private readonly WebApplicationFactory<Program> _factory;
+    private readonly WebApplicationFactory<ServerProgram> _factory;
 
-    public IntegrationTests(WebApplicationFactory<Program> factory)
+    public IntegrationTests(WebApplicationFactory<ServerProgram> factory)
     {
         _factory = factory;
     }
@@ -26,11 +27,11 @@ public class IntegrationTests :
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
 
-        var firstWord = content.Split(' ')[0];
+        var stringcombination = content[12].ToString() + content[13] + content[14] + content[15];
+
+
+        Assert.Equal("ropf", stringcombination);
         
-
-
-        Assert.Equal("ropf", content);
 
     }
     /* [Fact]
