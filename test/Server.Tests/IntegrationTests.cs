@@ -4,7 +4,15 @@ using Xunit;
 using Chirp.CLI;
 using Microsoft.AspNetCore.Mvc.Testing;
 using DocoptNet;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 
+
+public record Messages
+{
+    public required string Author { get; init; }
+    public required string Message { get; init; }
+    public required long Timestamp { get; init; }  
+};
 
 //Andrew Lock ASP.NET Core in Action, Third Edition Chapter 35 and 36
 
@@ -27,39 +35,26 @@ public class IntegrationTests :
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
 
+        //Convert this into a json deserialisation.
         var stringcombination = content[12].ToString() + content[13] + content[14] + content[15];
+        String Messagecombination = "";
+        String timestampcombination = "";
+        for (int i = 29; i < 50; i++)
+        {
+            Messagecombination = Messagecombination + content[i];
+        }
 
+        for (int x = 64; x < 74; x++)
+        {
+            timestampcombination = timestampcombination + content[x];
+        }
 
         Assert.Equal("ropf", stringcombination);
-        
+        Assert.Equal("Hello, BDSA students!", Messagecombination);
+        Assert.Equal("1690891760", timestampcombination);
 
     }
-    /* [Fact]
-    public async Task Status()
-    {
-        // Configure a HostBuilder to define the in-memory test app
-        var hostBuilder = new HostBuilder()
-        .ConfigureWebHost(webHost =>
-            {
-                webHost.Configure(app =>
-                // adds the status-middleware as the only middleware
-                // in the pipeline
-                app.UseMiddleware<StatusMiddleware>());
 
-                // Configure the host to use the TestServer instead of Kestrel
-                webHost.UseTestServer();
-                
-            });
-        IHost host = await hostBuilder.StartAsync();
-        // Build and start the host
-        HttpClient client = host.GetTestClient();
-        // Create a HttpClient for interaction
-        var response = await client.GetAsync("/ping");
-        // Makes an in-memory request, which is handled by the app as normal
-        // Verify the response was a success
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
-        Assert.Equal("pong", content);
-    }
- */
+    
+
 }
