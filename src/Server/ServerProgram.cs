@@ -2,15 +2,22 @@ namespace Server;
 
 public class ServerProgram
 {
-    public static void Main(string[] args)
+
+    private static WebApplicationBuilder builder;
+    private static WebApplication app;
+    
+    private static CancellationTokenSource _cts = new CancellationTokenSource();
+
+
+    public static async Task Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
-        var app = builder.Build();
+        builder = WebApplication.CreateBuilder(args);
+        app = builder.Build();
         var database = CsvDatabase<Messages>.Instance;
-        
+
         app.MapGet("/cheeps", () =>
         {
-            
+
             return database.Read();
         });
 
@@ -19,6 +26,11 @@ public class ServerProgram
             database.Store(message);
         });
 
-        app.Run();
+        await app.RunAsync(_cts.Token);
+    }
+
+    public static void Stop()
+    {
+        _cts.Cancel();
     }
 }

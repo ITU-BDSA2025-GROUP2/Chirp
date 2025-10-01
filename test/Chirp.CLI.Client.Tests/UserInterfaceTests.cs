@@ -2,8 +2,10 @@
 using Server;
 
 
+//comment test
+
 public class UserInterfaceTests
-{  
+{
     [Fact]
     public void PrintCheeps()
     {
@@ -13,11 +15,11 @@ public class UserInterfaceTests
             Message = "Hi",
             Timestamp = 123401230
         };
-        var records =  new List<Messages>();
+        var records = new List<Messages>();
         records.Add(message);
         var stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
-        
+
         UserInterface.PrintCheeps(records);
 
         var expectedOutput = "Karam @ 01/02/1970 10:16:41 Hi\n";
