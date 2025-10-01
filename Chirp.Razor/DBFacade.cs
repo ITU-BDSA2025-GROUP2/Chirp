@@ -3,14 +3,20 @@ using Chirp.Razor;
 public class DBFacade
 {
     private DataQueries Dq;
-    
-    public DBFacade(){
+
+    public DBFacade()
+    {
         Dq = new DataQueries();
     }
 
-    public void RunQueries()
+    public List<CheepViewModel> getAllCheeps()
     {
-        Dq.GetAllQuery();
+        return Dq.GetAllQuery();
+    }
+
+    public List<CheepViewModel> getAllFromAuthor( string author)
+    {
+        return Dq.GetCheepsFromAuthor(author);
     }
     
 }

@@ -6,9 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
 
-DataQueries x = new DataQueries();
-x.GetAllQuery();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

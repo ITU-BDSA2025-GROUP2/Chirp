@@ -33,7 +33,7 @@ internal class DataQueries
         }
     }
 
-    public void GetAllQuery(int limit = 32)
+    public List<CheepViewModel> GetAllQuery(int limit = 32)
     {
 
         //TODO if emviorment variable -> use that for db else temp
@@ -42,7 +42,7 @@ internal class DataQueries
         {
             CreateDb(dbPath);
         }
- 
+
         using var connection = new SqliteConnection($"Data Source={dbPath}");
 
         connection.Open();
@@ -52,17 +52,52 @@ internal class DataQueries
         //command.CommandText = $"SELECT m.text, m.pub_date FROM message m LIMIT {limit}";
 
         using var reader = command.ExecuteReader();
-
+        var returnList = new List<CheepViewModel>();
         while (reader.Read())
         {
             //0 = messageid ; 1 = author id ; 2 = message ; 3 = publishing date (in unixTime) 
-            var message = reader.GetString(2);
+            var message = $"{reader.GetString(1)} {reader.GetString(2)} {reader.GetInt64(3)}";
+            returnList.Add(new CheepViewModel(reader.GetString(1), reader.GetString(2), reader.GetString(3)));
 
-            Console.WriteLine(message);
         }
 
         connection.Close();
+
+        return returnList;
     }
 
+    public List<CheepViewModel> GetCheepsFromAuthor(string author)
+    {
+        var dbPath = Path.GetTempPath() + "Chirp.db";
+        if (!File.Exists(dbPath))
+        {
+            CreateDb(dbPath);
+        }
 
+        using var connection = new SqliteConnection($"Data Source={dbPath}");
+
+        connection.Open();
+
+        var limit = 32;
+
+        using var command = connection.CreateCommand();
+        command.CommandText = $"SELECT * FROM message m join user u on m.author_id = u.user_id where u.username = {author} LIMIT {limit}";
+        //command.CommandText = $"SELECT m.text, m.pub_date FROM message m LIMIT {limit}";
+
+        using var reader = command.ExecuteReader();
+        var returnList = new List<CheepViewModel>();
+        while (reader.Read())
+        {
+            //0 = messageid ; 1 = author id ; 2 = message ; 3 = publishing date (in unixTime) 
+            var message = $"{reader.GetString(1)} {reader.GetString(2)} {reader.GetInt64(3)}";
+            returnList.Add(new CheepViewModel(reader.GetString(1), reader.GetString(2), reader.GetString(3)));
+
+        }
+
+        connection.Close();
+
+        return returnList;
+        
+    }
+    
 }
