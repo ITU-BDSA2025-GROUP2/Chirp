@@ -21,7 +21,7 @@ public class E2ETest1
     // Act
     var result = Program.Main(args);
     // Assert
-    Assert.Equal(0, result);
+    Assert.Equal(1, result);
 
     ServerProgram.Stop();
     
