@@ -2,15 +2,20 @@ namespace Server;
 
 public class ServerProgram
 {
+
+    private static WebApplicationBuilder builder;
+    private static WebApplication app;
+
+
     public static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
-        var app = builder.Build();
+        builder = WebApplication.CreateBuilder(args);
+        app = builder.Build();
         var database = CsvDatabase<Messages>.Instance;
-        
+
         app.MapGet("/cheeps", () =>
         {
-            
+
             return database.Read();
         });
 
@@ -19,6 +24,11 @@ public class ServerProgram
             database.Store(message);
         });
 
-        app.Run();
+        app.StartAsync();
+    }
+
+    public static void Stop()
+    {
+        app.StopAsync();
     }
 }
