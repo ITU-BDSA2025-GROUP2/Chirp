@@ -5,9 +5,11 @@ public class ServerProgram
 
     private static WebApplicationBuilder builder;
     private static WebApplication app;
+    
+    private static CancellationTokenSource _cts = new CancellationTokenSource();
 
 
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         builder = WebApplication.CreateBuilder(args);
         app = builder.Build();
@@ -24,11 +26,11 @@ public class ServerProgram
             database.Store(message);
         });
 
-        app.StartAsync();
+        await app.RunAsync(_cts.Token);
     }
 
     public static void Stop()
     {
-        app.StopAsync();
+        _cts.Cancel();
     }
 }
