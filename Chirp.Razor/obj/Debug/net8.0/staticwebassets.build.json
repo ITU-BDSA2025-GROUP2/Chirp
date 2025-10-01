@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Sp0CYgd9m2ojyhB+crTCqhwAvpSDaSJ4hAG5pNYnz1c=",
+  "Hash": "6zACrTrBa/cPVGoXcQ+I0t2aJY/FwVcCEYEnEAiaLZA=",
   "Source": "Chirp.Razor",
   "BasePath": "_content/Chirp.Razor",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "Chirp.Razor/wwwroot",
       "Source": "Chirp.Razor",
-      "ContentRoot": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/wwwroot/",
+      "ContentRoot": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/wwwroot/",
       "BasePath": "_content/Chirp.Razor",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/wwwroot/css/style.css",
+      "Identity": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/wwwroot/css/style.css",
       "SourceId": "Chirp.Razor",
       "SourceType": "Discovered",
-      "ContentRoot": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/wwwroot/",
+      "ContentRoot": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/wwwroot/",
       "BasePath": "_content/Chirp.Razor",
       "RelativePath": "css/style.css",
       "AssetKind": "All",
@@ -36,10 +36,10 @@
       "OriginalItemSpec": "wwwroot/css/style.css"
     },
     {
-      "Identity": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/wwwroot/favicon/favicon.ico",
+      "Identity": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/wwwroot/favicon/favicon.ico",
       "SourceId": "Chirp.Razor",
       "SourceType": "Discovered",
-      "ContentRoot": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/wwwroot/",
+      "ContentRoot": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/wwwroot/",
       "BasePath": "_content/Chirp.Razor",
       "RelativePath": "favicon/favicon.ico",
       "AssetKind": "All",
@@ -55,10 +55,10 @@
       "OriginalItemSpec": "wwwroot/favicon/favicon.ico"
     },
     {
-      "Identity": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/wwwroot/images/icon1.png",
+      "Identity": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/wwwroot/images/icon1.png",
       "SourceId": "Chirp.Razor",
       "SourceType": "Discovered",
-      "ContentRoot": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/wwwroot/",
+      "ContentRoot": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/wwwroot/",
       "BasePath": "_content/Chirp.Razor",
       "RelativePath": "images/icon1.png",
       "AssetKind": "All",
