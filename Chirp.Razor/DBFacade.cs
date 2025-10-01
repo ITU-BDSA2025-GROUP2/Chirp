@@ -9,14 +9,14 @@ public class DBFacade
         Dq = new DataQueries();
     }
 
-    public List<CheepViewModel> getAllCheeps()
+    public List<CheepViewModel> getAllCheeps(int page)
     {
-        return Dq.GetAllQuery();
+        return Dq.GetAllQuery(page);
     }
 
-    public List<CheepViewModel> getAllFromAuthor( string author)
+    public List<CheepViewModel> getAllFromAuthor( string author, int page)
     {
-        return Dq.GetCheepsFromAuthor(author);
+        return Dq.GetCheepsFromAuthor(author, page);
     }
     
 }

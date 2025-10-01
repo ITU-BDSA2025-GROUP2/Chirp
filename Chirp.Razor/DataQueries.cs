@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.Sqlite;
 
 namespace Chirp.Razor;
@@ -33,11 +34,18 @@ internal class DataQueries
         }
     }
 
-    public List<CheepViewModel> GetAllQuery(int limit = 32)
+    public List<CheepViewModel> GetAllQuery(int page, int limit = 32)
     {
 
         //TODO if emviorment variable -> use that for db else temp
+        var pathByUser = Environment.GetEnvironmentVariable("CHIRPDBPATH");
         var dbPath = Path.GetTempPath() + "Chirp.db";
+        
+        if (pathByUser != null)
+        {
+            dbPath = pathByUser;
+        }
+        
         if (!File.Exists(dbPath))
         {
             CreateDb(dbPath);
@@ -48,7 +56,7 @@ internal class DataQueries
         connection.Open();
 
         using var command = connection.CreateCommand();
-        command.CommandText = $"SELECT * FROM message LIMIT {limit}";
+        command.CommandText = $"SELECT * FROM message LIMIT {limit} OFFSET {page * 32}";
         //command.CommandText = $"SELECT m.text, m.pub_date FROM message m LIMIT {limit}";
 
         using var reader = command.ExecuteReader();
@@ -56,7 +64,6 @@ internal class DataQueries
         while (reader.Read())
         {
             //0 = messageid ; 1 = author id ; 2 = message ; 3 = publishing date (in unixTime) 
-            var message = $"{reader.GetString(1)} {reader.GetString(2)} {reader.GetInt64(3)}";
             returnList.Add(new CheepViewModel(reader.GetString(1), reader.GetString(2), reader.GetString(3)));
 
         }
@@ -66,12 +73,14 @@ internal class DataQueries
         return returnList;
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author)
-    {
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page)
+    {   
+        var pathByUser = Environment.GetEnvironmentVariable("CHIRPDBPATH");
         var dbPath = Path.GetTempPath() + "Chirp.db";
-        if (!File.Exists(dbPath))
+        
+        if (pathByUser != null)
         {
-            CreateDb(dbPath);
+            dbPath = pathByUser;
         }
 
         using var connection = new SqliteConnection($"Data Source={dbPath}");
@@ -81,15 +90,13 @@ internal class DataQueries
         var limit = 32;
 
         using var command = connection.CreateCommand();
-        command.CommandText = $"SELECT * FROM message m join user u on m.author_id = u.user_id where u.username = {author} LIMIT {limit}";
-        //command.CommandText = $"SELECT m.text, m.pub_date FROM message m LIMIT {limit}";
+        command.CommandText = $"SELECT * FROM message m join user u on m.author_id = u.user_id where u.username = '{author}' LIMIT {limit} OFFSET {page * 32}";
 
         using var reader = command.ExecuteReader();
         var returnList = new List<CheepViewModel>();
         while (reader.Read())
         {
             //0 = messageid ; 1 = author id ; 2 = message ; 3 = publishing date (in unixTime) 
-            var message = $"{reader.GetString(1)} {reader.GetString(2)} {reader.GetInt64(3)}";
             returnList.Add(new CheepViewModel(reader.GetString(1), reader.GetString(2), reader.GetString(3)));
 
         }

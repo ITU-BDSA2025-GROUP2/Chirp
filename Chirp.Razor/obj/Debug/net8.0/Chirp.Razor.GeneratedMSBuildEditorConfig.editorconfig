@@ -9,23 +9,23 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Chirp.Razor
 build_property.RootNamespace = Chirp.Razor
-build_property.ProjectDir = /mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/
+build_property.ProjectDir = /home/thou/Chirp/Chirp.Razor/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor
+build_property.MSBuildProjectDirectory = /home/thou/Chirp/Chirp.Razor
 build_property._RazorSourceGeneratorDebug = 
 
-[/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/Pages/Public.cshtml]
+[/home/thou/Chirp/Chirp.Razor/Pages/Public.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHVibGljLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/Pages/Shared/_Layout.cshtml]
+[/home/thou/Chirp/Chirp.Razor/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/Pages/UserTimeline.cshtml]
+[/home/thou/Chirp/Chirp.Razor/Pages/UserTimeline.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlclRpbWVsaW5lLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
