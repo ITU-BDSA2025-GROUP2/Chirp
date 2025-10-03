@@ -3,7 +3,7 @@ using Microsoft.Data.Sqlite;
 
 namespace Chirp.Razor;
 
-internal class DataQueries
+public class DataQueries
 {
 
     public void QuerySetup()
