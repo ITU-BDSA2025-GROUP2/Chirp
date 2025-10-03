@@ -1,5 +1,7 @@
 
+
 using Microsoft.EntityFrameworkCore;
+
 
 public class ChatDBContext : DbContext
 {
