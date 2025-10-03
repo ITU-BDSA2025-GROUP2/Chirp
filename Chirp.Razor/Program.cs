@@ -2,6 +2,11 @@ using Chirp.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load database connection via configuration
+string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<ChatDBContext>(options => options.UseSqlite(connectionString));
+
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
