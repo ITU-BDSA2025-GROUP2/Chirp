@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/thou/Chirp/Chirp.Razor/Chirp.Razor.csproj": {}
+    "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/Chirp.Razor.csproj": {}
   },
   "projects": {
-    "/home/thou/Chirp/Chirp.Razor/Chirp.Razor.csproj": {
+    "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/Chirp.Razor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/thou/Chirp/Chirp.Razor/Chirp.Razor.csproj",
+        "projectUniqueName": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/Chirp.Razor.csproj",
         "projectName": "Chirp.Razor",
-        "projectPath": "/home/thou/Chirp/Chirp.Razor/Chirp.Razor.csproj",
-        "packagesPath": "/home/thou/.nuget/packages/",
-        "outputPath": "/home/thou/Chirp/Chirp.Razor/obj/",
+        "projectPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/Chirp.Razor.csproj",
+        "packagesPath": "/home/madel/.nuget/packages/",
+        "outputPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/thou/.nuget/NuGet/NuGet.Config"
+          "/home/madel/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
