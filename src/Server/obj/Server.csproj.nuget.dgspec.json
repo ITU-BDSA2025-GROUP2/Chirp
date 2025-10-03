@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/Chirp.Razor.csproj": {}
+    "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/Server/Server.csproj": {}
   },
   "projects": {
-    "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/Chirp.Razor.csproj": {
+    "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/Server/Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/Chirp.Razor.csproj",
-        "projectName": "Chirp.Razor",
-        "projectPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/Chirp.Razor.csproj",
+        "projectUniqueName": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/Server/Server.csproj",
+        "projectName": "Server",
+        "projectPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/Server/Server.csproj",
         "packagesPath": "/home/madel/.nuget/packages/",
-        "outputPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/Chirp.Razor/obj/",
+        "outputPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/Server/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/madel/.nuget/NuGet/NuGet.Config"
@@ -38,13 +38,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Microsoft.Data.Sqlite": {
+            "CsvHelper": {
               "target": "Package",
-              "version": "[8.0.8, )"
-            },
-            "Microsoft.Data.Sqlite.Core": {
-              "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[33.1.0, )"
             }
           },
           "imports": [

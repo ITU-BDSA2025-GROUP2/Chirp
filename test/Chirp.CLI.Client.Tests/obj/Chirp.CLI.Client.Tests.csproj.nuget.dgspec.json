@@ -1,0 +1,220 @@
+{
+  "format": 1,
+  "restore": {
+    "/mnt/c/Users/madel/Desktop/Twitter/Chirp/test/Chirp.CLI.Client.Tests/Chirp.CLI.Client.Tests.csproj": {}
+  },
+  "projects": {
+    "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/Server/Server.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/Server/Server.csproj",
+        "projectName": "Server",
+        "projectPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/Server/Server.csproj",
+        "packagesPath": "/home/madel/.nuget/packages/",
+        "outputPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/Server/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/madel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[33.1.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.119/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/chirp.CLI.Client/Chirp.CLI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/chirp.CLI.Client/Chirp.CLI.csproj",
+        "projectName": "Chirp.CLI",
+        "projectPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/chirp.CLI.Client/Chirp.CLI.csproj",
+        "packagesPath": "/home/madel/.nuget/packages/",
+        "outputPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/chirp.CLI.Client/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/madel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/Server/Server.csproj": {
+                "projectPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/Server/Server.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "System.CommandLine": {
+              "target": "Package",
+              "version": "[2.0.0-rc.1.25451.107, )"
+            },
+            "System.CommandLine.NamingConventionBinder": {
+              "target": "Package",
+              "version": "[2.0.0-beta5.25306.1, )"
+            },
+            "TinyCsvParser": {
+              "target": "Package",
+              "version": "[2.7.1, )"
+            },
+            "docopt.net": {
+              "target": "Package",
+              "version": "[0.8.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.119/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/mnt/c/Users/madel/Desktop/Twitter/Chirp/test/Chirp.CLI.Client.Tests/Chirp.CLI.Client.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/test/Chirp.CLI.Client.Tests/Chirp.CLI.Client.Tests.csproj",
+        "projectName": "Chirp.CLI.Client.Tests",
+        "projectPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/test/Chirp.CLI.Client.Tests/Chirp.CLI.Client.Tests.csproj",
+        "packagesPath": "/home/madel/.nuget/packages/",
+        "outputPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/test/Chirp.CLI.Client.Tests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/madel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/chirp.CLI.Client/Chirp.CLI.csproj": {
+                "projectPath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/chirp.CLI.Client/Chirp.CLI.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.12.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.9.2, )"
+            },
+            "xunit.runner.visualstudio": {
+              "target": "Package",
+              "version": "[2.8.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.119/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
