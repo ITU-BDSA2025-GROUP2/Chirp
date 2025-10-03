@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/thou/Chirp/Chirp.Razor/Chirp.Razor.csproj": {}
+    "/home/dakl/Chirp/Chirp/Chirp.Razor/Chirp.Razor.csproj": {}
   },
   "projects": {
-    "/home/thou/Chirp/Chirp.Razor/Chirp.Razor.csproj": {
+    "/home/dakl/Chirp/Chirp/Chirp.Razor/Chirp.Razor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/thou/Chirp/Chirp.Razor/Chirp.Razor.csproj",
+        "projectUniqueName": "/home/dakl/Chirp/Chirp/Chirp.Razor/Chirp.Razor.csproj",
         "projectName": "Chirp.Razor",
-        "projectPath": "/home/thou/Chirp/Chirp.Razor/Chirp.Razor.csproj",
-        "packagesPath": "/home/thou/.nuget/packages/",
-        "outputPath": "/home/thou/Chirp/Chirp.Razor/obj/",
+        "projectPath": "/home/dakl/Chirp/Chirp/Chirp.Razor/Chirp.Razor.csproj",
+        "packagesPath": "/home/dakl/.nuget/packages/",
+        "outputPath": "/home/dakl/Chirp/Chirp/Chirp.Razor/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/thou/.nuget/NuGet/NuGet.Config"
+          "/home/dakl/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
