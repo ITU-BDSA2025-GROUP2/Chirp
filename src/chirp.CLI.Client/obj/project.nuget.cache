@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "IVd7+78pLwBkkfjRW7eGG2QvrzJ/7oWMuCI3Ho2uLBb6x0iVYrX9yOSdMnALyKyaHDsqfMVFcnnVAgiJfZoiTg==",
+  "success": true,
+  "projectFilePath": "/mnt/c/Users/madel/Desktop/Twitter/Chirp/src/chirp.CLI.Client/Chirp.CLI.csproj",
+  "expectedPackageFiles": [
+    "/home/madel/.nuget/packages/csvhelper/33.1.0/csvhelper.33.1.0.nupkg.sha512",
+    "/home/madel/.nuget/packages/docopt.net/0.8.1/docopt.net.0.8.1.nupkg.sha512",
+    "/home/madel/.nuget/packages/system.commandline/2.0.0-rc.1.25451.107/system.commandline.2.0.0-rc.1.25451.107.nupkg.sha512",
+    "/home/madel/.nuget/packages/system.commandline.namingconventionbinder/2.0.0-beta5.25306.1/system.commandline.namingconventionbinder.2.0.0-beta5.25306.1.nupkg.sha512",
+    "/home/madel/.nuget/packages/system.valuetuple/4.5.0/system.valuetuple.4.5.0.nupkg.sha512",
+    "/home/madel/.nuget/packages/tinycsvparser/2.7.1/tinycsvparser.2.7.1.nupkg.sha512"
+  ],
+  "logs": []
+}
