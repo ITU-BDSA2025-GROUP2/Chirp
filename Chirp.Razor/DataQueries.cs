@@ -1,26 +1,19 @@
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.Sqlite;
 
 namespace Chirp.Razor;
 
 internal class DataQueries
 {
-    
-    private static void CreateDb()
+
+    //create the database files "dump.sql" and "schema.sql"
+    //this will only run once, as if the files already exist, they should not have duplicates
+    private static void CreateDb(string dbPath)
     {
-        var userDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        var dbPath = Path.Combine(userDir, "tmp", "chirp.db");
-
-        if (File.Exists(dbPath)) return; // Quit early if the database exists
-        var dbDir = Path.GetDirectoryName(dbPath)!;
-        Directory.CreateDirectory(dbDir);
-
         var projectDir = AppDomain.CurrentDomain.BaseDirectory;
         var schemaPath = Path.Combine(projectDir, "data", "schema.sql");
         var dumpPath = Path.Combine(projectDir, "data", "dump.sql");
-        
-        var connectionString = $"Data Source={dbPath}";
-
-        using (var connection = new SqliteConnection(connectionString))
+        using (var connection = new SqliteConnection($"Data Source={dbPath}"))
         {
             connection.Open();
 
@@ -36,36 +29,82 @@ internal class DataQueries
                 cmd.CommandText = dumpSql;
                 cmd.ExecuteNonQuery();
             }
-            
+
             connection.Close();
         }
     }
-    
-    public void GetAllQuery(int limit = 32) {
-        var userDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        var dbPath = Path.Combine(userDir, "tmp", "chirp.db");
-        if (!File.Exists(dbPath))
+
+    public List<CheepViewModel> GetAllQuery(int page, int limit = 32)
+    {
+
+        //TODO if emviorment variable -> use that for db else temp
+        var pathByUser = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+        var dbPath = Path.GetTempPath() + "Chirp.db";
+        
+        if (pathByUser != null)
         {
-            CreateDb();
+            dbPath = pathByUser;
         }
         
+        if (!File.Exists(dbPath))
+        {
+            CreateDb(dbPath);
+        }
+
         using var connection = new SqliteConnection($"Data Source={dbPath}");
 
         connection.Open();
 
         using var command = connection.CreateCommand();
-        command.CommandText = $"SELECT * FROM message LIMIT {limit}";
+        command.CommandText = $"SELECT * FROM message LIMIT {limit} OFFSET {page * 32}";
+        //command.CommandText = $"SELECT m.text, m.pub_date FROM message m LIMIT {limit}";
 
         using var reader = command.ExecuteReader();
-
+        var returnList = new List<CheepViewModel>();
         while (reader.Read())
         {
-            var message = reader.GetString(0);
+            //0 = messageid ; 1 = author id ; 2 = message ; 3 = publishing date (in unixTime) 
+            returnList.Add(new CheepViewModel(reader.GetString(1), reader.GetString(2), reader.GetString(3)));
 
-            Console.WriteLine(message);
         }
 
         connection.Close();
+
+        return returnList;
     }
 
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page)
+    {   
+        var pathByUser = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+        var dbPath = Path.GetTempPath() + "Chirp.db";
+        
+        if (pathByUser != null)
+        {
+            dbPath = pathByUser;
+        }
+
+        using var connection = new SqliteConnection($"Data Source={dbPath}");
+
+        connection.Open();
+
+        var limit = 32;
+
+        using var command = connection.CreateCommand();
+        command.CommandText = $"SELECT * FROM message m join user u on m.author_id = u.user_id where u.username = '{author}' LIMIT {limit} OFFSET {page * 32}";
+
+        using var reader = command.ExecuteReader();
+        var returnList = new List<CheepViewModel>();
+        while (reader.Read())
+        {
+            //0 = messageid ; 1 = author id ; 2 = message ; 3 = publishing date (in unixTime) 
+            returnList.Add(new CheepViewModel(reader.GetString(1), reader.GetString(2), reader.GetString(3)));
+
+        }
+
+        connection.Close();
+
+        return returnList;
+        
+    }
+    
 }
