@@ -9,6 +9,12 @@ public class DBFacade
         Dq = new DataQueries();
     }
 
+
+    public void createDatabase()
+    {
+        Dq.QuerySetup();
+    }
+
     public List<CheepViewModel> getAllCheeps(int page)
     {
         return Dq.GetAllQuery(page);

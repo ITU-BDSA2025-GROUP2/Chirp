@@ -6,6 +6,23 @@ namespace Chirp.Razor;
 internal class DataQueries
 {
 
+    public void QuerySetup()
+    {
+        var pathByUser = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+        var dbPath = Path.GetTempPath() + "Chirp.db";
+
+        if (pathByUser != null)
+        {
+            dbPath = pathByUser;
+        }
+
+        if (!File.Exists(dbPath))
+        {
+            CreateDb(dbPath);
+        }    
+    }
+
+
     //create the database files "dump.sql" and "schema.sql"
     //this will only run once, as if the files already exist, they should not have duplicates
     private static void CreateDb(string dbPath)
@@ -46,10 +63,7 @@ internal class DataQueries
             dbPath = pathByUser;
         }
         
-        if (!File.Exists(dbPath))
-        {
-            CreateDb(dbPath);
-        }
+       
 
         using var connection = new SqliteConnection($"Data Source={dbPath}");
 

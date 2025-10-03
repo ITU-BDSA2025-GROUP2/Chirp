@@ -12,7 +12,11 @@ public interface ICheepService
 public class CheepService : ICheepService
 {
     DBFacade facade = new DBFacade();
-    
+
+    public CheepService()
+    {
+        facade.createDatabase();
+    }
 
     // These would normally be loaded from a database for example
     private static readonly List<CheepViewModel> _cheeps = new()
