@@ -2563,19 +2563,19 @@
     ]
   },
   "packageFolders": {
-    "/home/dakl/.nuget/packages/": {}
+    "/home/karamtnc/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/dakl/Chirp/Chirp/Chirp.Razor/Chirp.Razor.csproj",
+      "projectUniqueName": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/Chirp.Razor.csproj",
       "projectName": "Chirp.Razor",
-      "projectPath": "/home/dakl/Chirp/Chirp/Chirp.Razor/Chirp.Razor.csproj",
-      "packagesPath": "/home/dakl/.nuget/packages/",
-      "outputPath": "/home/dakl/Chirp/Chirp/Chirp.Razor/obj/",
+      "projectPath": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/Chirp.Razor.csproj",
+      "packagesPath": "/home/karamtnc/.nuget/packages/",
+      "outputPath": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/dakl/.nuget/NuGet/NuGet.Config"
+        "/home/karamtnc/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"

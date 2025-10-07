@@ -7,9 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ChatDBContext>(options => options.UseSqlite(connectionString));
 
+var dbContextOptions = new DbContextOptions<ChatDBContext>();
 
-
-using var context = new ChatDBContext();
+using var context = new ChatDBContext(dbContextOptions);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
