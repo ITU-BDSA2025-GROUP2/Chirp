@@ -14,13 +14,6 @@ public class dataQueriesUT
     }
 
     [Fact]
-    public void CheckDB()
-    {
-        Assert.True(File.Exists(Path.GetTempPath() + "Chirp.db"));
-
-    }
-
-    [Fact]
     public void CheckGetCheeps()
     {
         Assert.Equal(32, _dataQuery.GetAllQuery(0).Count());

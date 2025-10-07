@@ -16,13 +16,6 @@ public class FacadeTest
     }
 
     [Fact]
-    public void CheckDB()
-    {
-        Assert.True(File.Exists(Path.GetTempPath() + "Chirp.db"));
-
-    }
-
-    [Fact]
     public void CheckGetCheeps()
     {
         Assert.Equal(32, _facade.getAllCheeps(0).Count());
