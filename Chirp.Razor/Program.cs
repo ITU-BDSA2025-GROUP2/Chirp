@@ -1,9 +1,14 @@
+using System.Threading.Tasks;
 using Chirp.Razor;
 
-public class Program {
+public class Program
+{
 
-    public static void Main(string[] args)
+    private static CancellationTokenSource _cts;
+
+    public static async Task<int> Main(string[] args)
     {
+        _cts = new CancellationTokenSource();
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
@@ -27,8 +32,17 @@ public class Program {
 
         app.MapRazorPages();
 
-        app.Run();
+        await app.RunAsync(_cts.Token);
+        return 0;
     }
+
+
+    public static void Stop()
+    {
+        _cts.Cancel();
+    } 
+    
+
     
 }
 

@@ -110,8 +110,6 @@ public class DataQueries
         var returnList = new List<CheepViewModel>();
         while (reader.Read())
         {
-            Console.WriteLine(reader.GetString(0));
-
             //0 = messageid ; 1 = author id ; 2 = message ; 3 = publishing date (in unixTime) 
             returnList.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
 

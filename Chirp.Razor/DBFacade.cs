@@ -1,5 +1,6 @@
 using Chirp.Razor;
 
+
 public class DBFacade
 {
     private DataQueries Dq;
@@ -20,9 +21,9 @@ public class DBFacade
         return Dq.GetAllQuery(page);
     }
 
-    public List<CheepViewModel> getAllFromAuthor( string author, int page)
+    public List<CheepViewModel> getAllFromAuthor(string author, int page)
     {
         return Dq.GetCheepsFromAuthor(author, page);
     }
-    
+
 }
