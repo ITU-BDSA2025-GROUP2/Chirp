@@ -13,11 +13,13 @@ public class DataQueries
 
         if (pathByUser != null)
         {
+            
             dbPath = pathByUser;
         }
 
         if (!File.Exists(dbPath))
         {
+            Console.WriteLine(dbPath);
             CreateDb(dbPath);
         }    
     }

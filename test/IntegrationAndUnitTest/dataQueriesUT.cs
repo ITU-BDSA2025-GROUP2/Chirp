@@ -8,6 +8,8 @@ public class dataQueriesUT
 
     public dataQueriesUT()
     {
+        Environment.SetEnvironmentVariable("CHIRPDBPATH", "dataQuery.db");
+
         _dataQuery.QuerySetup();
     }
 

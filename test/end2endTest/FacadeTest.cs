@@ -1,14 +1,17 @@
 using Chirp.Razor;
-
 namespace test;
 
 public class FacadeTest
 {
+
     private readonly DBFacade _facade = new DBFacade();
 
 
     public FacadeTest()
     {
+        Environment.SetEnvironmentVariable("CHIRPDBPATH", "facade.db");
+        
+        
         _facade.createDatabase();
     }
 
