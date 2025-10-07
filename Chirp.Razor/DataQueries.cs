@@ -3,8 +3,27 @@ using Microsoft.Data.Sqlite;
 
 namespace Chirp.Razor;
 
-internal class DataQueries
+public class DataQueries
 {
+
+    public void QuerySetup()
+    {
+        var pathByUser = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+        var dbPath = Path.GetTempPath() + "Chirp.db";
+
+        if (pathByUser != null)
+        {
+            
+            dbPath = pathByUser;
+        }
+
+        if (!File.Exists(dbPath))
+        {
+            Console.WriteLine(dbPath);
+            CreateDb(dbPath);
+        }    
+    }
+
 
     //create the database files "dump.sql" and "schema.sql"
     //this will only run once, as if the files already exist, they should not have duplicates
@@ -46,25 +65,22 @@ internal class DataQueries
             dbPath = pathByUser;
         }
         
-        if (!File.Exists(dbPath))
-        {
-            CreateDb(dbPath);
-        }
+       
 
         using var connection = new SqliteConnection($"Data Source={dbPath}");
 
         connection.Open();
 
         using var command = connection.CreateCommand();
-        command.CommandText = $"SELECT * FROM message LIMIT {limit} OFFSET {page * 32}";
+        command.CommandText = $"SELECT u.username, m.text, m.pub_date FROM message m join user u on m.author_id = u.user_id LIMIT {limit} OFFSET {page * 32}";
         //command.CommandText = $"SELECT m.text, m.pub_date FROM message m LIMIT {limit}";
 
         using var reader = command.ExecuteReader();
         var returnList = new List<CheepViewModel>();
         while (reader.Read())
         {
-            //0 = messageid ; 1 = author id ; 2 = message ; 3 = publishing date (in unixTime) 
-            returnList.Add(new CheepViewModel(reader.GetString(1), reader.GetString(2), reader.GetString(3)));
+            
+            returnList.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), DateTimeOffset.FromUnixTimeSeconds(reader.GetInt64(2)).ToString()));
 
         }
 
@@ -90,14 +106,14 @@ internal class DataQueries
         var limit = 32;
 
         using var command = connection.CreateCommand();
-        command.CommandText = $"SELECT * FROM message m join user u on m.author_id = u.user_id where u.username = '{author}' LIMIT {limit} OFFSET {page * 32}";
+        command.CommandText = $"SELECT u.username, m.text, m.pub_date FROM message m join user u on m.author_id = u.user_id where u.username = '{author}' LIMIT {limit} OFFSET {page * 32}";
 
         using var reader = command.ExecuteReader();
         var returnList = new List<CheepViewModel>();
         while (reader.Read())
         {
             //0 = messageid ; 1 = author id ; 2 = message ; 3 = publishing date (in unixTime) 
-            returnList.Add(new CheepViewModel(reader.GetString(1), reader.GetString(2), reader.GetString(3)));
+            returnList.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
 
         }
 
