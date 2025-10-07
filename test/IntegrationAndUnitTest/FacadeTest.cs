@@ -9,7 +9,7 @@ public class FacadeTest
 
     public FacadeTest()
     {
-        _facade.createDatabase();
+        //_facade.createDatabase();
     }
 
     [Fact]
