@@ -18,31 +18,17 @@
 
   <ItemGroup>
     <None Remove="data\dump.sql" />
+    <Resource Include="data\dump.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Remove="data\schema.sql" />
+    <Resource Include="data\schema.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
     <None Include="data\**\*.*" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="data\dump.sql" />
-    <Resource Include="data\schema.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\Public.cshtml" />
-    <_ContentIncludedByDefault Remove="Pages\Shared\_Layout.cshtml" />
-    <_ContentIncludedByDefault Remove="Pages\UserTimeline.cshtml" />
-    <_ContentIncludedByDefault Remove="src\Pages\Public.cshtml" />
-    <_ContentIncludedByDefault Remove="src\Pages\Shared\_Layout.cshtml" />
-    <_ContentIncludedByDefault Remove="src\Pages\UserTimeline.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="Pages\Public.cshtml" />
-    <AdditionalFiles Include="Pages\Shared\_Layout.cshtml" />
-    <AdditionalFiles Include="Pages\UserTimeline.cshtml" />
   </ItemGroup>
 
 </Project>
