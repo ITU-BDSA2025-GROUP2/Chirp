@@ -8,9 +8,14 @@ string? connectionString = builder.Configuration.GetConnectionString("DefaultCon
 builder.Services.AddDbContext<ChatDBContext>(options => options.UseSqlite(connectionString));
 
 
+
+using var context = new ChatDBContext();
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
+builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+
 
 var app = builder.Build();
 

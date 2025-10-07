@@ -2563,19 +2563,19 @@
     ]
   },
   "packageFolders": {
-    "/home/msso/.nuget/packages/": {}
+    "/home/dakl/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/msso/myproject/Chirp/Chirp.Razor/Chirp.Razor.csproj",
+      "projectUniqueName": "/home/dakl/Chirp/Chirp/Chirp.Razor/Chirp.Razor.csproj",
       "projectName": "Chirp.Razor",
-      "projectPath": "/home/msso/myproject/Chirp/Chirp.Razor/Chirp.Razor.csproj",
-      "packagesPath": "/home/msso/.nuget/packages/",
-      "outputPath": "/home/msso/myproject/Chirp/Chirp.Razor/obj/",
+      "projectPath": "/home/dakl/Chirp/Chirp/Chirp.Razor/Chirp.Razor.csproj",
+      "packagesPath": "/home/dakl/.nuget/packages/",
+      "outputPath": "/home/dakl/Chirp/Chirp/Chirp.Razor/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/msso/.nuget/NuGet/NuGet.Config"
+        "/home/dakl/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -2593,11 +2593,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -2642,7 +2637,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/snap/dotnet-sdk/256/sdk/8.0.407/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.119/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

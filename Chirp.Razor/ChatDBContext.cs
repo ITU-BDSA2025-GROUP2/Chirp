@@ -11,6 +11,6 @@ public class ChatDBContext : DbContext
 
     public ChatDBContext(DbContextOptions<ChatDBContext> options) : base(options)
     {
-
+        
     }
 }
