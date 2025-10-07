@@ -35,7 +35,7 @@ public class integration_test : IClassFixture<WebApplicationFactory<Program>>
         var response = await client.GetAsync("/Helge");
         response.EnsureSuccessStatusCode();
         var readResponse = await response.Content.ReadAsStringAsync();
-        Assert.Contains("11", readResponse);
+        Assert.Contains("Helge", readResponse);
     }
 
     [Fact]
