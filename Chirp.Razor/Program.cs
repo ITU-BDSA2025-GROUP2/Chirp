@@ -1,5 +1,6 @@
 using Chirp.Razor;
 using Microsoft.EntityFrameworkCore;
+using DbInit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ChatDBContext>(options => options.UseSqlite(connectionString));
 
-var dbContextOptions = new DbContextOptions<ChatDBContext>();
-
-using var context = new ChatDBContext(dbContextOptions);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -18,6 +16,14 @@ builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
 
 var app = builder.Build();
+
+//Initialise Database
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ChatDBContext>();
+
+    DbInitializer.SeedDatabase(context);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

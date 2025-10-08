@@ -2,18 +2,24 @@
 
 public class CheepRepository : ICheepRepository
 {
-    public Task CreateCheep(CheepDTO newCheep)
+
+    private readonly ChatDBContext _dbContext;
+    public CheepRepository(ChatDBContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+    public Task CreateCheep(Cheep newCheep)
     {
         return null;
     }
 
 
-    public Task<List<CheepDTO>> ReadCheeps(string name)
+    public Task<List<Cheep>> ReadCheeps(string name)
     {
         return null;
     }
 
-    public Task UpdateCheep(CheepDTO alteredCheep)
+    public Task UpdateCheep(Cheep alteredCheep)
     {
         return null;
     }

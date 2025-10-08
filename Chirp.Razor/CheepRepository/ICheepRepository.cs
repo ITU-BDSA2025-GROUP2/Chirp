@@ -2,14 +2,16 @@
 
 public interface ICheepRepository
 {
-    Task CreateCheep(CheepDTO newCheep);
+    
+
+    Task CreateCheep(Cheep newCheep);
 
 
-    Task<List<CheepDTO>> ReadCheeps(string name);
+    Task<List<Cheep>> ReadCheeps(string name);
 
 
 
-    Task UpdateCheep(CheepDTO alteredCheep);
+    Task UpdateCheep(Cheep alteredCheep);
     
 
 }

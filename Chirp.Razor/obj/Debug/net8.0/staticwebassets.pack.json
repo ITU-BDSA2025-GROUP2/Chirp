@@ -1,15 +1,15 @@
 {
   "Files": [
     {
-      "Id": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/wwwroot/css/style.css",
+      "Id": "/home/dakl/Chirp/Chirp/Chirp.Razor/wwwroot/css/style.css",
       "PackagePath": "staticwebassets/css/style.css"
     },
     {
-      "Id": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/wwwroot/favicon/favicon.ico",
+      "Id": "/home/dakl/Chirp/Chirp/Chirp.Razor/wwwroot/favicon/favicon.ico",
       "PackagePath": "staticwebassets/favicon/favicon.ico"
     },
     {
-      "Id": "/mnt/c/Users/Karam/Documents/Git Repos/Chirp/Chirp.Razor/wwwroot/images/icon1.png",
+      "Id": "/home/dakl/Chirp/Chirp/Chirp.Razor/wwwroot/images/icon1.png",
       "PackagePath": "staticwebassets/images/icon1.png"
     },
     {
