@@ -1,0 +1,33 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\wwwroot\\css\\style.css",
+      "PackagePath": "staticwebassets\\css\\style.css"
+    },
+    {
+      "Id": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\wwwroot\\favicon\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\wwwroot\\images\\icon1.png",
+      "PackagePath": "staticwebassets\\images\\icon1.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.src.props",
+      "PackagePath": "build\\src.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.src.props",
+      "PackagePath": "buildMultiTargeting\\src.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.src.props",
+      "PackagePath": "buildTransitive\\src.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.src.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

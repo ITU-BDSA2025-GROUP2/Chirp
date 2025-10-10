@@ -1,0 +1,77 @@
+{
+  "Version": 1,
+  "Hash": "A6mncDk2A6+EnibSqnUgb6hmT6aR/6ftu+gRToulotk=",
+  "Source": "src",
+  "BasePath": "_content/src",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "src\\wwwroot",
+      "Source": "src",
+      "ContentRoot": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\wwwroot\\",
+      "BasePath": "_content/src",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\wwwroot\\css\\style.css",
+      "SourceId": "src",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\wwwroot\\",
+      "BasePath": "_content/src",
+      "RelativePath": "css/style.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\style.css"
+    },
+    {
+      "Identity": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\wwwroot\\favicon\\favicon.ico",
+      "SourceId": "src",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\wwwroot\\",
+      "BasePath": "_content/src",
+      "RelativePath": "favicon/favicon.ico",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\favicon\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\wwwroot\\images\\icon1.png",
+      "SourceId": "src",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\wwwroot\\",
+      "BasePath": "_content/src",
+      "RelativePath": "images/icon1.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\icon1.png"
+    }
+  ]
+}
