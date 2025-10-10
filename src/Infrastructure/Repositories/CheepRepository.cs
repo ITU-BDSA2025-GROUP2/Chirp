@@ -19,12 +19,18 @@ public class CheepRepository : ICheepRepository
         var newAuthor = new Author() { AuthorId = await FindNewId(), Name = name, Email = email };
 
         _dbContext.Authors.Add(newAuthor);
+        _dbContext.SaveChanges();
     }
 
     public async Task<int> FindNewId()
     {
         var length = _dbContext.Authors.Count();
         return length + 1;
+    }
+
+    public async void CreateCheep()
+    {
+        
     }
 
     public Task<List<Cheep>> ReadCheeps(string name)

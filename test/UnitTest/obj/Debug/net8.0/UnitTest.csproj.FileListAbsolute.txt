@@ -1,0 +1,6 @@
+/home/msso/myproject/Chirp/test/UnitTest/obj/Debug/net8.0/UnitTest.csproj.AssemblyReference.cache
+/home/msso/myproject/Chirp/test/UnitTest/obj/Debug/net8.0/UnitTest.GeneratedMSBuildEditorConfig.editorconfig
+/home/msso/myproject/Chirp/test/UnitTest/obj/Debug/net8.0/UnitTest.AssemblyInfoInputs.cache
+/home/msso/myproject/Chirp/test/UnitTest/obj/Debug/net8.0/UnitTest.AssemblyInfo.cs
+/home/msso/myproject/Chirp/test/UnitTest/obj/Debug/net8.0/UnitTest.csproj.CoreCompileInputs.cache
+/home/msso/myproject/Chirp/test/UnitTest/obj/Debug/net8.0/UnitTest.sourcelink.json

@@ -14,7 +14,7 @@ public interface ICheepRepository
     Task UpdateCheep(Cheep alteredCheep);
 
 
-    public void CreateAuthor(string name);
+    public void CreateAuthor(string name, string email);
 
     public Task<int> FindNewId();
     
