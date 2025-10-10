@@ -1,4 +1,8 @@
-test/obj/
-test/bin/
-Chirp.Razor/obj/
-Chirp.Razor/bin/
+/test/obj/
+/test/bin/
+/test/end2endTest/bin/
+/test/end2endTest/obj/
+/test/IntegrationAndUnitTest/bin/
+/test/IntegrationAndUnitTest/obj/
+/Chirp.Razor/obj/
+/Chirp.Razor/bin/
