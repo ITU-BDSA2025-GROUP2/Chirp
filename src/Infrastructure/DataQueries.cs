@@ -1,11 +1,10 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
+//using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.Sqlite;
 
 namespace Chirp.Razor;
 
 public class DataQueries
 {
-
     public void QuerySetup()
     {
         var pathByUser = Environment.GetEnvironmentVariable("CHIRPDBPATH");
@@ -23,8 +22,7 @@ public class DataQueries
             CreateDb(dbPath);
         }    
     }
-
-
+    
     //create the database files "dump.sql" and "schema.sql"
     //this will only run once, as if the files already exist, they should not have duplicates
     private static void CreateDb(string dbPath)
