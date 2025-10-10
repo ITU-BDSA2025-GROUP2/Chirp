@@ -8,4 +8,6 @@
 /test/end2endTest/obj/
 /test/IntegrationAndUnitTest/bin/
 /test/IntegrationAndUnitTest/obj/
+/test/UnitTest/bin/
+/test/UnitTest/obj/
 /.idea/

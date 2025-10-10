@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 
-
 public class ChatDBContext : DbContext
 {
     public DbSet<Cheep> Cheeps { get; set; }
