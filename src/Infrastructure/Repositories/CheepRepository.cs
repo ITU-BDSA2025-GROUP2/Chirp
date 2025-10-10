@@ -1,5 +1,7 @@
 
 
+using Microsoft.EntityFrameworkCore;
+
 public class CheepRepository : ICheepRepository
 {
 
@@ -14,9 +16,18 @@ public class CheepRepository : ICheepRepository
     }
 
 
-    public Task<List<Cheep>> ReadCheeps(string name)
+    public async Task<List<CheepViewModel>> ReadCheeps(string name)
     {
-        return null;
+        var query = from cheep in _dbContext.Cheeps
+                    select new {cheep.Author.Name, cheep.Text, cheep.TimeStamp};
+        var result = await query.ToListAsync();
+        
+        var returnList = new List<CheepViewModel>();
+        foreach (var row in result)
+        {
+            returnList.Add(new CheepViewModel(row.Name, row.Text, row.TimeStamp.ToString()));
+        }
+        return returnList;
     }
 
     public Task UpdateCheep(Cheep alteredCheep)
