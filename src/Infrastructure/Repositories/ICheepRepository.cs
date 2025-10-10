@@ -12,6 +12,11 @@ public interface ICheepRepository
 
 
     Task UpdateCheep(Cheep alteredCheep);
+
+
+    public void CreateAuthor(string name);
+
+    public Task<int> FindNewId();
     
 
 }
