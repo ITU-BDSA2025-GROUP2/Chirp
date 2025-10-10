@@ -1,0 +1,89 @@
+{
+  "Version": 1,
+  "Hash": "n/tU2QTsqNk2AQAoNm1rxWUmcEKy3o18dzpZfdEUFVo=",
+  "Source": "End2EndTest",
+  "BasePath": "_content/End2EndTest",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "/home/dakl/Chirp/Chirp/src/Web/Web.csproj",
+      "Version": 2,
+      "Source": "Web",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Web/wwwroot",
+      "Source": "Web",
+      "ContentRoot": "/home/dakl/Chirp/Chirp/src/Web/wwwroot/",
+      "BasePath": "_content/Web",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/home/dakl/Chirp/Chirp/src/Web/wwwroot/css/style.css",
+      "SourceId": "Web",
+      "SourceType": "Project",
+      "ContentRoot": "/home/dakl/Chirp/Chirp/src/Web/wwwroot/",
+      "BasePath": "_content/Web",
+      "RelativePath": "css/style.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/style.css"
+    },
+    {
+      "Identity": "/home/dakl/Chirp/Chirp/src/Web/wwwroot/favicon/favicon.ico",
+      "SourceId": "Web",
+      "SourceType": "Project",
+      "ContentRoot": "/home/dakl/Chirp/Chirp/src/Web/wwwroot/",
+      "BasePath": "_content/Web",
+      "RelativePath": "favicon/favicon.ico",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/favicon/favicon.ico"
+    },
+    {
+      "Identity": "/home/dakl/Chirp/Chirp/src/Web/wwwroot/images/icon1.png",
+      "SourceId": "Web",
+      "SourceType": "Project",
+      "ContentRoot": "/home/dakl/Chirp/Chirp/src/Web/wwwroot/",
+      "BasePath": "_content/Web",
+      "RelativePath": "images/icon1.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/icon1.png"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/dakl\/Chirp\/Chirp\/src\/Core",
+  "Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/dakl\/Chirp\/Chirp\/src\/Infrastructure",
+  "Web, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/dakl\/Chirp\/Chirp\/src\/Web"
+}

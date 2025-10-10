@@ -1,5 +1,7 @@
 
 
+using System.Formats.Tar;
+
 public interface ICheepRepository
 {
     
@@ -7,7 +9,7 @@ public interface ICheepRepository
     Task CreateCheep(Cheep newCheep);
 
 
-    Task<List<CheepViewModel>> ReadCheeps(string name);
+    Task<List<CheepViewModel>> ReadCheeps(int page);
 
 
 
