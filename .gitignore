@@ -1,8 +1,11 @@
-/test/obj/
-/test/bin/
-/test/end2endTest/bin/
+/src/Core/bin/
+/src/Core/obj/
+/src/Infrastructure/bin/
+/src/Infrastructure/obj/
+/src/Web/bin/
+/src/Web/obj/
+/test/End2EndTest/bin/
 /test/end2endTest/obj/
 /test/IntegrationAndUnitTest/bin/
 /test/IntegrationAndUnitTest/obj/
-/Chirp.Razor/obj/
-/Chirp.Razor/bin/
+/.idea/
