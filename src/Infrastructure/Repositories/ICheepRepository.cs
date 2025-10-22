@@ -16,7 +16,7 @@ public interface ICheepRepository
 
     public void CreateAuthor(string name, string email);
 
-    public Task<int> FindNewId();
+    public int FindNewId();
     
 
 }
