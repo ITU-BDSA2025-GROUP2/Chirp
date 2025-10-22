@@ -1,8 +1,7 @@
-
-
 using System.Reflection;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using SupportScripts;
 
 public class CheepRepositoryTest
 {
@@ -17,14 +16,7 @@ public class CheepRepositoryTest
         // Here we generate a sqlite in memory db could be smart to make a support class.
         // that all tests call to create a test db to reduce code duplicationæ.
 
-        connection = new SqliteConnection("Filename=:memory:");
-        connection.Open();
-        var builder = new DbContextOptionsBuilder<ChatDBContext>().UseSqlite(connection);
-
-        var context = new ChatDBContext(builder.Options);
-        context.Database.EnsureCreated();
-
-        repository = new CheepRepository(context);
+        repository = new MemoryDBFactory().GetCheepRepository();
     }
 
     [Fact]
@@ -36,7 +28,7 @@ public class CheepRepositoryTest
     [Fact]
     public async Task FindNewIdTest()
     {
-        Assert.Equal(1, repository.FindNewId());
+        Assert.Equal(1, repository.FindNewAuthorId());
     }
 
 
@@ -53,8 +45,25 @@ public class CheepRepositoryTest
     [Fact]
     public async Task DoesItCreateAuthor()
     {
-        Assert.Equal(1, repository.FindNewId());
+        Assert.Equal(1, repository.FindNewAuthorId());
         repository.CreateAuthor("Tim", "tim@email.com");
-        Assert.Equal(2, repository.FindNewId());
+        Assert.Equal(2, repository.FindNewAuthorId());
     }
+
+
+    [Fact]
+    public async Task CreateCheep_WithExistingAuthor()
+    {
+        var author = "Helge";
+        var email = "ropf@itu.dk";
+        var msg = "HELLO WORLD!";
+        repository.CreateCheep(author, email, msg);
+        
+        
+        
+        Assert.Equal();
+        
+    }
+    
+    
 }

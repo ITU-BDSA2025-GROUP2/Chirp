@@ -4,7 +4,7 @@ public interface ICheepRepository
 {
     
 
-    Task CreateCheep(Cheep newCheep);
+    void CreateCheep(string author, string email, string msg);
 
 
     Task<List<Cheep>> ReadCheeps(string name);
@@ -16,7 +16,7 @@ public interface ICheepRepository
 
     public void CreateAuthor(string name, string email);
 
-    public int FindNewId();
+    public int FindNewAuthorId();
     
 
 }
