@@ -11,7 +11,7 @@ public interface ICheepRepository
 
     Task<List<CheepViewModel>> ReadCheeps(int page);
 
-
+    Task<List<CheepViewModel>> ReadCheepsPerson(string name, int page);
 
     Task UpdateCheep(Cheep alteredCheep);
     

@@ -2,6 +2,7 @@
 using System.Reflection;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 public class QueryTest
 {
@@ -52,28 +53,29 @@ public class QueryTest
     [Fact]
     public async Task ReadCheeps()
     {
-        var Cheep = repository.ReadCheeps(0);
+        var Cheep = await repository.ReadCheeps(0);
 
+        var testCheep = Cheep.Find(x => x.Author == "Helge");
+        
 
-        Assert.Equal(    , Cheep(0));
+        Assert.Equal(  "Helge"  , testCheep.Author  );
     }
 
 
-    /*
-    The test below was just to verify we could add to the new data base; 
-    The test case should be updated with the queries to do the following instead of what is is currently
-    doing.
 
-    Assert.False(query author)
-    add author
-    Assert.True(query author)
-    */ 
 
     [Fact]
-    public async Task DoesItCreateAuthor()
+    public async Task ReadCheepsAuthor()
     {
-        Assert.Equal(1, repository.FindNewId());
-        repository.CreateAuthor("Tim", "tim@email.com");
-        Assert.Equal(2, repository.FindNewId());
+        var Cheep = await repository.ReadCheepsPerson("Helge", 0);
+
+        var testCheep = Cheep.Find(x => x.Author == "Helge");
+
+        Assert.Equal("Join itu lan now", testCheep.Message);
+
+        Assert.Null(Cheep.Find(x => x.Author == "Adrian"));
     }
+
+
+
 }
