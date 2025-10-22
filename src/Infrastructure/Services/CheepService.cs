@@ -45,6 +45,12 @@ public class CheepService : ICheepService
         return result;
     }
 
+    public async Task<AuthorViewModel> GetEmail(string email, int page)
+    {
+        var result = await _cheepRepository.ReadEmail(email, page);
+        return result;
+    }
+
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
     {
         // Unix timestamp is seconds past epoch
