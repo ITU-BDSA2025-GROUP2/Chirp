@@ -13,6 +13,11 @@ public interface ICheepRepository
 
     Task<List<CheepViewModel>> ReadCheepsPerson(string name, int page);
 
+    Task<AuthorViewModel> ReadAuthor(string name, int page);
+
+    Task<AuthorViewModel> ReadEmail(string email, int page);
+
+
     Task UpdateCheep(Cheep alteredCheep);
     
 

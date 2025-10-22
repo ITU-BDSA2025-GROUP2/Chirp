@@ -82,7 +82,7 @@ public class CheepRepository : ICheepRepository
         return returnList;
     }
     
-            public async Task<AuthorViewModel> ReadEmail(string email, int page = 0)
+    public async Task<AuthorViewModel> ReadEmail(string email, int page = 0)
     {
         var query = (
             from person in _dbContext.Authors

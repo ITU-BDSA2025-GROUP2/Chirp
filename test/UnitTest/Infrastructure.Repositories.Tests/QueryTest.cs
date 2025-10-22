@@ -76,6 +76,21 @@ public class QueryTest
         Assert.Null(Cheep.Find(x => x.Author == "Adrian"));
     }
 
+    [Fact]
+    public async Task ReadAuthor()
+    {
+        var Author = await repository.ReadAuthor("Helge", 0);
+
+        Assert.Equal("ropf@itu.dk", Author.Email);
+    }
+
+    [Fact]
+    public async Task ReadEmail()
+    {
+        var Email = await repository.ReadEmail("ropf@itu.dk", 0);
+
+        Assert.Equal("Helge", Email.Author);
+    }
 
 
 }
