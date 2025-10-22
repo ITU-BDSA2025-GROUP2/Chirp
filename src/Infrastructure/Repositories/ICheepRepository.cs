@@ -6,7 +6,7 @@ public interface ICheepRepository
 {
     
 
-    Task CreateCheep(Cheep newCheep);
+    void CreateCheep(string author, string email, string msg);
 
 
     Task<List<CheepViewModel>> ReadCheeps(int page);
@@ -19,6 +19,13 @@ public interface ICheepRepository
 
 
     Task UpdateCheep(Cheep alteredCheep);
-    
+
+
+    public void CreateAuthor(string name, string email);
+
+    public int FindNewAuthorId();
+
+    public int FindNewCheepId();
+
 
 }
