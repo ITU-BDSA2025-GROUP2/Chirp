@@ -57,11 +57,29 @@ public class CheepRepositoryTest
         var author = "Helge";
         var email = "ropf@itu.dk";
         var msg = "HELLO WORLD!";
+        
+        //Values needs to be updated when merged with Vee and madelines code
+        Assert.Equal(1, repository.FindNewAuthorId());
+        Assert.Equal(1, repository.FindNewCheepId());
         repository.CreateCheep(author, email, msg);
+        Assert.Equal(1, repository.FindNewAuthorId());
+        Assert.Equal(2, repository.FindNewCheepId());
+    }
+    
+    [Fact]
+    public async Task CreateCheep_WithNewAuthor()
+    {
+        var author = "Helge";
+        var email = "ropf@itu.dk";
+        var msg = "HELLO WORLD!";
+    
+        //Values needs to be updated when merged with Vee and madelines code
+        Assert.Equal(1, repository.FindNewAuthorId());
+        Assert.Equal(1, repository.FindNewCheepId());
+        repository.CreateCheep(author, email, msg);
+        Assert.Equal(2, repository.FindNewAuthorId());
+        Assert.Equal(2, repository.FindNewCheepId());
         
-        
-        
-        Assert.Equal();
         
     }
     

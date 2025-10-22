@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/msso/myproject/Chirp/test/UnitTest/UnitTest.csproj": {}
+    "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\test\\UnitTest\\UnitTest.csproj": {}
   },
   "projects": {
-    "/home/msso/myproject/Chirp/src/Core/Core.csproj": {
+    "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/msso/myproject/Chirp/src/Core/Core.csproj",
+        "projectUniqueName": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "/home/msso/myproject/Chirp/src/Core/Core.csproj",
-        "packagesPath": "/home/msso/.nuget/packages/",
-        "outputPath": "/home/msso/myproject/Chirp/src/Core/obj/",
+        "projectPath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\Karam\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/msso/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Karam\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -37,7 +37,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -78,21 +79,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/snap/dotnet-sdk/256/sdk/8.0.407/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/msso/myproject/Chirp/src/Infrastructure/Infrastructure.csproj": {
+    "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/msso/myproject/Chirp/src/Infrastructure/Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "/home/msso/myproject/Chirp/src/Infrastructure/Infrastructure.csproj",
-        "packagesPath": "/home/msso/.nuget/packages/",
-        "outputPath": "/home/msso/myproject/Chirp/src/Infrastructure/obj/",
+        "projectPath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Infrastructure\\Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Karam\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/msso/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Karam\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -104,8 +105,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/msso/myproject/Chirp/src/Core/Core.csproj": {
-                "projectPath": "/home/msso/myproject/Chirp/src/Core/Core.csproj"
+              "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Core\\Core.csproj": {
+                "projectPath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Core\\Core.csproj"
               }
             }
           }
@@ -119,7 +120,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -164,21 +166,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/snap/dotnet-sdk/256/sdk/8.0.407/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/msso/myproject/Chirp/test/UnitTest/UnitTest.csproj": {
+    "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\test\\SupportScripts\\SupportScripts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/msso/myproject/Chirp/test/UnitTest/UnitTest.csproj",
-        "projectName": "UnitTest",
-        "projectPath": "/home/msso/myproject/Chirp/test/UnitTest/UnitTest.csproj",
-        "packagesPath": "/home/msso/.nuget/packages/",
-        "outputPath": "/home/msso/myproject/Chirp/test/UnitTest/obj/",
+        "projectUniqueName": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\test\\SupportScripts\\SupportScripts.csproj",
+        "projectName": "SupportScripts",
+        "projectPath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\test\\SupportScripts\\SupportScripts.csproj",
+        "packagesPath": "C:\\Users\\Karam\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\test\\SupportScripts\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/msso/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Karam\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -190,8 +192,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/msso/myproject/Chirp/src/Infrastructure/Infrastructure.csproj": {
-                "projectPath": "/home/msso/myproject/Chirp/src/Infrastructure/Infrastructure.csproj"
+              "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -205,7 +207,74 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
+      }
+    },
+    "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\test\\UnitTest\\UnitTest.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\test\\UnitTest\\UnitTest.csproj",
+        "projectName": "UnitTest",
+        "projectPath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\test\\UnitTest\\UnitTest.csproj",
+        "packagesPath": "C:\\Users\\Karam\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\test\\UnitTest\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Karam\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\src\\Infrastructure\\Infrastructure.csproj"
+              },
+              "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\test\\SupportScripts\\SupportScripts.csproj": {
+                "projectPath": "C:\\Users\\Karam\\Documents\\Git Repos\\Chirp\\test\\SupportScripts\\SupportScripts.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -248,7 +317,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/snap/dotnet-sdk/256/sdk/8.0.407/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

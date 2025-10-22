@@ -12,7 +12,6 @@ public class CheepRepository : ICheepRepository
     
     public void CreateCheep(string author, string email, string msg)
     {
-        
         // Run GetAuthor from email query, and you will get a list<Author> matching email
         // Using the list's count, determine if author exist?
         var authorList = new List<Author>(); // Update this to be the query result
