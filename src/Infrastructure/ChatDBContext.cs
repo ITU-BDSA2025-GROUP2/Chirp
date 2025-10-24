@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-public class ChatDBContext : DbContext
+public class ChatDBContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Cheep> Cheeps { get; set; }
 
