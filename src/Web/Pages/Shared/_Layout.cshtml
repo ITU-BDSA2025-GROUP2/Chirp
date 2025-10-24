@@ -24,7 +24,9 @@
         {
             <div>
                 <a href="/">public timeline</a>|
-                <partial name="_LoginPartial" />
+                <div class="navigation">
+                    @await Html.PartialAsync("_LoginPartial")
+                </div>
                 <a ... >register</a>
                 <a ... >login</a>
             </div>
