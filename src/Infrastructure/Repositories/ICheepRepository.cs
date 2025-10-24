@@ -27,5 +27,5 @@ public interface ICheepRepository
 
     public int FindNewCheepId();
 
-
+    public Task<List<Author>> ReturnBasedOnEmailAsync(string email, int page = 0);
 }

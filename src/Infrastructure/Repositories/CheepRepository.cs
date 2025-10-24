@@ -1,5 +1,6 @@
 
 
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 public class CheepRepository : ICheepRepository
@@ -14,11 +15,13 @@ public class CheepRepository : ICheepRepository
     
     public void CreateCheep(string author, string email, string msg)
     {
+
+
         // Run GetAuthor from email query, and you will get a list<Author> matching email
         // Using the list's count, determine if author exist?
-        var authorList = new List<Author>(); // Update this to be the query result
+        var authorFromQuery = ReadEmail(email); // Update this to be the query result
         
-        Boolean authMissing = true;
+        /* Boolean authMissing = true;
         
         foreach (var auth in authorList)
         {
@@ -28,35 +31,27 @@ public class CheepRepository : ICheepRepository
               authMissing = false;
               break;
             } 
-        }
+        } */
 
-        if (authMissing)
+        if (authorFromQuery == null)
         {
             CreateAuthor(author, email);
         }
         
-        // Query for our author
+        //AuthorViewModel authorFromQuery2 = ReadEmail(email);
         
-        authorList = new List<Author>(); // Update this to a query call
-
-        if (authorList.Count > 1)
-        {
-            // Throw an error "More than one author for this email exists"
-        }
-
-        var authorObject = authorList[0];
         
-        var cheep = new Cheep()
+       /*  var cheep = new Cheep()
         {
             CheepId = FindNewCheepId(),
             Text = msg,
             TimeStamp = DateTime.Now,
-            AuthorId = authorObject.AuthorId,
-            Author = authorObject,
-        };
+            AuthorId = authorFromQuery2.AuthorId,
+            Author = null,
+        }; */
         
 
-        _dbContext.Cheeps.Add(cheep);
+        //_dbContext.Cheeps.Add(cheep);
     }
 
 
@@ -138,16 +133,7 @@ public class CheepRepository : ICheepRepository
 
     public async Task<AuthorViewModel> ReadAuthor(string name, int page = 0)
     {
-        var query = (
-            from person in _dbContext.Authors
-            where person.Name == name
-            select new
-            {
-                person.Name,
-                person.Email
-            }).Skip(page * 32).Take(32);
-
-        var result = await query.ToListAsync();
+        var result = await ReturnBasedOnNameAsync(name);
 
         var returnList = new AuthorViewModel(null, null);
 
@@ -157,27 +143,41 @@ public class CheepRepository : ICheepRepository
         }
         return returnList;
     }
-    
+
     public async Task<AuthorViewModel> ReadEmail(string email, int page = 0)
     {
-        var query = (
-            from person in _dbContext.Authors
-            where person.Email == email
-            select new
-            {
-                person.Name,
-                person.Email
-            }).Skip(page*32).Take(32);
+       
+        var result = await ReturnBasedOnEmailAsync(email);
 
-        var result = await query.ToListAsync();
-
-        var returnList = new AuthorViewModel( null, null);
+        var returnList = new AuthorViewModel(null, null);
         
         foreach (var row in result)
         {
             returnList = new AuthorViewModel(row.Name, row.Email);
         }
         return returnList;
+    }
+
+    public async Task<List<Author>> ReturnBasedOnEmailAsync(string email, int page = 0)
+    {
+        var query = (
+            from person in _dbContext.Authors
+            where person.Email == email
+            select person
+            ).Skip(page * 32).Take(32);
+
+        return await query.ToListAsync();
+    }
+    
+    public async Task<List<Author>> ReturnBasedOnNameAsync(string name, int page = 0)
+    {
+        var query = (
+            from person in _dbContext.Authors
+            where person.Name == name
+            select person
+            ).Skip(page * 32).Take(32);
+
+        return await query.ToListAsync();
     }
 
 
