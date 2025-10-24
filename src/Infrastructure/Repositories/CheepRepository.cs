@@ -13,13 +13,13 @@ public class CheepRepository : ICheepRepository
     }
     
     
-    public void CreateCheep(string author, string email, string msg)
+    public async Task CreateCheep(string author, string email, string msg)
     {
 
 
         // Run GetAuthor from email query, and you will get a list<Author> matching email
         // Using the list's count, determine if author exist?
-        var authorFromQuery = ReadEmail(email); // Update this to be the query result
+        var authorFromQuery = await ReturnBasedOnEmailAsync(email); // Update this to be the query result
         
         /* Boolean authMissing = true;
         
@@ -33,25 +33,31 @@ public class CheepRepository : ICheepRepository
             } 
         } */
 
-        if (authorFromQuery == null)
+        if (authorFromQuery.Count() == 0)
         {
             CreateAuthor(author, email);
         }
+
+        authorFromQuery = await ReturnBasedOnEmailAsync(email);
         
-        //AuthorViewModel authorFromQuery2 = ReadEmail(email);
+        if (authorFromQuery.Count() > 1)
+        {
+            //TODO Throw error
+            return;
+        }
         
-        
-       /*  var cheep = new Cheep()
+
+       var cheep = new Cheep()
         {
             CheepId = FindNewCheepId(),
             Text = msg,
             TimeStamp = DateTime.Now,
-            AuthorId = authorFromQuery2.AuthorId,
-            Author = null,
-        }; */
-        
+            AuthorId = authorFromQuery[0].AuthorId,
+            Author = authorFromQuery[0],
+        };
 
-        //_dbContext.Cheeps.Add(cheep);
+        _dbContext.Cheeps.Add(cheep);
+        _dbContext.SaveChanges();
     }
 
 

@@ -60,10 +60,10 @@ public class CheepRepositoryTest
         
         //Values needs to be updated when merged with Vee and madelines code
         Assert.Equal(3, repository.FindNewAuthorId());
-        Assert.Equal(4, repository.FindNewCheepId());
+        Assert.Equal(5, repository.FindNewCheepId());
         repository.CreateCheep(author, email, msg);
         Assert.Equal(3, repository.FindNewAuthorId());
-        Assert.Equal(5, repository.FindNewCheepId());
+        Assert.Equal(6, repository.FindNewCheepId());
     }
     
     [Fact]
@@ -75,10 +75,10 @@ public class CheepRepositoryTest
     
         //Values needs to be updated when merged with Vee and madelines code
         Assert.Equal(3, repository.FindNewAuthorId());
-        Assert.Equal(4, repository.FindNewCheepId());
+        Assert.Equal(5, repository.FindNewCheepId());
         repository.CreateCheep(author, email, msg);
         Assert.Equal(4, repository.FindNewAuthorId());
-        Assert.Equal(5, repository.FindNewCheepId());
+        Assert.Equal(6, repository.FindNewCheepId());
         
         
     }
