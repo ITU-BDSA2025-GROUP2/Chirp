@@ -28,7 +28,7 @@ public class CheepRepositoryTest
     [Fact]
     public async Task FindNewIdTest()
     {
-        Assert.Equal(1, repository.FindNewAuthorId());
+        Assert.Equal(3, repository.FindNewAuthorId());
     }
 
 
@@ -45,9 +45,9 @@ public class CheepRepositoryTest
     [Fact]
     public async Task DoesItCreateAuthor()
     {
-        Assert.Equal(1, repository.FindNewAuthorId());
+        Assert.Equal(3, repository.FindNewAuthorId());
         repository.CreateAuthor("Tim", "tim@email.com");
-        Assert.Equal(2, repository.FindNewAuthorId());
+        Assert.Equal(4, repository.FindNewAuthorId());
     }
 
 
@@ -59,11 +59,11 @@ public class CheepRepositoryTest
         var msg = "HELLO WORLD!";
         
         //Values needs to be updated when merged with Vee and madelines code
-        Assert.Equal(1, repository.FindNewAuthorId());
-        Assert.Equal(1, repository.FindNewCheepId());
+        Assert.Equal(3, repository.FindNewAuthorId());
+        Assert.Equal(4, repository.FindNewCheepId());
         repository.CreateCheep(author, email, msg);
-        Assert.Equal(1, repository.FindNewAuthorId());
-        Assert.Equal(2, repository.FindNewCheepId());
+        Assert.Equal(3, repository.FindNewAuthorId());
+        Assert.Equal(5, repository.FindNewCheepId());
     }
     
     [Fact]
@@ -74,11 +74,11 @@ public class CheepRepositoryTest
         var msg = "HELLO WORLD!";
     
         //Values needs to be updated when merged with Vee and madelines code
-        Assert.Equal(1, repository.FindNewAuthorId());
-        Assert.Equal(1, repository.FindNewCheepId());
+        Assert.Equal(3, repository.FindNewAuthorId());
+        Assert.Equal(4, repository.FindNewCheepId());
         repository.CreateCheep(author, email, msg);
-        Assert.Equal(2, repository.FindNewAuthorId());
-        Assert.Equal(2, repository.FindNewCheepId());
+        Assert.Equal(4, repository.FindNewAuthorId());
+        Assert.Equal(5, repository.FindNewCheepId());
         
         
     }
