@@ -69,8 +69,8 @@ public class CheepRepositoryTest
     [Fact]
     public async Task CreateCheep_WithNewAuthor()
     {
-        var author = "Helge";
-        var email = "ropf@itu.dk";
+        var author = "Dave";
+        var email = "Dave@itu.dk";
         var msg = "HELLO WORLD!";
     
         //Values needs to be updated when merged with Vee and madelines code
