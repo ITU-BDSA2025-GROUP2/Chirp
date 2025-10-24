@@ -1,6 +1,7 @@
 using Chirp.Razor.Chirp.Infrastructure.Chirp.Services;
 using Microsoft.EntityFrameworkCore;
 using DbInit;
+using Infrastructure.Chirp;
 
 public class Program
 {

@@ -1,5 +1,7 @@
 namespace DbInit;
+
 using System;
+using Infrastructure.Chirp;
 
 public static class DbInitializer
 {
