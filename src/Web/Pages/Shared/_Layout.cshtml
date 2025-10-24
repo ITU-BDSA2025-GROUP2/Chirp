@@ -15,8 +15,7 @@
             <div>
                 <a href="/@(User.Identity.Name)">my timeline</a> |
                 <a href="/">public timeline</a> |
-                <partial name="_LoginPartial" />
-                <a ... >logout [@(User.Identity.Name)]</a>  
+                @await Html.PartialAsync("_LoginPartial")
     
             </div>
         }
@@ -24,9 +23,7 @@
         {
             <div>
                 <a href="/">public timeline</a>|
-                <partial name="_LoginPartial" />
-                <a ... >register</a>
-                <a ... >login</a>
+                @await Html.PartialAsync("_LoginPartial")
             </div>
         }
     </div>
