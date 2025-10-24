@@ -1,5 +1,5 @@
 {
-  "Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/thou\/Chirp\/src\/Core",
-  "Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/thou\/Chirp\/src\/Infrastructure",
-  "Web, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/thou\/Chirp\/src\/Web"
+  "Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/madel\/Chirp\/src\/Core",
+  "Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/madel\/Chirp\/src\/Infrastructure",
+  "Web, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/madel\/Chirp\/src\/Web"
 }

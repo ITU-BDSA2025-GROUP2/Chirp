@@ -4702,19 +4702,19 @@
     ]
   },
   "packageFolders": {
-    "/home/thou/.nuget/packages/": {}
+    "/home/madel/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/thou/Chirp/test/End2EndTest/End2EndTest.csproj",
+      "projectUniqueName": "/home/madel/Chirp/test/End2EndTest/End2EndTest.csproj",
       "projectName": "End2EndTest",
-      "projectPath": "/home/thou/Chirp/test/End2EndTest/End2EndTest.csproj",
-      "packagesPath": "/home/thou/.nuget/packages/",
-      "outputPath": "/home/thou/Chirp/test/End2EndTest/obj/",
+      "projectPath": "/home/madel/Chirp/test/End2EndTest/End2EndTest.csproj",
+      "packagesPath": "/home/madel/.nuget/packages/",
+      "outputPath": "/home/madel/Chirp/test/End2EndTest/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/thou/.nuget/NuGet/NuGet.Config"
+        "/home/madel/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -4726,11 +4726,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/thou/Chirp/src/Infrastructure/Infrastructure.csproj": {
-              "projectPath": "/home/thou/Chirp/src/Infrastructure/Infrastructure.csproj"
+            "/home/madel/Chirp/src/Infrastructure/Infrastructure.csproj": {
+              "projectPath": "/home/madel/Chirp/src/Infrastructure/Infrastructure.csproj"
             },
-            "/home/thou/Chirp/src/Web/Web.csproj": {
-              "projectPath": "/home/thou/Chirp/src/Web/Web.csproj"
+            "/home/madel/Chirp/src/Web/Web.csproj": {
+              "projectPath": "/home/madel/Chirp/src/Web/Web.csproj"
             }
           }
         }
@@ -4785,7 +4785,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.119/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.121/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

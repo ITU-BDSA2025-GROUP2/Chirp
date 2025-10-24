@@ -2,6 +2,8 @@ using Chirp.Razor.Chirp.Infrastructure.Chirp.Services;
 using Microsoft.EntityFrameworkCore;
 using DbInit;
 
+
+
 public class Program
 {
 
@@ -51,13 +53,14 @@ public class Program
         await app.RunAsync(_cts.Token);
         return 0;
     }
-    
+
     public static void Stop()
     {
         _cts.Cancel();
-    } 
-}
-    
+    }
+
+
+}    
     
 
     

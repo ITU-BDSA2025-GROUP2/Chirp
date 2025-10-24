@@ -9,6 +9,8 @@ public class MemoryDBFactory
     private CheepRepository cheepRepository;
     ICheepRepository repository;
     public SqliteConnection connection;
+
+    private ChatDBContext context;
     
 
     public MemoryDBFactory()
@@ -17,7 +19,7 @@ public class MemoryDBFactory
         connection.Open();
         var builder = new DbContextOptionsBuilder<ChatDBContext>().UseSqlite(connection);
 
-        var context = new ChatDBContext(builder.Options);
+        context = new ChatDBContext(builder.Options);
         context.Database.EnsureCreated();
 
         repository = new CheepRepository(context);
@@ -46,5 +48,9 @@ public class MemoryDBFactory
         return repository;
     }
     
+    public ChatDBContext getContext()
+    {
+        return context;
+    }
     
 }
