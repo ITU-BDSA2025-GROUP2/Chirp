@@ -16,6 +16,8 @@ public class Program
         string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
         builder.Services.AddDbContext<ChatDBContext>(options => options.UseSqlite(connectionString));
 
+        builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+        .AddEntityFrameworkStores<ChatDBContext>();
 
         // Add services to the container.
         builder.Services.AddRazorPages();
@@ -45,6 +47,9 @@ public class Program
         app.UseStaticFiles();
 
         app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.MapRazorPages();
 

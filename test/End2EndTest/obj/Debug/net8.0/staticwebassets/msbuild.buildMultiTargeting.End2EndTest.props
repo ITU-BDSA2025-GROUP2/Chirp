@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/End2EndTest.props" />
+</Project>
