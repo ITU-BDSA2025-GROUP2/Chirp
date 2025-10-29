@@ -12,11 +12,13 @@ public class CheepService : ICheepService
 
     private ChatDBContext _dbcontext;
     private CheepRepository _cheepRepository;
+    private AuthorRepository _authorRepository;
     public CheepService(ChatDBContext dbContext)
     {
        
-        _dbcontext = dbContext;
-        _cheepRepository = new CheepRepository(_dbcontext);
+        //_dbcontext = dbContext;
+        _authorRepository = new AuthorRepository(dbContext);
+        _cheepRepository = new CheepRepository(dbContext);
     }
 
     public async Task<List<Cheep>> GetCheeps(int page)
@@ -32,22 +34,15 @@ public class CheepService : ICheepService
 
     public async Task<Author> GetAuthor(string author, int page)
     {
-        return await _cheepRepository.ReturnBasedOnNameAsync(author, page);
+        return await _authorRepository.ReturnBasedOnNameAsync(author, page);
     }
 
     public async Task<Author> GetEmail(string email, int page)
     {
-        var result = await _cheepRepository.ReturnBasedOnEmailAsync(email, page);
+        var result = await _authorRepository.ReturnBasedOnEmailAsync(email, page);
         return result[0];
     }
 
-    private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
-    {
-        // Unix timestamp is seconds past epoch
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        dateTime = dateTime.AddSeconds(unixTimeStamp);
-        return dateTime.ToString("MM/dd/yy H:mm:ss");
-    }
 
 }
 

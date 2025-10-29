@@ -14,13 +14,13 @@ public class PublicModel : PageModel
         _service = service;
     }
 
-    public async Task<ActionResult> OnGet([FromQuery] int page = 1)
+    public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
-        var result = await _service.GetCheeps(page);
         Cheeps = new List<CheepViewModel>();
+        var result = await _service.GetCheeps(page);
+        Console.WriteLine("Tim is here", result.Count());
         foreach (var row in result)
         {
-           
             Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
         }
         
