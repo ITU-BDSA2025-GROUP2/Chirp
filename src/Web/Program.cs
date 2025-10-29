@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using DbInit;
 using Infrastructure;
 using Infrastructure.Chirp;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 
 public class Program
@@ -22,6 +23,22 @@ public class Program
 
         builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ChatDBContext>();
+
+        builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = "GitHub";
+            })
+            .AddCookie()
+            .AddGitHub(o =>
+            {
+                o.ClientId = builder.Configuration["authentication:github:clientId"];
+                o.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
+                o.CallbackPath = "/signin-github";
+            });
+        
+        
         
         
         // Add services to the container.
@@ -71,6 +88,7 @@ public class Program
 
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseSession();
 
         app.MapRazorPages();
 
