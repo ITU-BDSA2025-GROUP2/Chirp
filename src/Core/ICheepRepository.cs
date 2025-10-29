@@ -12,12 +12,6 @@ public interface ICheepRepository
     Task<List<Cheep>> ReadCheeps(int page);
 
     Task<List<Cheep>> ReadCheepsPerson(string name, int page);
-
-    Task<Author> ReadAuthor(string name, int page);
-
-    Task<Author> ReadEmail(string email, int page);
-
-
     Task UpdateCheep(Cheep alteredCheep);
 
 
@@ -28,4 +22,5 @@ public interface ICheepRepository
     public int FindNewCheepId();
 
     public Task<List<Author>> ReturnBasedOnEmailAsync(string email, int page = 0);
+    public Task<Author> ReturnBasedOnNameAsync(string name, int page = 0);
 }
