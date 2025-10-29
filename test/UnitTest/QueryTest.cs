@@ -39,10 +39,10 @@ public class QueryTest
     {
         var Cheep = await repository.ReadCheeps(0);
 
-        var testCheep = Cheep.Find(x => x.Author == "Helge");
+        var testCheep = Cheep.Find(x => x.Author.Name == "Helge");
         
 
-        Assert.Equal(  "Helge"  , testCheep.Author  );
+        Assert.Equal(  "Helge"  , testCheep.Author.Name  );
     }
 
 
@@ -53,27 +53,27 @@ public class QueryTest
     {
         var Cheep = await repository.ReadCheepsPerson("Helge", 0);
 
-        var testCheep = Cheep.Find(x => x.Author == "Helge");
+        var testCheep = Cheep.Find(x => x.Author.Name == "Helge");
 
-        Assert.Equal("Join itu lan now", testCheep.Message);
+        Assert.Equal("Join itu lan now", testCheep.Text);
 
-        Assert.Null(Cheep.Find(x => x.Author == "Adrian"));
+        Assert.Null(Cheep.Find(x => x.Author.Name == "Adrian"));
     }
 
     [Fact]
     public async Task ReadAuthor()
     {
-        var Author = await repository.ReadAuthor("Helge", 0);
+        var author = await repository.ReturnBasedOnNameAsync("Helge", 0);
 
-        Assert.Equal("ropf@itu.dk", Author.Email);
+        Assert.Equal("ropf@itu.dk", author.Email);
     }
 
     [Fact]
     public async Task ReadEmail()
     {
-        var Email = await repository.ReadEmail("ropf@itu.dk", 0);
+        var author = await repository.ReturnBasedOnEmailAsync("ropf@itu.dk", 0);
 
-        Assert.Equal("Helge", Email.Author);
+        Assert.Equal("Helge", author[0].Name);
     }
 
 
