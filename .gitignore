@@ -5,6 +5,7 @@
 /src/Web/bin/
 /src/Web/obj/
 /test/End2EndTest/bin/
+/test/End2EndTest/obj/
 /test/end2endTest/obj/
 /test/IntegrationAndUnitTest/bin/
 /test/IntegrationAndUnitTest/obj/
