@@ -45,10 +45,10 @@ public class CheepService : ICheepService
         return result;
     }
 
-    public async Task<AuthorViewModel> GetEmail(string email, int page)
+    public async Task<Author> GetEmail(string email, int page)
     {
-        var result = await _cheepRepository.ReadEmail(email, page);
-        return result;
+        var result = await _cheepRepository.ReturnBasedOnEmailAsync(email, page);
+        return result[0];
     }
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)

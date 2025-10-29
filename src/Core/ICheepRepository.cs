@@ -9,13 +9,13 @@ public interface ICheepRepository
     Task CreateCheep(string author, string email, string msg);
 
 
-    Task<List<CheepViewModel>> ReadCheeps(int page);
+    Task<List<Cheep>> ReadCheeps(int page);
 
-    Task<List<CheepViewModel>> ReadCheepsPerson(string name, int page);
+    Task<List<Cheep>> ReadCheepsPerson(string name, int page);
 
-    Task<AuthorViewModel> ReadAuthor(string name, int page);
+    Task<Author> ReadAuthor(string name, int page);
 
-    Task<AuthorViewModel> ReadEmail(string email, int page);
+    Task<Author> ReadEmail(string email, int page);
 
 
     Task UpdateCheep(Cheep alteredCheep);
