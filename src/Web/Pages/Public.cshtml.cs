@@ -16,7 +16,14 @@ public class PublicModel : PageModel
 
     public async Task<ActionResult> OnGet([FromQuery] int page = 1)
     {
-        Cheeps = await _service.GetCheeps(page);
+        var result = await _service.GetCheeps(page);
+        Cheeps = new List<CheepViewModel>();
+        foreach (var row in result)
+        {
+           
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
+        }
+        
         return Page();
     }
 }
