@@ -51,7 +51,7 @@ public class CheepRepository : ICheepRepository
     public async Task<List<Cheep>> ReadCheeps(int page = 0)
     {
         var query = (
-            from cheep in _dbContext.Cheeps
+            from cheep in _dbContext.Cheeps.Include(c => c.Author)
             select cheep).Skip(page*32).Take(32);
         
         var result = await query.ToListAsync();
@@ -62,7 +62,7 @@ public class CheepRepository : ICheepRepository
     public async Task<List<Cheep>> ReadCheepsPerson(string name, int page)
     {
         var query = (
-            from cheep in _dbContext.Cheeps
+            from cheep in _dbContext.Cheeps.Include(c => c.Author)
             where cheep.Author.Name == name
             select cheep
             ).Skip(page * 32).Take(32);
