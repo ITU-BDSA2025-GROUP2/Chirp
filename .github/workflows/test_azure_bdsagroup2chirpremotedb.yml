@@ -26,6 +26,11 @@ jobs:
       - name: Build with dotnet
         run: dotnet build src/Web/Web.csproj --configuration Release
 
+      - name: Test
+          run: |
+            export GitHub__ClientId="${{ secrets.GITHUBCLIENTID }}"
+            export GitHub__ClientSecret="${{ secrets.GITHUBCLIENTSECRET }}"
+
       - name: dotnet publish
         run: dotnet publish src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
@@ -64,3 +69,4 @@ jobs:
           package: .
 
           
+
