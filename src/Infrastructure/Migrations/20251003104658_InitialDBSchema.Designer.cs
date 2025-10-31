@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Migrations
+namespace Chirp.Razor.Migrations
 {
     [DbContext(typeof(ChatDBContext))]
-    [Migration("20251030114444_InitialDBSchema")]
+    [Migration("20251003104658_InitialDBSchema")]
     partial class InitialDBSchema
     {
         /// <inheritdoc />
@@ -25,11 +25,11 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -47,12 +47,11 @@ namespace Infrastructure.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("text")
                         .IsRequired()
-                        .HasMaxLength(160)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("TimeStamp")
+                    b.Property<DateTime>("timestamp")
                         .HasColumnType("TEXT");
 
                     b.HasKey("CheepId");
