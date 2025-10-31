@@ -1,30 +1,28 @@
-﻿namespace SupportScripts;
-
-using System.Reflection;
+﻿using Core;
+using Infrastructure;
+using Infrastructure.Repositories;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
-public class MemoryDBFactory
+namespace SupportScripts;
+
+public class MemoryDbFactory
 {
-    ICheepRepository cheepRepository;
+    private readonly ICheepRepository _cheepRepository;
+    private readonly IAuthorRepository _authorRepository;
+    private readonly ChatDbContext _context;
 
-    IAuthorRepository authorRepository;
-    public SqliteConnection connection;
-
-    private ChatDBContext context;
-    
-
-    public MemoryDBFactory()
+    public MemoryDbFactory()
     {
-        connection = new SqliteConnection("Filename=:memory:");
+        var connection = new SqliteConnection("Filename=:memory:");
         connection.Open();
-        var builder = new DbContextOptionsBuilder<ChatDBContext>().UseSqlite(connection);
+        var builder = new DbContextOptionsBuilder<ChatDbContext>().UseSqlite(connection);
 
-        context = new ChatDBContext(builder.Options);
-        context.Database.EnsureCreated();
+        _context = new ChatDbContext(builder.Options);
+        _context.Database.EnsureCreated();
 
-        cheepRepository = new CheepRepository(context);
-        authorRepository = new AuthorRepository(context);
+        _cheepRepository = new CheepRepository(_context);
+        _authorRepository = new AuthorRepository(_context);
 
         var a1 = new Author() { AuthorId = 1, Name = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>() };
         var a2 = new Author() { AuthorId = 2, Name = "Adrian", Email = "adho@itu.dk", Cheeps = new List<Cheep>() };
@@ -40,24 +38,23 @@ public class MemoryDBFactory
         a1.Cheeps = new List<Cheep>() { c1, c3, c4 };
         a2.Cheeps = new List<Cheep>() { c2 };
 
-        context.Authors.AddRange(authors);
-        context.Cheeps.AddRange(cheeps);
-        context.SaveChanges();
+        _context.Authors.AddRange(authors);
+        _context.Cheeps.AddRange(cheeps);
+        _context.SaveChanges();
     }
 
     public ICheepRepository GetCheepRepository()
     {
-        return cheepRepository;
+        return _cheepRepository;
     }
 
     public IAuthorRepository GetAuthorRepository()
     {
-        return authorRepository;
+        return _authorRepository;
     }
     
-    public ChatDBContext getContext()
+    public ChatDbContext GetContext()
     {
-        return context;
+        return _context;
     }
-    
 }

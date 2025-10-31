@@ -1,18 +1,18 @@
-using System.Threading.Tasks;
-using Chirp.Razor;
-using Chirp.Razor.Chirp.Infrastructure.Chirp.Services;
-//using Microsoft.AspNetCore.Mvc.RazorPages;
+using Core;
+using Infrastructure.Repositories;
+
+namespace Infrastructure.Services;
 
 public record CheepViewModel(string Author, string Message, string Timestamp);
-
 public record AuthorViewModel(string Author, string Email);
+
 
 public class CheepService : ICheepService
 {
 
     private CheepRepository _cheepRepository;
     private AuthorRepository _authorRepository;
-    public CheepService(ChatDBContext dbContext)
+    public CheepService(ChatDbContext dbContext)
     {
        
         //_dbcontext = dbContext;

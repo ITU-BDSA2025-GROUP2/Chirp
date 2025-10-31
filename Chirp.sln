@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\Web\Web.csproj",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{039E361B-F8E0-4C71-9FCB-16F452ADFADB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationAndUnitTest", "test\IntegrationAndUnitTest\IntegrationAndUnitTest.csproj", "{0B09F94F-9EC4-4897-ADC2-C23579D82990}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTest", "test\IntegrationTest\IntegrationTest.csproj", "{0B09F94F-9EC4-4897-ADC2-C23579D82990}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "test\UnitTest\UnitTest.csproj", "{79EE8ACE-620E-4612-B7EF-315E7926354F}"
 EndProject

@@ -1,14 +1,14 @@
-
-
-using System.Threading.Tasks;
+using Core;
 using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure.Repositories;
 
 public class CheepRepository : ICheepRepository
 {
 
-    private readonly ChatDBContext _dbContext;
+    private readonly ChatDbContext _dbContext;
     private readonly IAuthorRepository _authorRepository;
-    public CheepRepository(ChatDBContext dbContext)
+    public CheepRepository(ChatDbContext dbContext)
     {
         _dbContext = dbContext;
         _authorRepository = new AuthorRepository(dbContext);

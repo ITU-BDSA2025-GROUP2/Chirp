@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
+namespace Core;
+
 public class Cheep
 {
     public required int CheepId { get; set; }

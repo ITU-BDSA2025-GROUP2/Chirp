@@ -1,7 +1,10 @@
-using Chirp.Razor.Chirp.Infrastructure.Chirp.Services;
+using Core;
 using Microsoft.EntityFrameworkCore;
-using DbInit;
+using Infrastructure;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
 
+namespace Web;
 
 
 public class Program
@@ -14,7 +17,7 @@ public class Program
 
         // Load database connection via configuration
         string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        builder.Services.AddDbContext<ChatDBContext>(options => options.UseSqlite(connectionString));
+        builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlite(connectionString));
 
 
         // Add services to the container.
@@ -38,7 +41,7 @@ public class Program
         //Initialise Database
         using (var scope = app.Services.CreateScope())
         {
-            var context = scope.ServiceProvider.GetRequiredService<ChatDBContext>();
+            var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
 
             DbInitializer.SeedDatabase(context);
         }

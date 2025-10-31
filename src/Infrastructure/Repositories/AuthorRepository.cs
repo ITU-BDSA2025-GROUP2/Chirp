@@ -1,13 +1,13 @@
-
-
-using System.Threading.Tasks;
+using Core;
 using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure.Repositories;
 
 public class AuthorRepository : IAuthorRepository
 {
 
-    private readonly ChatDBContext _dbContext;
-    public AuthorRepository(ChatDBContext dbContext)
+    private readonly ChatDbContext _dbContext;
+    public AuthorRepository(ChatDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -17,7 +17,13 @@ public class AuthorRepository : IAuthorRepository
 
     public void CreateAuthor(string name, string email)
     {
-        var newAuthor = new Author() { AuthorId = FindNewAuthorId(), Name = name, Email = email};
+        var newAuthor = new Author()
+        {
+            AuthorId = FindNewAuthorId(), 
+            Name = name, 
+            Email = email,
+            Cheeps = new List<Cheep>()
+        };
 
         _dbContext.Authors.Add(newAuthor);
         _dbContext.SaveChanges();
