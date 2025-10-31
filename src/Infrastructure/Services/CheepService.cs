@@ -1,65 +1,47 @@
-using System.Threading.Tasks;
-using Chirp.Razor;
-using Infrastructure.Chirp;
+using Core;
+using Infrastructure.Repositories;
 
-using Chirp.Razor.Chirp.Infrastructure.Chirp.Services;
-//using Microsoft.AspNetCore.Mvc.RazorPages;
+namespace Infrastructure.Services;
 
 public record CheepViewModel(string Author, string Message, string Timestamp);
-
 public record AuthorViewModel(string Author, string Email);
+
 
 public class CheepService : ICheepService
 {
-    DBFacade facade = new DBFacade();
 
-    private ChatDBContext _dbcontext;
     private CheepRepository _cheepRepository;
-    public CheepService(ChatDBContext dbContext)
+    private AuthorRepository _authorRepository;
+    public CheepService(ChatDbContext dbContext)
     {
-        //facade.createDatabase();
-        _dbcontext = dbContext;
-        _cheepRepository = new CheepRepository(_dbcontext);
+       
+        //_dbcontext = dbContext;
+        _authorRepository = new AuthorRepository(dbContext);
+        _cheepRepository = new CheepRepository(dbContext);
     }
 
-    // These would normally be loaded from a database for example
-    private static readonly List<CheepViewModel> _cheeps = new()
-        {
-            new CheepViewModel("Helge", "Hello, BDSA students!", UnixTimeStampToDateTimeString(1690892208)),
-            new CheepViewModel("Adrian", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-        };
-
-    public async Task<List<CheepViewModel>> GetCheeps(int page)
+    public async Task<List<Cheep>> GetCheeps(int page)
     {
-        var result = await _cheepRepository.ReadCheeps(page);
-        return result;
+        return await _cheepRepository.ReadCheeps(page);
     }
 
-    public async Task<List<CheepViewModel>> GetCheepsFromAuthor(string author, int page)
+    public async Task<List<Cheep>> GetCheepsFromAuthor(string author, int page)
     {
         // filter by the provided author name
         return await _cheepRepository.ReadCheepsPerson(author, page);
     }
 
-    public async Task<AuthorViewModel> GetAuthor(string author, int page)
+    public async Task<Author> GetAuthor(string author, int page)
     {
-        var result = await _cheepRepository.ReadAuthor(author, page);
-        return result;
+        return await _authorRepository.ReturnBasedOnNameAsync(author, page);
     }
 
-    public async Task<AuthorViewModel> GetEmail(string email, int page)
+    public async Task<Author> GetEmail(string email, int page)
     {
-        var result = await _cheepRepository.ReadEmail(email, page);
-        return result;
+        var result = await _authorRepository.ReturnBasedOnEmailAsync(email, page);
+        return result[0];
     }
 
-    private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
-    {
-        // Unix timestamp is seconds past epoch
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        dateTime = dateTime.AddSeconds(unixTimeStamp);
-        return dateTime.ToString("MM/dd/yy H:mm:ss");
-    }
 
 }
 

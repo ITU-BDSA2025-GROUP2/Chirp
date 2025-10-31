@@ -1,10 +1,12 @@
-using Chirp.Razor.Chirp.Infrastructure.Chirp.Services;
+using Core;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
 using DbInit;
-using Infrastructure;
-using Infrastructure.Chirp;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
+
+namespace Web;
+
+
 
 public class Program
 {
@@ -20,8 +22,7 @@ public class Program
 
         // Load database connection via configuration
         string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        builder.Services.AddDbContext<ChatDBContext>(options => options.UseSqlite(connectionString));
-        
+        builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlite(connectionString));
 
         builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ChatDBContext>();
@@ -47,6 +48,7 @@ public class Program
         builder.Services.AddRazorPages();
         builder.Services.AddScoped<ICheepService, CheepService>();
         builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+        builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
         builder.Services.Configure<IdentityOptions>(options =>
         {
@@ -75,10 +77,15 @@ public class Program
             app.UseHsts();
         }
 
+
+
         //Initialise Database
         using (var scope = app.Services.CreateScope())
         {
-            var context = scope.ServiceProvider.GetRequiredService<ChatDBContext>();
+            var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
+
+            context.Database.EnsureCreated();
+            context.Database.Migrate();
 
             DbInitializer.SeedDatabase(context);
         }
@@ -100,11 +107,10 @@ public class Program
     }
     
 }
-    
-    
-
-    
 
 
 
+
+
+//
 
