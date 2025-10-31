@@ -86,7 +86,9 @@ public class Program
         {
             var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
 
+            
             context.Database.EnsureCreated();
+
 
             DbInitializer.SeedDatabase(context);
         }
