@@ -1,22 +1,24 @@
-﻿using Chirp.Razor.Chirp.Infrastructure.Chirp.Services;
+﻿using Core;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Chirp.Razor.Pages;
+namespace Web.Pages;
 
-public class PublicModel : PageModel
+public class PublicModel(ICheepService service) : PageModel
 {
-    private readonly ICheepService _service;
-    public List<CheepViewModel> Cheeps { get; set; }
+    private readonly ICheepService _service = service;
+    public required List<CheepViewModel> Cheeps { get; set; }
 
-    public PublicModel(ICheepService service)
+    public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
-        _service = service;
-    }
-
-    public async Task<ActionResult> OnGet([FromQuery] int page = 1)
-    {
-        Cheeps = await _service.GetCheeps(page);
+        Cheeps = new List<CheepViewModel>();
+        var result = await _service.GetCheeps(page);
+        foreach (var row in result)
+        {
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
+        }
+        
         return Page();
     }
 }

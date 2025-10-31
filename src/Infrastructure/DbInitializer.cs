@@ -1,9 +1,11 @@
-namespace DbInit;
 using System;
+using Core;
+
+namespace Infrastructure;
 
 public static class DbInitializer
 {
-    public static void SeedDatabase(ChatDBContext chirpContext)
+    public static void SeedDatabase(ChatDbContext chirpContext)
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {

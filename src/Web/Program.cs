@@ -1,26 +1,30 @@
-using Chirp.Razor.Chirp.Infrastructure.Chirp.Services;
+using Core;
 using Microsoft.EntityFrameworkCore;
-using DbInit;
+using Infrastructure;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
+
+namespace Web;
+
 
 public class Program
 {
 
-    private static CancellationTokenSource _cts;
 
-    public static async Task<int> Main(string[] args)
+    public static void Main(string[] args)
     {
-        _cts = new CancellationTokenSource();
         var builder = WebApplication.CreateBuilder(args);
 
         // Load database connection via configuration
         string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        builder.Services.AddDbContext<ChatDBContext>(options => options.UseSqlite(connectionString));
+        builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlite(connectionString));
 
 
         // Add services to the container.
         builder.Services.AddRazorPages();
         builder.Services.AddScoped<ICheepService, CheepService>();
         builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+        builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
         var app = builder.Build();
 
@@ -31,11 +35,13 @@ public class Program
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
+        
+
 
         //Initialise Database
         using (var scope = app.Services.CreateScope())
         {
-            var context = scope.ServiceProvider.GetRequiredService<ChatDBContext>();
+            var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
 
             DbInitializer.SeedDatabase(context);
         }
@@ -48,16 +54,12 @@ public class Program
 
         app.MapRazorPages();
 
-        await app.RunAsync(_cts.Token);
-        return 0;
+        app.Run();
     }
-    
-    public static void Stop()
-    {
-        _cts.Cancel();
-    } 
-}
-    
+
+
+
+}    
     
 
     

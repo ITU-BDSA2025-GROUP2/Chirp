@@ -1,80 +1,46 @@
-
-
+using Core;
 using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure.Repositories;
 
 public class CheepRepository : ICheepRepository
 {
 
-    private readonly ChatDBContext _dbContext;
-    public CheepRepository(ChatDBContext dbContext)
+    private readonly ChatDbContext _dbContext;
+    private readonly IAuthorRepository _authorRepository;
+    public CheepRepository(ChatDbContext dbContext)
     {
         _dbContext = dbContext;
+        _authorRepository = new AuthorRepository(dbContext);
     }
     
     
-    public void CreateCheep(string author, string email, string msg)
+    public async Task CreateCheep(string author, string email, string msg)
     {
-        // Run GetAuthor from email query, and you will get a list<Author> matching email
-        // Using the list's count, determine if author exist?
-        var authorList = new List<Author>(); // Update this to be the query result
-        
-        Boolean authMissing = true;
-        
-        foreach (var auth in authorList)
+
+        var authorFromQuery = await _authorRepository.ReturnBasedOnEmailAsync(email);
+
+        if (authorFromQuery.Count() <= 0)
         {
-            if (auth.Email == email && auth.Name == author)
-            {
-              // Valid author
-              authMissing = false;
-              break;
-            } 
+            _authorRepository.CreateAuthor(author, email);   
         }
 
-        if (authMissing)
-        {
-            CreateAuthor(author, email);
-        }
-        
-        // Query for our author
-        
-        authorList = new List<Author>(); // Update this to a query call
+        authorFromQuery = await _authorRepository.ReturnBasedOnEmailAsync(email);
 
-        if (authorList.Count > 1)
-        {
-            // Throw an error "More than one author for this email exists"
-        }
-
-        var authorObject = authorList[0];
-        
-        var cheep = new Cheep()
+       var cheep = new Cheep()
         {
             CheepId = FindNewCheepId(),
             Text = msg,
             TimeStamp = DateTime.Now,
-            AuthorId = authorObject.AuthorId,
-            Author = authorObject,
+            AuthorId = authorFromQuery[0].AuthorId,
+            Author = authorFromQuery[0],
         };
-        
 
         _dbContext.Cheeps.Add(cheep);
-    }
-
-
-    public void CreateAuthor(string name, string email)
-    {
-        var newAuthor = new Author() { AuthorId = FindNewAuthorId(), Name = name, Email = email };
-
-        _dbContext.Authors.Add(newAuthor);
         _dbContext.SaveChanges();
     }
 
-    #region Helper methods
 
-    public int FindNewAuthorId()
-    {
-        var length = _dbContext.Authors.Count();
-        return length + 1;
-    }
 
 
     public int FindNewCheepId()
@@ -82,107 +48,28 @@ public class CheepRepository : ICheepRepository
         return _dbContext.Cheeps.Count() + 1;
     }
 
-    
-
-    #endregion
-
-    
-    public async void CreateCheep()
+    public async Task<List<Cheep>> ReadCheeps(int page = 0)
     {
-        
-    }
-
-    public async Task<List<CheepViewModel>> ReadCheeps(int page = 0)
-    {
-
-
         var query = (
-            from cheep in _dbContext.Cheeps
-            select new
-            {
-                cheep.Author.Name,
-                cheep.Text,
-                cheep.TimeStamp
-            }).Skip(page*32).Take(32);
+            from cheep in _dbContext.Cheeps.Include(c => c.Author)
+            select cheep).OrderByDescending(c => c.TimeStamp).Skip(page*32).Take(32);
         
         var result = await query.ToListAsync();
 
-        var returnList = new List<CheepViewModel>();
-        foreach (var row in result)
-        {
-            returnList.Add(new CheepViewModel(row.Name, row.Text, row.TimeStamp.ToString()));
-        }
-        return returnList;
+        return result;
     }
 
-    public async Task<List<CheepViewModel>> ReadCheepsPerson(string name, int page)
+    public async Task<List<Cheep>> ReadCheepsPerson(string name, int page)
     {
         var query = (
-            from cheep in _dbContext.Cheeps
+            from cheep in _dbContext.Cheeps.Include(c => c.Author)
             where cheep.Author.Name == name
-            select new
-            {
-                cheep.Author.Name,
-                cheep.Text,
-                cheep.TimeStamp
-            }).Skip(page * 32).Take(32);
+            select cheep
+            ).OrderByDescending(c => c.TimeStamp).Skip(page * 32).Take(32);
         var result = await query.ToListAsync();
 
-        var returnList = new List<CheepViewModel>();
-        foreach (var row in result)
-        {
-            returnList.Add(new CheepViewModel(row.Name, row.Text, row.TimeStamp.ToString()));
-        }
-        return returnList;
-    }
-
-    public async Task<AuthorViewModel> ReadAuthor(string name, int page = 0)
-    {
-        var query = (
-            from person in _dbContext.Authors
-            where person.Name == name
-            select new
-            {
-                person.Name,
-                person.Email
-            }).Skip(page * 32).Take(32);
-
-        var result = await query.ToListAsync();
-
-        var returnList = new AuthorViewModel(null, null);
-
-        foreach (var row in result)
-        {
-            returnList = new AuthorViewModel(row.Name, row.Email);
-        }
-        return returnList;
-    }
-    
-    public async Task<AuthorViewModel> ReadEmail(string email, int page = 0)
-    {
-        var query = (
-            from person in _dbContext.Authors
-            where person.Email == email
-            select new
-            {
-                person.Name,
-                person.Email
-            }).Skip(page*32).Take(32);
-
-        var result = await query.ToListAsync();
-
-        var returnList = new AuthorViewModel( null, null);
         
-        foreach (var row in result)
-        {
-            returnList = new AuthorViewModel(row.Name, row.Email);
-        }
-        return returnList;
+        return result;
     }
 
-
-    public Task UpdateCheep(Cheep alteredCheep)
-    {
-        return null;
-    }
 }
