@@ -5,30 +5,31 @@ using SupportScripts;
 
 public class CheepRepositoryTest
 {
-    private CheepRepository cheepRepository;
+    MemoryDBFactory memoryDB = new MemoryDBFactory();
 
-    ICheepRepository repository;
+    ICheepRepository cheepRepository;
+    IAuthorRepository authorRepository;
 
-    public SqliteConnection connection;
 
     public CheepRepositoryTest()
     {
         // Here we generate a sqlite in memory db could be smart to make a support class.
         // that all tests call to create a test db to reduce code duplicationæ.
 
-        repository = new MemoryDBFactory().GetCheepRepository();
+        cheepRepository = memoryDB.GetCheepRepository();
+        authorRepository = memoryDB.GetAuthorRepository();
     }
 
     [Fact]
     public void Test1()
     {
-        Assert.NotNull(repository);
+        Assert.NotNull(cheepRepository);
     }
 
     [Fact]
-    public async Task FindNewIdTest()
+    public void FindNewIdTest()
     {
-        Assert.Equal(3, repository.FindNewAuthorId());
+        Assert.Equal(3, authorRepository.FindNewAuthorId());
     }
 
 
@@ -43,11 +44,11 @@ public class CheepRepositoryTest
     */ 
 
     [Fact]
-    public async Task DoesItCreateAuthor()
+    public void DoesItCreateAuthor()
     {
-        Assert.Equal(3, repository.FindNewAuthorId());
-        repository.CreateAuthor("Tim", "tim@email.com");
-        Assert.Equal(4, repository.FindNewAuthorId());
+        Assert.Equal(3, authorRepository.FindNewAuthorId());
+        authorRepository.CreateAuthor("Tim", "tim@email.com");
+        Assert.Equal(4, authorRepository.FindNewAuthorId());
     }
 
 
@@ -59,11 +60,11 @@ public class CheepRepositoryTest
         var msg = "HELLO WORLD!";
         
         //Values needs to be updated when merged with Vee and madelines code
-        Assert.Equal(3, repository.FindNewAuthorId());
-        Assert.Equal(5, repository.FindNewCheepId());
-        repository.CreateCheep(author, email, msg);
-        Assert.Equal(3, repository.FindNewAuthorId());
-        Assert.Equal(6, repository.FindNewCheepId());
+        Assert.Equal(3, authorRepository.FindNewAuthorId());
+        Assert.Equal(5, cheepRepository.FindNewCheepId());
+        await cheepRepository.CreateCheep(author, email, msg);
+        Assert.Equal(3, authorRepository.FindNewAuthorId());
+        Assert.Equal(6, cheepRepository.FindNewCheepId());
     }
     
     [Fact]
@@ -74,11 +75,11 @@ public class CheepRepositoryTest
         var msg = "HELLO WORLD!";
     
         //Values needs to be updated when merged with Vee and madelines code
-        Assert.Equal(3, repository.FindNewAuthorId());
-        Assert.Equal(5, repository.FindNewCheepId());
-        repository.CreateCheep(author, email, msg);
-        Assert.Equal(4, repository.FindNewAuthorId());
-        Assert.Equal(6, repository.FindNewCheepId());
+        Assert.Equal(3, authorRepository.FindNewAuthorId());
+        Assert.Equal(5, cheepRepository.FindNewCheepId());
+        await cheepRepository.CreateCheep(author, email, msg);
+        Assert.Equal(4, authorRepository.FindNewAuthorId());
+        Assert.Equal(6, cheepRepository.FindNewCheepId());
         
         
     }

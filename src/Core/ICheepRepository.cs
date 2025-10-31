@@ -12,7 +12,6 @@ public interface ICheepRepository
     Task<List<Cheep>> ReadCheeps(int page);
 
     Task<List<Cheep>> ReadCheepsPerson(string name, int page);
-    Task UpdateCheep(Cheep alteredCheep);
 
     public int FindNewCheepId();
 }

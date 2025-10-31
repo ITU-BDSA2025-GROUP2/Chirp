@@ -39,6 +39,6 @@ public class integration_test : IClassFixture<CustomWebApplicationFactory>
         response.EnsureSuccessStatusCode();
         var readResponse = await response.Content.ReadAsStringAsync();
         
-        Assert.Contains("For, owing to the blood of those fine whales, Hand, boys, over hand!", readResponse);
+        Assert.Contains("The train pulled up at his bereavement; but his eyes riveted upon that heart for ever; who ever conquered it?", readResponse);
     }
 }

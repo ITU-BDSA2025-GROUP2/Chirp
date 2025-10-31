@@ -12,8 +12,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     MemoryDBFactory mem = new MemoryDBFactory();
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        // …
-
+        
         builder.ConfigureTestServices(services =>
         {
             // remove the existing context configuration

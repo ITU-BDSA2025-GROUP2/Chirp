@@ -10,7 +10,6 @@ public record AuthorViewModel(string Author, string Email);
 public class CheepService : ICheepService
 {
 
-    private ChatDBContext _dbcontext;
     private CheepRepository _cheepRepository;
     private AuthorRepository _authorRepository;
     public CheepService(ChatDBContext dbContext)

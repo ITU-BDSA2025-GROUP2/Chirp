@@ -6,8 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 public class MemoryDBFactory
 {
-    private CheepRepository cheepRepository;
-    ICheepRepository repository;
+    ICheepRepository cheepRepository;
+
+    IAuthorRepository authorRepository;
     public SqliteConnection connection;
 
     private ChatDBContext context;
@@ -22,7 +23,8 @@ public class MemoryDBFactory
         context = new ChatDBContext(builder.Options);
         context.Database.EnsureCreated();
 
-        repository = new CheepRepository(context);
+        cheepRepository = new CheepRepository(context);
+        authorRepository = new AuthorRepository(context);
 
         var a1 = new Author() { AuthorId = 1, Name = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>() };
         var a2 = new Author() { AuthorId = 2, Name = "Adrian", Email = "adho@itu.dk", Cheeps = new List<Cheep>() };
@@ -45,7 +47,12 @@ public class MemoryDBFactory
 
     public ICheepRepository GetCheepRepository()
     {
-        return repository;
+        return cheepRepository;
+    }
+
+    public IAuthorRepository GetAuthorRepository()
+    {
+        return authorRepository;
     }
     
     public ChatDBContext getContext()

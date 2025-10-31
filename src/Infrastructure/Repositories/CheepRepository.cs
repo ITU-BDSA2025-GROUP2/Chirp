@@ -52,7 +52,7 @@ public class CheepRepository : ICheepRepository
     {
         var query = (
             from cheep in _dbContext.Cheeps.Include(c => c.Author)
-            select cheep).Skip(page*32).Take(32);
+            select cheep).OrderByDescending(c => c.TimeStamp).Skip(page*32).Take(32);
         
         var result = await query.ToListAsync();
 
@@ -65,15 +65,11 @@ public class CheepRepository : ICheepRepository
             from cheep in _dbContext.Cheeps.Include(c => c.Author)
             where cheep.Author.Name == name
             select cheep
-            ).Skip(page * 32).Take(32);
+            ).OrderByDescending(c => c.TimeStamp).Skip(page * 32).Take(32);
         var result = await query.ToListAsync();
 
         
         return result;
     }
 
-    public Task UpdateCheep(Cheep alteredCheep)
-    {
-        return null;
-    }
 }

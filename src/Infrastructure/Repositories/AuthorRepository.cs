@@ -17,7 +17,7 @@ public class AuthorRepository : IAuthorRepository
 
     public void CreateAuthor(string name, string email)
     {
-        var newAuthor = new Author() { AuthorId = FindNewAuthorId(), Name = name, Email = email };
+        var newAuthor = new Author() { AuthorId = FindNewAuthorId(), Name = name, Email = email};
 
         _dbContext.Authors.Add(newAuthor);
         _dbContext.SaveChanges();
@@ -43,7 +43,7 @@ public class AuthorRepository : IAuthorRepository
             from person in _dbContext.Authors
             where person.Email == email
             select person
-            ).Skip(page * 32).Take(32);
+            ).OrderByDescending(c => c.Name).Skip(page * 32).Take(32);
 
         var result = await query.ToListAsync();
 
@@ -56,7 +56,7 @@ public class AuthorRepository : IAuthorRepository
             from person in _dbContext.Authors
             where person.Name == name
             select person
-            ).Skip(page * 32).Take(32);
+            ).OrderByDescending(c => c.Name).Skip(page * 32).Take(32);
 
         var result = await query.ToListAsync();
 
