@@ -1,9 +1,10 @@
 using Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Infrastructure;
 
-public class ChatDbContext : DbContext
+public class ChatDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Cheep> Cheeps { get; set; }
 
