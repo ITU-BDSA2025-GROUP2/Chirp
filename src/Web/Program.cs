@@ -9,12 +9,14 @@ using Microsoft.AspNetCore.Identity;
 public class Program
 {
 
-    private static CancellationTokenSource _cts;
+   
 
-    public static async Task<int> Main(string[] args)
+    public static void Main(string[] args)
     {
-        _cts = new CancellationTokenSource();
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddSession();
+        builder.Services.AddDistributedMemoryCache();
 
         // Load database connection via configuration
         string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -35,7 +37,7 @@ public class Program
             {
                 o.ClientId = builder.Configuration["authentication:github:clientId"];
                 o.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
-                o.CallbackPath = "/signin-github";
+                o.CallbackPath = new PathString("/git-login");
             });
         
         
@@ -50,6 +52,7 @@ public class Program
         {
             // Define configuration settings for our Identity
         });
+
 
         builder.Services.ConfigureApplicationCookie(options =>
         {
@@ -92,14 +95,10 @@ public class Program
 
         app.MapRazorPages();
 
-        await app.RunAsync(_cts.Token);
-        return 0;
+        app.Run();
+
     }
     
-    public static void Stop()
-    {
-        _cts.Cancel();
-    } 
 }
     
     
@@ -108,5 +107,4 @@ public class Program
 
 
 
-//
 
