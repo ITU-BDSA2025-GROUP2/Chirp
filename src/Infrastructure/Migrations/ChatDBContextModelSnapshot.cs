@@ -17,7 +17,7 @@ namespace Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
-            modelBuilder.Entity("Author", b =>
+            modelBuilder.Entity("Core.Author", b =>
                 {
                     b.Property<int>("AuthorId")
                         .ValueGeneratedOnAdd()
@@ -36,7 +36,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("Cheep", b =>
+            modelBuilder.Entity("Core.Cheep", b =>
                 {
                     b.Property<int>("CheepId")
                         .ValueGeneratedOnAdd()
@@ -60,9 +60,9 @@ namespace Infrastructure.Migrations
                     b.ToTable("Cheeps");
                 });
 
-            modelBuilder.Entity("Cheep", b =>
+            modelBuilder.Entity("Core.Cheep", b =>
                 {
-                    b.HasOne("Author", "Author")
+                    b.HasOne("Core.Author", "Author")
                         .WithMany("Cheeps")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -71,7 +71,7 @@ namespace Infrastructure.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("Author", b =>
+            modelBuilder.Entity("Core.Author", b =>
                 {
                     b.Navigation("Cheeps");
                 });
