@@ -2,7 +2,9 @@ using Core;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
-using DbInit;
+using Infrastructure;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 
 namespace Web;
 
@@ -25,7 +27,7 @@ public class Program
         builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlite(connectionString));
 
         builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddEntityFrameworkStores<ChatDBContext>();
+            .AddEntityFrameworkStores<ChatDbContext>();
 
         builder.Services.AddAuthentication(options =>
             {
