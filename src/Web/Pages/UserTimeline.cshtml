@@ -6,6 +6,12 @@
     var routeName = HttpContext.GetRouteValue("author");
 }
 
+@using Microsoft.AspNetCore.Identity
+@using Infrastructure
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 <div>
     <h2> @routeName's Timeline </h2>
 

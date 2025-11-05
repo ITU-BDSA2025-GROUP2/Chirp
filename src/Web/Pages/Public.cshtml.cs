@@ -18,7 +18,14 @@ public class PublicModel(ICheepService service) : PageModel
         {
             Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
         }
-        
+
         return Page();
+    }
+    
+    public IActionResult OnPost()
+    {
+        var cheep_message = Cheep.Text;
+
+        return RedirectToPage("Public");
     }
 }
