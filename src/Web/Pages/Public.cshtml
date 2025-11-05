@@ -5,8 +5,25 @@
     Layout = "Shared/_Layout";
 }
 
+@using Microsoft.AspNetCore.Identity
+@using Infrastructure
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 <div>
     <h2> Public Timeline </h2>
+
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div class="cheepbox">
+            <h3>What's on your mind @(User.Identity.Name)?</h3>
+            <form method="post">
+                <input style="float: left" type="text" asp-for="Text">
+                <input type="submit" value="Share">
+            </form>
+        </div>
+    }
 
     @if (Model.Cheeps.Any())
     {
