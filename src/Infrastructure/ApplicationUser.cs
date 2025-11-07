@@ -6,5 +6,4 @@ namespace Infrastructure;
 
 public class ApplicationUser : IdentityUser
 {
-    
 }

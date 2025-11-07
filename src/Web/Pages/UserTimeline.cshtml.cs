@@ -19,7 +19,34 @@ public class UserTimelineModel(ICheepService service) : PageModel
             Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
         }
 
-        
+
         return Page();
+    }
+
+
+    [BindProperty]
+    public string Text { get; set; }
+
+    public async Task<IActionResult> OnPost()
+    {
+        var cheep_message = Text;
+        string input = User.Identity.Name;
+        int index = input.IndexOf("@");
+        if (index >= 0)
+        {
+            input = input.Substring(0, index);
+        }
+        await _service.CreateCheep(input, User.Identity.Name, cheep_message);
+
+
+        Cheeps = new List<CheepViewModel>();
+
+        var result = await _service.GetCheeps(0);
+        foreach (var row in result)
+        {
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
+        }
+
+        return RedirectToPage("Public");
     }
 }

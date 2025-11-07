@@ -42,6 +42,11 @@ public class CheepService : ICheepService
         return result[0];
     }
 
+    public async Task CreateCheep(string author, string email, string msg)
+    {
+        await _cheepRepository.CreateCheep(author, email, msg);
+    }
+
 
 }
 
