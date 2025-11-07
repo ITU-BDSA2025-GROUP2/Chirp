@@ -24,7 +24,7 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build src/Web/Web.csproj --configuration Release
+        run: dotnet build Chirp.sln --configuration Release
 
       - name: Test
         run: |
