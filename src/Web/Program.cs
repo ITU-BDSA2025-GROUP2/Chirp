@@ -8,13 +8,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Web;
 
-
-
 public class Program
 {
-
-   
-
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +17,7 @@ public class Program
         builder.Services.AddSession();
         builder.Services.AddDistributedMemoryCache();
 
-        // Load database connection via configuration
+        // Load database connection via configuration.
         string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
         builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlite(connectionString));
 
@@ -37,9 +32,6 @@ public class Program
                 o.ClientSecret = builder.Configuration["authentication_github_clientSecret"];
                 o.CallbackPath = new PathString("/git-login");
             });
-        
-        
-        
         
         // Add services to the container.
         builder.Services.AddRazorPages();
@@ -103,12 +95,5 @@ public class Program
         app.Run();
 
     }
-    
 }
-
-
-
-
-
-//
 
