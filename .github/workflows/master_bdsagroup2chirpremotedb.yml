@@ -28,8 +28,8 @@ jobs:
 
       - name: Test
         env:
-          authentication_github_clientId: ${{ secrets.GITHUBCLIENTID }}
-          authentication_github_clientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
+          export authentication__github__clientId: ${{ secrets.GITHUBCLIENTID }}
+          export authentication__github__clientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
         run: |
           dotnet test Chirp.sln --no-build --configuration Release --logger "console;verbosity=detailed"
 
