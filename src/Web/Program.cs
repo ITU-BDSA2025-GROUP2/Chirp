@@ -8,13 +8,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Web;
 
-
-
 public class Program
 {
-
-   
-
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -37,8 +32,6 @@ public class Program
                 o.ClientSecret = builder.Configuration["authentication_github_clientSecret"];
                 o.CallbackPath = new PathString("/git-login");
             });
-        
-        
         
         
         // Add services to the container.
@@ -103,12 +96,5 @@ public class Program
         app.Run();
 
     }
-    
 }
-
-
-
-
-
-//
 
