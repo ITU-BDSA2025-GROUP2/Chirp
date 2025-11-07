@@ -22,7 +22,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
 
         return Page();
     }
-    
+
 
     [BindProperty]
     public string Text { get; set; }
@@ -30,8 +30,13 @@ public class UserTimelineModel(ICheepService service) : PageModel
     public async Task<IActionResult> OnPost()
     {
         var cheep_message = Text;
-
-        await _service.CreateCheep("Vee", "veebee@cool.dk", cheep_message);
+        string input = User.Identity.Name;
+        int index = input.IndexOf("@");
+        if (index >= 0)
+        {
+            input = input.Substring(0, index);
+        }
+        await _service.CreateCheep(input, User.Identity.Name, cheep_message);
 
 
         Cheeps = new List<CheepViewModel>();
