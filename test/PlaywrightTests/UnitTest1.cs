@@ -1,15 +1,36 @@
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Microsoft.Playwright;
+using Microsoft.Playwright.NUnit;
+using NUnit.Framework;
+
 namespace PlaywrightTests;
 
-public class Tests
+[Parallelizable(ParallelScope.Self)]
+[TestFixture]
+public class Tests : PageTest
 {
+   
+
+   
+
     [SetUp]
     public void Setup()
     {
+
     }
 
     [Test]
     public void Test1()
     {
         Assert.Pass();
+    }
+
+    [Test]
+    public async Task HasTitle()
+    {
+       await Page.GotoAsync("https://playwright.dev");
+       
+       await Expect(Page).ToHaveTitleAsync(new Regex("Playwright"));
     }
 }

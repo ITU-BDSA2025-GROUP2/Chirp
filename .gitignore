@@ -13,4 +13,6 @@
 /test/UnitTest/obj/
 /test/SupportScripts/bin/
 /test/SupportScripts/obj/
+/test/PlaywrightTests/bin/
+/test/PlaywrightTests/obj/
 /.idea/
