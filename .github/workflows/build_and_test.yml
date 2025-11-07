@@ -22,4 +22,4 @@ jobs:
         authentication_github_clientId: ${{ secrets.GITHUBCLIENTID }}
         authentication_github_clientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
       run: |
-        dotnet test Chirp.sln --no-build --configuration Release --logger "console;verbosity=detailed"
+        dotnet test Chirp.sln --no-build --verbosity normal
