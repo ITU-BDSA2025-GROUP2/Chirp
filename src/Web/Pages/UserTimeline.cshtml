@@ -10,7 +10,6 @@
 @using Infrastructure
 
 @inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
 
 <div>
     <h2> @routeName's Timeline </h2>
@@ -18,7 +17,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <div class="cheepbox">
-            <h3>What's on your mind @(User.Identity.Name)?</h3>
+            <h3>What's on your mind @(User.Identity!.Name)?</h3>
             <form method="post">
                 @Html.AntiForgeryToken()
                 <input style="float: left" type="text" input id="Cheep_Text" name="Text" asp-for="Text" maxlength="160">

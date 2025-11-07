@@ -41,7 +41,7 @@ public class Program
 
         builder.Services.Configure<IdentityOptions>(options =>
         {
-            // Define configuration settings for our Identity
+            // TODO: Define configuration settings for our Identity
         });
 
 
