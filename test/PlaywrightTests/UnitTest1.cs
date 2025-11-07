@@ -29,8 +29,8 @@ public class Tests : PageTest
     [Test]
     public async Task HasTitle()
     {
-       await Page.GotoAsync("https://playwright.dev");
+       await Page.GotoAsync("https://localhost:5274");
        
-       await Expect(Page).ToHaveTitleAsync(new Regex("Playwright"));
+       await Expect(Page).ToHaveTitleAsync(new Regex("Chirp!"));
     }
 }
