@@ -10,6 +10,8 @@ public class PublicModel(ICheepService service) : PageModel
     private readonly ICheepService _service = service;
     public required List<CheepViewModel> Cheeps { get; set; }
 
+    [BindProperty]
+    public string Text { get; set; }
     public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
         Cheeps = new List<CheepViewModel>();
@@ -22,9 +24,12 @@ public class PublicModel(ICheepService service) : PageModel
         return Page();
     }
     
+    
     public IActionResult OnPost()
     {
-        var cheep_message = Cheep.Text;
+        var cheep_message = Text;
+
+        Console.WriteLine(cheep_message);
 
         return RedirectToPage("Public");
     }
