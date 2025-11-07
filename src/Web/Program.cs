@@ -18,13 +18,7 @@ public class Program
         builder.Services.AddDistributedMemoryCache();
 
         // Load database connection via configuration.
-        
-        var conn = Environment.GetEnvironmentVariable("CHIRPDBPATH");
-        if (conn == null)
-        {
-            conn = "DefaultConnection";
-        }
-        string? connectionString = builder.Configuration.GetConnectionString(conn);
+        string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
         builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlite(connectionString));
 
         builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
