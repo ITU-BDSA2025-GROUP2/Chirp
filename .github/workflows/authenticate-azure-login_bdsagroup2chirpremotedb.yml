@@ -35,7 +35,7 @@ jobs:
         run: |
           export GitHub__ClientId="${{ secrets.GITHUBCLIENTID }}"
           export GitHub__ClientSecret="${{ secrets.GITHUBCLIENTSECRET }}"
-          dotnet test Chirp.sln --no-build --verbosity normal
+          dotnet test Chirp.sln --no-build --configuration Release --logger "console;verbosity=detailed"
 
       - name: dotnet publish
         run: dotnet publish src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
