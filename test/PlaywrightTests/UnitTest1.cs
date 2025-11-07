@@ -1,8 +1,7 @@
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
-using NUnit.Framework;
+using Microsoft.Playwright;
+
+
 
 namespace PlaywrightTests;
 
@@ -10,15 +9,17 @@ namespace PlaywrightTests;
 [TestFixture]
 public class Tests : PageTest
 {
-   
 
-   
+
+
 
     [SetUp]
-    public void Setup()
+    public async Task Setup()
     {
-
+        
+        await Page.GotoAsync("http://localhost:5273");
     }
+
 
     [Test]
     public void Test1()
@@ -27,10 +28,46 @@ public class Tests : PageTest
     }
 
     [Test]
-    public async Task HasTitle()
+    public async Task LoginandLogout()
     {
-       await Page.GotoAsync("https://localhost:5274");
-       
-       await Expect(Page).ToHaveTitleAsync(new Regex("Chirp!"));
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync("testbot@test.com");
+        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).FillAsync("test123?T");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+
+
+        //Assert
+        await Expect(Page.Locator("body")).ToMatchAriaSnapshotAsync("- link \"Hello testbot@test.com\":\n  - /url: /Identity/Account/Manage/Index");
+
+        //Logout
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Logout" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Click here to Logout" }).ClickAsync();
+
+        //Assert
+        await Expect(Page.GetByRole(AriaRole.Paragraph)).ToMatchAriaSnapshotAsync("- paragraph: You have successfully logged out of the application.");
+
+
+
+    }
+
+    [Test]
+    public async Task CheckCheepBox()
+    {
+        
+
+        //Logging in
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync("testbot@test.com");
+        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).FillAsync("test123?T");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+
+
+        //Assert
+        await Expect(Page.Locator("#Cheep_Text")).ToBeVisibleAsync();
+
     }
 }
