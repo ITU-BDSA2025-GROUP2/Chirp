@@ -28,8 +28,8 @@ jobs:
 
       - name: Test
         run: |
-          export authentication__github__clientId: ${{ secrets.GITHUBCLIENTID }}
-          export authentication__github__clientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
+          export GitHubClientId="${{ secrets.GITHUBCLIENTID }}"
+          export GitHubClientSecret="${{ secrets.GITHUBCLIENTSECRET }}"
           
 
       - name: dotnet publish
