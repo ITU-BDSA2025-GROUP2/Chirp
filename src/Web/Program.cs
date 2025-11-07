@@ -18,7 +18,13 @@ public class Program
         builder.Services.AddDistributedMemoryCache();
 
         // Load database connection via configuration.
-        string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        
+        var conn = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+        if (conn == null)
+        {
+            conn = "DefaultConnection";
+        }
+        string? connectionString = builder.Configuration.GetConnectionString(conn);
         builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlite(connectionString));
 
         builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -32,7 +38,6 @@ public class Program
                 o.ClientSecret = builder.Configuration["authentication_github_clientSecret"];
                 o.CallbackPath = new PathString("/git-login");
             });
-        
         
         // Add services to the container.
         builder.Services.AddRazorPages();
