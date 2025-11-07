@@ -22,7 +22,12 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.x'
-
+      
+      - name: Clean and Restore
+        run: |
+          dotnet clean
+          dotnet restore
+      
       - name: Build with dotnet
         run: dotnet build Chirp.sln --configuration Release
 
