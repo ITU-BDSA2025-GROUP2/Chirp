@@ -27,12 +27,9 @@ jobs:
         run: dotnet build src/Web/Web.csproj --configuration Release
 
       - name: Test
-        env:
-          ASPNETCORE_ENVIRONMENT: Development
-          DOTNET_CLI_HOME: /tmp
         run: |
-          export GitHubClientId="${{ secrets.GITHUBCLIENTID }}"
-          export GitHubClientSecret="${{ secrets.GITHUBCLIENTSECRET }}"
+          export authentication_github_clientId="${{ secrets.GITHUBCLIENTID }}"
+          export authentication_github_clientSecret="${{ secrets.GITHUBCLIENTSECRET }}"
           dotnet test Chirp.sln --no-build --configuration Release --logger "console;verbosity=detailed"
           
 
