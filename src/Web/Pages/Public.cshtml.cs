@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using System.Threading.Tasks;
+using Core;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,8 +11,6 @@ public class PublicModel(ICheepService service) : PageModel
     private readonly ICheepService _service = service;
     public required List<CheepViewModel> Cheeps { get; set; }
 
-    [BindProperty]
-    public string Text { get; set; }
     public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
         Cheeps = new List<CheepViewModel>();
@@ -23,14 +22,29 @@ public class PublicModel(ICheepService service) : PageModel
 
         return Page();
     }
-    
-    
-    public IActionResult OnPost()
+
+
+
+    [BindProperty]
+    public string Text { get; set; }
+
+    public async Task<IActionResult> OnPost()
     {
         var cheep_message = Text;
 
-        Console.WriteLine(cheep_message);
+        await _service.CreateCheep("Vee", "veebee@cool.dk", cheep_message);
 
-        return RedirectToPage("Public");
+
+        Cheeps = new List<CheepViewModel>();
+
+        var result = await _service.GetCheeps(0);
+        foreach (var row in result)
+        {
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
+        }
+
+
+
+        return Page();
     }
 }
