@@ -17,7 +17,7 @@ public class Program
         builder.Services.AddSession();
         builder.Services.AddDistributedMemoryCache();
 
-        // Load database connection via configuration
+        // Load database connection via configuration.
         string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
         builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlite(connectionString));
 
