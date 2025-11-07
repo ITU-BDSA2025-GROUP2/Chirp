@@ -24,16 +24,10 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build src/Web/Web.csproj --configuration Release
-
-      - name: Test
-        run: |
-          export GitHubClientId="${{ secrets.GITHUBCLIENTID }}"
-          export GitHubClientSecret="${{ secrets.GITHUBCLIENTSECRET }}"
-          
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -57,9 +51,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A4CDC589ABF64A58BB91CA197493EC92 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A1A169A8188E40469B3D34987525589C }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_60C395975FFF4934BE133AA0345E0DEE }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_01AF4303C478434F85E5242617B199FE }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9258FCC0C55E4438934019DAFFC75166 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9FE117471BD74B19A517D0044DABDBA9 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -68,5 +62,4 @@ jobs:
           app-name: 'bdsagroup2chirpremotedb'
           slot-name: 'Production'
           package: .
-
           
