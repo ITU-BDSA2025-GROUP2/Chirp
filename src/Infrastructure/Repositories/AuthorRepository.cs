@@ -56,6 +56,20 @@ public class AuthorRepository : IAuthorRepository
         return result;
     }
 
+    public async Task<List<int>> ReturnFollowAuthorsIds(string email)
+    {
+        var query = (
+            from person in _dbContext.Authors
+            where person.Email == email
+            select person.Follows
+            );
+
+        var result = await query.ToListAsync();
+
+        return result[0];
+        
+    }
+
     public async Task<Author> ReturnBasedOnNameAsync(string name, int page = 0)
     {
         var query = (
