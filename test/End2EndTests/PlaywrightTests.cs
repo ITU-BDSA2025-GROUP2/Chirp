@@ -21,14 +21,9 @@ public class PlaywrightTests : PageTest
     }
 
     [Test]
-    public async Task LoginLogoutTest_AccountExists()
+    public async Task LoginLogoutIdentityTest_AccountExists()
     {
-        await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync("testbot@test.com");
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).FillAsync("test123?T");
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+        await LoginAccountIdentity("testbot@test.com", "test123?T");
 
         //Assert
         await Expect(Page.Locator("body"))
@@ -44,17 +39,12 @@ public class PlaywrightTests : PageTest
     }
 
     [Test]
-    public async Task LoginLogoutTest_AccountDoesNotExist()
+    public async Task LoginLogoutIdentityTest_AccountDoesNotExist()
     {
         var email = "fakemail@test.com";
         var password = "123456";
 
-        await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync(email);
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).FillAsync(password);
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+        await LoginAccountIdentity(email, password);
 
         //Assert
         await Expect(Page.GetByRole(AriaRole.Alert)).ToMatchAriaSnapshotAsync("- listitem: Invalid login attempt.");
@@ -67,12 +57,7 @@ public class PlaywrightTests : PageTest
         await Expect(Page.Locator("#Cheep_Text")).ToHaveCountAsync(0);
 
         // Log into valid account
-        await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync("testbot@test.com");
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).FillAsync("test123?T");
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+        await LoginAccountIdentity("testbot@test.com", "test123?T");
 
 
         // Assert Cheep Box exists
@@ -83,41 +68,32 @@ public class PlaywrightTests : PageTest
     [Test]
     public async Task SendCheepTest_UserSendsValidCheep()
     {
-        await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync("testbot@test.com");
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).FillAsync("test123?T");
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+        // Arrange
+        var email = "testbot@test.com";
+        var password = "test123?T";
+        var username = "testbot";
+        var cheepMessage = "Hello everybody! This is a REAL CHEEEEEEP";
+        
+        // Act
+        await LoginAccountIdentity(email, password);
         await Page.Locator("#Cheep_Text").ClickAsync();
-        await Page.Locator("#Cheep_Text").FillAsync("Hello everybody! This is a REAL CHEEEEEEP");
+        await Page.Locator("#Cheep_Text").FillAsync(cheepMessage);
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
         
-        
-        
+        // Assert
         await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync(
-            "- listitem:\n  - paragraph:\n    - strong:\n      - link \"testbot\":\n        - /url: /testbot\n    - text: /Hello everybody! This is a REAL CHEEEEEEP — \\d+-\\d+-\\d+ \\d+:\\d+:\\d+/");
+            $"- listitem:\n  - paragraph:\n    - strong:\n      - link \"{username}\":\n        - /url: /{username}\n    - text: /{cheepMessage} — \\d+-\\d+-\\d+ \\d+:\\d+:\\d+/");
         await Page.Locator("html").ClickAsync();
     }
 
 
-    [Test]
-    public async Task SendCheepTest_UserSendsInvalidCheep()
+    private async Task LoginAccountIdentity(string email, string password)
     {
         await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
         await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync("testbot@test.com");
+        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync(email);
         await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).FillAsync("test123?T");
+        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).FillAsync(password);
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
-        await Page.Locator("#Cheep_Text").ClickAsync();
-        await Page.Locator("#Cheep_Text").FillAsync("Hello everybody! THIIIIIIIIIIS IIIIIIIIS AAAAAAAAAAA FAAAAAAAAAAAAAAAAAAAAAKE ASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS CHEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEP");
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
-        
-        
-        
-        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync(
-            "- listitem:\n  - paragraph:\n    - strong:\n      - link \"testbot\":\n        - /url: /testbot\n    - text: /Hello everybody! This is a REAL CHEEEEEEP — \\d+-\\d+-\\d+ \\d+:\\d+:\\d+/");
-        await Page.Locator("html").ClickAsync();
     }
 }
