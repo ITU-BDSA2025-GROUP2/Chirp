@@ -31,7 +31,7 @@ public class CheepService : ICheepService
         return await _cheepRepository.ReadCheepsPerson(author, page);
     }
 
-    
+
 
     public async Task<Author> GetAuthor(string author, int page)
     {
@@ -42,6 +42,11 @@ public class CheepService : ICheepService
     {
         var result = await _authorRepository.ReturnBasedOnEmailAsync(email, page);
         return result[0];
+    }
+
+    public async Task<List<int>> GetFollowers(string email)
+    {
+        return await _authorRepository.ReturnFollowAuthorsIds(email);
     }
 
     public async Task CreateCheep(string author, string email, string msg)

@@ -53,4 +53,16 @@ public class PublicModel(ICheepService service) : PageModel
 
         return Page();
     }
+
+    [BindProperty]
+    public string Author { get; set; }
+
+    public async Task<IActionResult> OnPostHere()
+    {
+
+      
+
+        Console.WriteLine("I am here "+ Author);
+        return Page();
+    }
 }

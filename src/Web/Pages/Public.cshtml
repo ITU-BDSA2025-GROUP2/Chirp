@@ -48,7 +48,9 @@
                         <small>&mdash; @cheep.Timestamp</small>
 
                         @if(SignInManager.IsSignedIn(User)){
-                            <input type="submit" value=@cheep.Author>
+                            <form method="post">
+                                <button type="submit" value=@cheep.Author name="Author" asp-for="Author">Follow</button>
+                            </form>
                         }
                     </p>
                 </li>
