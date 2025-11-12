@@ -7,4 +7,6 @@ public class Author
     public required string Name { get; set; }
     public required string Email { get; set; }
     public required ICollection<Cheep> Cheeps { get; set; }
+
+    public List<int> Follows { get; set; } = new List<int>();
 }

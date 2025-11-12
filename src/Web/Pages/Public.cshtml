@@ -5,6 +5,7 @@
     Layout = "Shared/_Layout";
 }
 
+@using Core
 @using Infrastructure.Repositories
 @using Microsoft.AspNetCore.Identity
 @using Infrastructure
@@ -45,6 +46,10 @@
                         </strong>
                         @cheep.Message
                         <small>&mdash; @cheep.Timestamp</small>
+
+                        @if(SignInManager.IsSignedIn(User)){
+                            <input type="submit" value=@cheep.Author>
+                        }
                     </p>
                 </li>
             }
