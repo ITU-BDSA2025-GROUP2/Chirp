@@ -57,12 +57,25 @@ public class PublicModel(ICheepService service) : PageModel
     [BindProperty]
     public string Author { get; set; }
 
-    public async Task<IActionResult> OnPostHere()
+    public async Task<IActionResult> OnPostHere([FromQuery] int page = 0)
     {
 
       
 
         Console.WriteLine("I am here "+ Author);
+
+
+        // Populate Cheeps (copy from OnGetAsync/OnPostAsync)
+        Cheeps = new List<CheepViewModel>();
+        var result = await _service.GetCheeps(page);
+        foreach (var row in result)
+        {
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
+        }
+
+
         return Page();
-    }
+    } 
+
+
 }

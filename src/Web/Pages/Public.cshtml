@@ -49,7 +49,9 @@
 
                         @if(SignInManager.IsSignedIn(User)){
                             <form method="post">
-                                <button type="submit" value=@cheep.Author name="Author" asp-for="Author">Follow</button>
+                            @Html.AntiForgeryToken()
+                                <input type="hidden" name="Author" value="@cheep.Author"/>
+                                <button type="submit" formaction="/?handler=Here">Follow</button>
                             </form>
                         }
                     </p>
