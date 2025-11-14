@@ -39,7 +39,10 @@ public class CheepService : ICheepService
     }
 
 
-
+     public async Task<int> GetAuthorId(string email)
+    {
+        return await _authorRepository.ReturnAuthorsId(email);
+    }
 
     public async Task<Author> GetEmail(string email, int page)
     {
