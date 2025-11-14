@@ -1,76 +1,109 @@
-using Microsoft.Playwright.NUnit;
 using Microsoft.Playwright;
+//using Microsoft.Playwright.Xunit;
+using Microsoft.Playwright.NUnit;
+using Xunit;
+using Assert = NUnit.Framework.Assert;
+
 
 namespace PlaywrightTests;
 
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
-public class InteractiveButtonTests : PageTest
+public class InteractiveButtonTests : PageTest, IClassFixture<PlaywrightCustomWebApplicationFactory>, IDisposable, IAsyncLifetime
 {
-    private string _mainUrl;
+    private readonly string _serverAddress;
+   // private IPage _page;
     
-    
-    [SetUp]
-    public async Task Setup()
+    //private IPlaywright _playWright;
+    //private IBrowser _browser;
+
+    public InteractiveButtonTests()
     {
-        _mainUrl = "http://localhost:5273";
+        var factory = new PlaywrightCustomWebApplicationFactory();
+        factory.CreateClient();
         
-        await Page.GotoAsync(_mainUrl);
+        _serverAddress = factory.ServerAddress;
     }
 
-
-    [Test]
-    public void BasicTest()
+    public async Task InitializeAsync()
     {
-        Assert.Pass();
+        //_playWright = await Microsoft.Playwright.Playwright.CreateAsync();
+        //_browser = await _playWright.Chromium.LaunchAsync();
     }
 
+    public async Task CreatePageAsync()
+    {
+        //_page = await _browser.NewPageAsync();
+        //await _page.GotoAsync(_serverAddress);
+    }
+    
+    public async Task DisposeAsync()
+    {
+        //await _browser.CloseAsync();
+        //_playWright.Dispose();
+    }
+    
+    public void Dispose()
+    {
+        //_page?.CloseAsync().GetAwaiter().GetResult();
+        //_page = null;
+    }
+    
+    [Test]
+    public async Task BasicTest()
+    { 
+        await CreatePageAsync();
+        
+        Assert.NotNull(_serverAddress);
+        
+        await Page.GotoAsync(_serverAddress);
+    }
 
     [Test]
     public async Task PublicTimelineClickTest()
     {
-        // Act
-        await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
-        
-        // Assert
-        await Expect(Page.Locator("h2")).ToMatchAriaSnapshotAsync("- heading \"Public Timeline\" [level=2]");
+        await CreatePageAsync();
+        var link = Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" });
+        await link.WaitForAsync();
+        await link.ClickAsync();
+        await Expect(Page.Locator("h2")).ToHaveTextAsync("Public Timeline");
     }
 
     [Test]
     public async Task LoginClickTest()
     {
-        // Act
-        await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
-        
-        
-        var urlToCheck = _mainUrl + "/Identity/Account/Login";
-        await Expect(Page).ToHaveURLAsync(urlToCheck);
+        await CreatePageAsync();
+        var link = Page.GetByRole(AriaRole.Link, new() { Name = "Login" });
+        //await link.WaitForAsync();
+        await link.ClickAsync();
+        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        await Expect(Page).ToHaveURLAsync(_serverAddress + "Identity/Account/Login");
     }
-    
+
     [Test]
     public async Task RegisterClickTest()
     {
-        // Act
-        await Page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();
-        
-        
-        var urlToCheck = _mainUrl + "/Identity/Account/Register";
-        await Expect(Page).ToHaveURLAsync(urlToCheck);
+        await CreatePageAsync();
+        var link = Page.GetByRole(AriaRole.Link, new() { Name = "Register" });
+        await link.WaitForAsync();
+        await link.ClickAsync();
+        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        await Expect(Page).ToHaveURLAsync(_serverAddress + "Identity/Account/Register");
     }
 
     [Test]
     public async Task CheepAuthorClickTest()
     {
-        // Arrange
+        await CreatePageAsync();
         var cheep = Page.GetByRole(AriaRole.Paragraph).First;
+        //await cheep.WaitForAsync();
+
         var authorLink = cheep.GetByRole(AriaRole.Link);
         var authorName = await authorLink.InnerTextAsync();
 
-        // Act
         await authorLink.ClickAsync();
+        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-        // Assert
         await Expect(Page.Locator("h2")).ToHaveTextAsync($"{authorName}'s Timeline");
     }
-    
 }

@@ -1,11 +1,29 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AClaimsPrincipal_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003Fddfe5f2cab585726db85fc046e76ea5725f69d647c242379a11c6da8029c727_003FClaimsPrincipal_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=52117162_002Dc4dc_002D4fb6_002D9220_002D0a39b8b644e6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CheepRepositoryTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AInvalidOperationException_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F114a0a5677ac4113980497cab0663b2dc90930_003F1f_003F7aa56ad4_003FInvalidOperationException_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1edb7092_002D7a0f_002D4d7e_002D9e43_002Dd73f7839136d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginClickTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::C2C8C230-D6CE-4116-B432-27834B9FE23D::net8.0::PlaywrightTests.PlaywrightTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::C2C8C230-D6CE-4116-B432-27834B9FE23D::net8.0::PlaywrightTests.InteractiveButtonTests.BasicTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::C2C8C230-D6CE-4116-B432-27834B9FE23D::net8.0::PlaywrightTests.InteractiveButtonTests.PublicTimelineClickTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::C2C8C230-D6CE-4116-B432-27834B9FE23D::net8.0::PlaywrightTests.InteractiveButtonTests.LoginClickTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=32b092ae_002D3457_002D43d5_002D8bf6_002Dfb2fa4673dfa/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginClickTest #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::C2C8C230-D6CE-4116-B432-27834B9FE23D::net8.0::PlaywrightTests.InteractiveButtonTests.LoginClickTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=55024ac2_002D4077_002D4ed8_002Da82c_002Debdb286d4e0d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginClickTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::C2C8C230-D6CE-4116-B432-27834B9FE23D::net8.0::PlaywrightTests.InteractiveButtonTests.LoginClickTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6f01da72_002D93af_002D4617_002Da31f_002D6d3fdce9b500/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="InteractiveButtonTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::C2C8C230-D6CE-4116-B432-27834B9FE23D::net8.0::PlaywrightTests.InteractiveButtonTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	</wpf:ResourceDictionary>
