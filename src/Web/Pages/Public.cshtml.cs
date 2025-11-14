@@ -66,7 +66,7 @@ public class PublicModel(ICheepService service) : PageModel
         Console.WriteLine(User.Identity.Name + " Is now following "+ Email + " test: " + id);
 
 
-
+        
 
 
         // Populate Cheeps (copy from OnGet/OnPost)

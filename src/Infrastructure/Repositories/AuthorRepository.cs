@@ -29,6 +29,23 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
     }
 
+    public void AddFollowerId(Author author, int id)
+    {
+        var Current_Author = _dbContext.Authors.Find(author);
+        Current_Author.Follows.Add(id);
+        _dbContext.SaveChanges();
+
+    }
+
+    public void RemoveFollowerId(Author author, int id)
+    {
+        var Current_Author = _dbContext.Authors.Find(author);
+        Current_Author.Follows.Remove(id);
+        _dbContext.SaveChanges();
+
+    }
+    
+
     #region Helper methods
 
     public int FindNewAuthorId()
