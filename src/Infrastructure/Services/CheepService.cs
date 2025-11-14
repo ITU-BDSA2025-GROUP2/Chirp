@@ -50,6 +50,7 @@ public class CheepService : ICheepService
         return result[0];
     }
 
+
     public async Task<List<int>> GetFollowers(string email)
     {
         return await _authorRepository.ReturnFollowAuthorsIds(email);
@@ -58,6 +59,18 @@ public class CheepService : ICheepService
     public async Task CreateCheep(string author, string email, string msg)
     {
         await _cheepRepository.CreateCheep(author, email, msg);
+    }
+
+
+
+    public void AddFollowerId(Author author, int id)
+    {
+        _authorRepository.AddFollowerId(author, id);
+    }
+
+    public void RemoveFollowerId(Author author, int id)
+    {
+        _authorRepository.RemoveFollowerId(author, id);
     }
 
 

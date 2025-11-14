@@ -11,4 +11,6 @@ public interface ICheepService
 
     public Task<List<int>> GetFollowers(string email);
     public Task CreateCheep(string author, string email, string msg);
+    public void AddFollowerId(Author author, int id);
+    public void RemoveFollowerId(Author author, int id);
 }

@@ -62,11 +62,42 @@ public class PublicModel(ICheepService service) : PageModel
 
         
         var id = await _service.GetAuthorId(Email);
+        var author = await _service.GetEmail(Email, page);
+        var IsFollowed = false;
 
-        Console.WriteLine(User.Identity.Name + " Is now following "+ Email + " test: " + id);
+        var followers = await _service.GetFollowers(User.Identity.Name);
+        foreach(int t in followers)
+        {
+            if(id == t)
+            {
+                IsFollowed = true;
+            }
+            else
+            {
+                IsFollowed = false;
+            }
+        }
+
+        if (IsFollowed!)
+        {
+            _service.AddFollowerId(author, id);
+        }
+        else
+        {
+            _service.RemoveFollowerId(author, id);
+        }
+
+        followers = await _service.GetFollowers(User.Identity.Name);
+
+        Console.WriteLine(User.Identity.Name + "You are following these people:");
+
+        foreach(int t in followers)
+        {
+            Console.WriteLine(t);
+        }
 
 
-        
+
 
 
         // Populate Cheeps (copy from OnGet/OnPost)
