@@ -70,6 +70,18 @@ public class AuthorRepository : IAuthorRepository
         
     }
 
+    public async Task<int> ReturnAuthorsId(string email)
+    {
+        var query = (
+            from person in _dbContext.Authors
+            where person.Email == email
+            select person.AuthorId
+        );
+        var result = await query.ToListAsync();
+
+        return result[0];
+    }
+
     public async Task<Author> ReturnBasedOnNameAsync(string name, int page = 0)
     {
         var query = (
