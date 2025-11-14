@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Web;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace PlaywrightTests;
 
@@ -28,27 +28,51 @@ public class PlaywrightCustomWebApplicationFactory : WebApplicationFactory<Progr
         var testHost = builder.Build();
         
         
-        builder.ConfigureWebHost(webHost =>
-        {
-            webHost.UseKestrel();
-        });
+        builder.ConfigureWebHost(webHostBuilder => webHostBuilder.UseKestrel());
         
         
         _host = builder.Build();
         _host.Start();
 
+        
+        
+
         var server = _host.Services.GetRequiredService<IServer>();
         var addresses = server.Features.Get<IServerAddressesFeature>();
         
-        ClientOptions.BaseAddress = addresses!.Addresses  
-            .Select(x => new Uri(x))  
-            .Last();  
+        ClientOptions.BaseAddress = addresses!.Addresses.Select(x => new Uri(x)).Last();  
+
+        
 
         testHost.Start();  
+
+        
+
         return testHost;
     }
+
     
-    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    
+
+    protected override void Dispose(bool disposing)
+    {
+        _host?.Dispose();
+        //base.Dispose(disposing);
+    }
+
+
+    private void EnsureServer()
+    {
+        if (_host is null)
+        {
+            using var _ = CreateDefaultClient();
+        }
+    }
+
+    
+}
+
+/*protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Testing");
         
@@ -71,19 +95,4 @@ public class PlaywrightCustomWebApplicationFactory : WebApplicationFactory<Progr
                 DbInitializer.SeedDatabase(db);
             }
         });
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        _host?.Dispose();
-        base.Dispose(disposing);
-    }
-
-    private void EnsureServer()
-    {
-        if (_host is null)
-        {
-            using var _ = CreateDefaultClient();
-        }
-    }
-}
+    }*/

@@ -1,15 +1,13 @@
 using Microsoft.Playwright;
-//using Microsoft.Playwright.Xunit;
 using Microsoft.Playwright.NUnit;
 using Xunit;
-using Assert = NUnit.Framework.Assert;
 
 
 namespace PlaywrightTests;
 
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
-public class InteractiveButtonTests : PageTest, IClassFixture<PlaywrightCustomWebApplicationFactory>, IDisposable, IAsyncLifetime
+public class InteractiveButtonTests : PageTest, IClassFixture<PlaywrightCustomWebApplicationFactory>
 {
     private readonly string _serverAddress;
    // private IPage _page;
@@ -25,36 +23,16 @@ public class InteractiveButtonTests : PageTest, IClassFixture<PlaywrightCustomWe
         _serverAddress = factory.ServerAddress;
     }
 
-    public async Task InitializeAsync()
+    [SetUp]
+    public async Task Setup()
     {
-        //_playWright = await Microsoft.Playwright.Playwright.CreateAsync();
-        //_browser = await _playWright.Chromium.LaunchAsync();
+        await Page.GotoAsync(_serverAddress);
     }
 
-    public async Task CreatePageAsync()
-    {
-        //_page = await _browser.NewPageAsync();
-        //await _page.GotoAsync(_serverAddress);
-    }
-    
-    public async Task DisposeAsync()
-    {
-        //await _browser.CloseAsync();
-        //_playWright.Dispose();
-    }
-    
-    public void Dispose()
-    {
-        //_page?.CloseAsync().GetAwaiter().GetResult();
-        //_page = null;
-    }
-    
     [Test]
     public async Task BasicTest()
     { 
-        await CreatePageAsync();
-        
-        Assert.NotNull(_serverAddress);
+        //Assert.NotNull(_serverAddress);
         
         await Page.GotoAsync(_serverAddress);
     }
@@ -62,17 +40,22 @@ public class InteractiveButtonTests : PageTest, IClassFixture<PlaywrightCustomWe
     [Test]
     public async Task PublicTimelineClickTest()
     {
-        await CreatePageAsync();
-        var link = Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" });
-        await link.WaitForAsync();
-        await link.ClickAsync();
-        await Expect(Page.Locator("h2")).ToHaveTextAsync("Public Timeline");
+        //await Page.GotoAsync(_serverAddress);
+        //var link = Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" });
+        /*await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
+        await Expect(Page.Locator("h2")).ToHaveTextAsync("Public Timeline");*/
+
+        // Act
+        await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
+        
+        // Assert
+        await Expect(Page.Locator("h2")).ToMatchAriaSnapshotAsync("- heading \"Public Timeline\" [level=2]");
     }
 
     [Test]
     public async Task LoginClickTest()
     {
-        await CreatePageAsync();
+        //await Page.GotoAsync(_serverAddress);
         var link = Page.GetByRole(AriaRole.Link, new() { Name = "Login" });
         //await link.WaitForAsync();
         await link.ClickAsync();
@@ -83,9 +66,9 @@ public class InteractiveButtonTests : PageTest, IClassFixture<PlaywrightCustomWe
     [Test]
     public async Task RegisterClickTest()
     {
-        await CreatePageAsync();
+        //await Page.GotoAsync(_serverAddress);
         var link = Page.GetByRole(AriaRole.Link, new() { Name = "Register" });
-        await link.WaitForAsync();
+        //await link.WaitForAsync();
         await link.ClickAsync();
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         await Expect(Page).ToHaveURLAsync(_serverAddress + "Identity/Account/Register");
@@ -94,7 +77,7 @@ public class InteractiveButtonTests : PageTest, IClassFixture<PlaywrightCustomWe
     [Test]
     public async Task CheepAuthorClickTest()
     {
-        await CreatePageAsync();
+        //await Page.GotoAsync(_serverAddress);
         var cheep = Page.GetByRole(AriaRole.Paragraph).First;
         //await cheep.WaitForAsync();
 
