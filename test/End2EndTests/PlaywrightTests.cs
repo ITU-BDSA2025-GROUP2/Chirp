@@ -22,10 +22,9 @@ public class PlaywrightTests :  PageTest, IClassFixture<PlaywrightCustomWebAppli
     public async Task Setup()
     {
         await Page.GotoAsync(_serverAddress);
+
     }
 
-
-    
     [Test]
     public async Task BasicTest()
     { 

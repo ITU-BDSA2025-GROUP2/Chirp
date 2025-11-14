@@ -1,4 +1,3 @@
-using Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
@@ -6,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Web;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace PlaywrightTests;
@@ -25,34 +23,25 @@ public class PlaywrightCustomWebApplicationFactory : WebApplicationFactory<Progr
 
     protected override IHost CreateHost(IHostBuilder builder)
     {
+        //builder.UseEnvironment("Testing");
+
         var testHost = builder.Build();
-        
         
         builder.ConfigureWebHost(webHostBuilder => webHostBuilder.UseKestrel());
         
-        
         _host = builder.Build();
-        _host.Start();
 
-        
-        
+        _host.Start();
 
         var server = _host.Services.GetRequiredService<IServer>();
         var addresses = server.Features.Get<IServerAddressesFeature>();
         
         ClientOptions.BaseAddress = addresses!.Addresses.Select(x => new Uri(x)).Last();  
 
-        
-
         testHost.Start();  
-
-        
 
         return testHost;
     }
-
-    
-    
 
     protected override void Dispose(bool disposing)
     {
@@ -70,11 +59,9 @@ public class PlaywrightCustomWebApplicationFactory : WebApplicationFactory<Progr
     }
 
     
-}
-
-/*protected override void ConfigureWebHost(IWebHostBuilder builder)
+/*
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("Testing");
         
         builder.ConfigureTestServices(services =>
         {
@@ -85,14 +72,35 @@ public class PlaywrightCustomWebApplicationFactory : WebApplicationFactory<Progr
 
             services.AddDbContext<ChatDbContext>(options =>
                 options.UseInMemoryDatabase("TestDB"));
-
-            using var scope = services.BuildServiceProvider().CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
-            db.Database.EnsureCreated();
-
-            if (!db.Users.Any())
-            {
-                DbInitializer.SeedDatabase(db);
-            }
         });
     }*/
+
+    /*protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.UseEnvironment("Testing");
+        builder.ConfigureServices(services =>
+        {
+            // 1. Remove existing DbContext
+            var descriptor = services.SingleOrDefault(
+                d => d.ServiceType == typeof(DbContextOptions<ChatDbContext>));
+
+            if (descriptor != null)
+                services.Remove(descriptor);
+
+            // 2. Register test DB (here: InMemory)
+            services.AddDbContext<ChatDbContext>(options =>
+            {
+                options.UseInMemoryDatabase("TestDB");
+            });
+
+            // 3. Seed database
+            using var sp = services.BuildServiceProvider();
+            using var scope = sp.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
+
+            db.Database.EnsureCreated();
+
+            SeedDatabase(db);   // <-- your custom seed method
+        });
+    }*/
+}
