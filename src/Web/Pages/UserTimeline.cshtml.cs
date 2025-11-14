@@ -16,7 +16,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
         Cheeps = new List<CheepViewModel>();
         foreach (var row in returnList)
         {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email));
         }
 
 
@@ -44,7 +44,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
         var result = await _service.GetCheeps(0);
         foreach (var row in result)
         {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email));
         }
 
         return RedirectToPage("Public");

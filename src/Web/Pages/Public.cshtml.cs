@@ -18,7 +18,7 @@ public class PublicModel(ICheepService service) : PageModel
         var result = await _service.GetCheeps(page);
         foreach (var row in result)
         {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email));
         }
 
         return Page();
@@ -46,7 +46,7 @@ public class PublicModel(ICheepService service) : PageModel
         var result = await _service.GetCheeps(0);
         foreach (var row in result)
         {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email));
         }
 
 
@@ -55,14 +55,15 @@ public class PublicModel(ICheepService service) : PageModel
     }
 
     [BindProperty]
-    public string Author { get; set; }
+    public string Email { get; set; }
 
     public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
     {
 
         
+        var id = await _service.GetAuthorId(Email);
 
-        Console.WriteLine(User.Identity.Name + " Is now following "+ Author);
+        Console.WriteLine(User.Identity.Name + " Is now following "+ Email + " test: " + id);
 
 
 
@@ -73,7 +74,7 @@ public class PublicModel(ICheepService service) : PageModel
         var result = await _service.GetCheeps(page);
         foreach (var row in result)
         {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email));
         }
 
 

@@ -50,7 +50,7 @@
                         @if(SignInManager.IsSignedIn(User)){
                             <form method="post">
                             @Html.AntiForgeryToken()
-                                <input type="hidden" name="Author" value="@cheep.Author"/>
+                                <input type="hidden" name="Email" value="@cheep.Email"/>
                                 <button type="submit" formaction="/?handler=Follow">Follow</button>
                             </form>
                         }
