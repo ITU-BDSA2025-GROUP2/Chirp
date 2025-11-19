@@ -13,3 +13,8 @@
 /test/SupportScripts/bin/
 /test/SupportScripts/obj/
 /.idea/
+
+/bin
+/obj
+[Bb]in/
+[Oo]bj/
