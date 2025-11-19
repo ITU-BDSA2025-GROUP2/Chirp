@@ -31,8 +31,8 @@ jobs:
         run: |
           export authentication_github_clientId="${{ secrets.GITHUBCLIENTID }}"
           export authentication_github_clientSecret="${{ secrets.GITHUBCLIENTSECRET }}"
-          dotnet test test/IntegrationTest --no-build --verbosity normal
-          dotnet test test/UnitTest --no-build --verbosity normal
+          dotnet test test/IntegrationTest/ --no-build --verbosity normal
+          dotnet test test/UnitTest/ --no-build --verbosity normal
       
       
       - name: dotnet publish
@@ -73,3 +73,4 @@ jobs:
           package: .
 
           
+
