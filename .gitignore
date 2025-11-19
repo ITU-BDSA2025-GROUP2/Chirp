@@ -4,9 +4,8 @@
 /src/Infrastructure/obj/
 /src/Web/bin/
 /src/Web/obj/
-/test/End2EndTest/bin/
-/test/End2EndTest/obj/
-/test/end2endTest/obj/
+/test/End2EndTests/bin/
+/test/End2EndTests/obj/
 /test/IntegrationTest/bin/
 /test/IntegrationTest/obj/
 /test/UnitTest/bin/
@@ -14,3 +13,8 @@
 /test/SupportScripts/bin/
 /test/SupportScripts/obj/
 /.idea/
+
+/bin
+/obj
+[Bb]in/
+[Oo]bj/

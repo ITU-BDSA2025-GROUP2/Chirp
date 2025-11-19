@@ -17,9 +17,12 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+    #- name: Playwright Browsers
+     # run: pwsh test/End2EndTests/bin/Debug/net8.0/playwright.ps1 install --with-deps
     - name: Test
       env:
         authentication_github_clientId: ${{ secrets.GITHUBCLIENTID }}
         authentication_github_clientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
       run: |
-        dotnet test Chirp.sln --no-build --verbosity normal
+        dotnet test test/IntegrationTest --no-build --verbosity normal
+        dotnet test test/UnitTest --no-build --verbosity normal
