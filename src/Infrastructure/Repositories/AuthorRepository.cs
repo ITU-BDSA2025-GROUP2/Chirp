@@ -31,8 +31,6 @@ public class AuthorRepository : IAuthorRepository
 
     public void AddFollowerId(Author author, int id)
     {
-        
-        Console.WriteLine($"Added {id}");
         author.Follows.Add(id);
         _dbContext.Update(author);
         _dbContext.SaveChanges();
@@ -41,7 +39,6 @@ public class AuthorRepository : IAuthorRepository
 
     public void RemoveFollowerId(Author author, int id)
     {
-        Console.WriteLine($"Removed {id}");
         author.Follows.Remove(id);
         _dbContext.Update(author);
         _dbContext.SaveChanges();
@@ -85,7 +82,6 @@ public class AuthorRepository : IAuthorRepository
             );
 
         var result = await query.ToListAsync();
-        Console.WriteLine($"OI IM HERE {result}");
         return result[0];
         
     }
