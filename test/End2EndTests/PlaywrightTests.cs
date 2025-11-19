@@ -1,21 +1,20 @@
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
-using Xunit;
 
 namespace PlaywrightTests;
 
 [Parallelizable(ParallelScope.Self)]
-public class PlaywrightTests :  PageTest, IClassFixture<PlaywrightCustomWebApplicationFactory>
+public class PlaywrightTests :  PageTest
 {
     private readonly string _serverAddress;
 
     public PlaywrightTests()
     {
-        var factory = new PlaywrightCustomWebApplicationFactory();
+        // CustomWebAppFactory doesn't work fully, but is left here
+        //var factory = new PlaywrightCustomWebApplicationFactory();
+        //factory.CreateClient();
 
-        factory.CreateClient();
-        
-        _serverAddress = factory.ServerAddress;
+        _serverAddress = "http://localhost:5273/";
     }
 
     [SetUp]
@@ -57,7 +56,6 @@ public class PlaywrightTests :  PageTest, IClassFixture<PlaywrightCustomWebAppli
 
         await LoginAccountIdentity(email, password);
         
-
         //Assert
         await Expect(Page.GetByRole(AriaRole.Alert)).ToMatchAriaSnapshotAsync("- listitem: Invalid login attempt.");
     }
@@ -109,28 +107,3 @@ public class PlaywrightTests :  PageTest, IClassFixture<PlaywrightCustomWebAppli
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
     }
 }
-
-/*
-    public async Task InitializeAsync()
-    {
-        _playWright = await Microsoft.Playwright.Playwright.CreateAsync();
-        _browser = await _playWright.Chromium.LaunchAsync();
-    }
-
-    public async Task CreatePageAsync()
-    {
-        _page = await _browser.NewPageAsync();
-        await _page.GotoAsync(_serverAddress);
-    }
-    
-    public async Task DisposeAsync()
-    {
-        await _browser.CloseAsync();
-        _playWright.Dispose();
-    }
-    
-    public void Dispose()
-    {
-        Page?.CloseAsync().GetAwaiter().GetResult();
-        Page = null;
-    }*/

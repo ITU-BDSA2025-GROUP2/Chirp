@@ -23,8 +23,6 @@ public class PlaywrightCustomWebApplicationFactory : WebApplicationFactory<Progr
 
     protected override IHost CreateHost(IHostBuilder builder)
     {
-        //builder.UseEnvironment("Testing");
-
         var testHost = builder.Build();
         
         builder.ConfigureWebHost(webHostBuilder => webHostBuilder.UseKestrel());
@@ -46,9 +44,7 @@ public class PlaywrightCustomWebApplicationFactory : WebApplicationFactory<Progr
     protected override void Dispose(bool disposing)
     {
         _host?.Dispose();
-        //base.Dispose(disposing);
     }
-
 
     private void EnsureServer()
     {
@@ -57,50 +53,4 @@ public class PlaywrightCustomWebApplicationFactory : WebApplicationFactory<Progr
             using var _ = CreateDefaultClient();
         }
     }
-
-    
-/*
-    protected override void ConfigureWebHost(IWebHostBuilder builder)
-    {
-        
-        builder.ConfigureTestServices(services =>
-        {
-            // remove the existing context configuration
-            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ChatDbContext>));
-            if (descriptor != null)
-                services.Remove(descriptor);
-
-            services.AddDbContext<ChatDbContext>(options =>
-                options.UseInMemoryDatabase("TestDB"));
-        });
-    }*/
-
-    /*protected override void ConfigureWebHost(IWebHostBuilder builder)
-    {
-        builder.UseEnvironment("Testing");
-        builder.ConfigureServices(services =>
-        {
-            // 1. Remove existing DbContext
-            var descriptor = services.SingleOrDefault(
-                d => d.ServiceType == typeof(DbContextOptions<ChatDbContext>));
-
-            if (descriptor != null)
-                services.Remove(descriptor);
-
-            // 2. Register test DB (here: InMemory)
-            services.AddDbContext<ChatDbContext>(options =>
-            {
-                options.UseInMemoryDatabase("TestDB");
-            });
-
-            // 3. Seed database
-            using var sp = services.BuildServiceProvider();
-            using var scope = sp.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
-
-            db.Database.EnsureCreated();
-
-            SeedDatabase(db);   // <-- your custom seed method
-        });
-    }*/
 }
