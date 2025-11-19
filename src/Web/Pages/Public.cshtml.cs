@@ -60,17 +60,20 @@ public class PublicModel(ICheepService service) : PageModel
     public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
     {
 
-        
+        Console.WriteLine($"this is the identity {User.Identity.Name}");
         var id = await _service.GetAuthorId(Email);
-        var author = await _service.GetEmail(Email, page);
+        var author = await _service.GetEmail(User.Identity.Name, page);
         var IsFollowed = false;
 
-        var followers = await _service.GetFollowers(User.Identity.Name);
+        var followers = await _service.GetFollowers(author.Email);
         foreach(int t in followers)
-        {
+        {   
+            Console.WriteLine($"this id in the list {t} what we are searching for {id}");
             if(id == t)
             {
+
                 IsFollowed = true;
+                break;
             }
             else
             {
@@ -78,7 +81,7 @@ public class PublicModel(ICheepService service) : PageModel
             }
         }
 
-        if (IsFollowed!)
+        if (!IsFollowed)
         {
             _service.AddFollowerId(author, id);
         }
