@@ -24,17 +24,17 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build src/Web/Web.csproj --configuration Release
+        run: dotnet build Chirp.sln --configuration Release
       #- name: Playwright Browsers
        # run: pwsh test/End2EndTests/bin/Debug/net8.0/playwright.ps1 install --with-deps
       - name: Test
-        env:
-          authentication_github_clientId: ${{ secrets.GITHUBCLIENTID }}
-          authentication_github_clientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
         run: |
+          export authentication_github_clientId="${{ secrets.GITHUBCLIENTID }}"
+          export authentication_github_clientSecret="${{ secrets.GITHUBCLIENTSECRET }}"
           dotnet test test/IntegrationTest --no-build --verbosity normal
           dotnet test test/UnitTest --no-build --verbosity normal
-
+      
+      
       - name: dotnet publish
         run: dotnet publish src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
@@ -60,9 +60,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A4CDC589ABF64A58BB91CA197493EC92 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A1A169A8188E40469B3D34987525589C }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_60C395975FFF4934BE133AA0345E0DEE }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_01AF4303C478434F85E5242617B199FE }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9258FCC0C55E4438934019DAFFC75166 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9FE117471BD74B19A517D0044DABDBA9 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
