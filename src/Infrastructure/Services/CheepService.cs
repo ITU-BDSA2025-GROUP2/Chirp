@@ -3,7 +3,7 @@ using Infrastructure.Repositories;
 
 namespace Infrastructure.Services;
 
-public record CheepViewModel(string Author, string Message, string Timestamp, string Email);
+public record CheepViewModel(string Author, string Message, string Timestamp, string Email, string IsFollowed);
 public record AuthorViewModel(string Author, string Email);
 
 
