@@ -16,9 +16,44 @@ public class PublicModel(ICheepService service) : PageModel
     {
         Cheeps = new List<CheepViewModel>();
         var result = await _service.GetCheeps(page);
+        
+        Author author;
+        var IsFollowed = false;
+        var followers = new List<int>(); 
+        if (User.Identity.Name != null) {
+            var authorFromQuery = await _service.GetEmail(User.Identity.Name, page);
+
+            if (authorFromQuery == null)
+            {
+                await _service.CreateAuthor(User.Identity.Name, User.Identity.Name);   
+            }
+
+            author = await _service.GetEmail(User.Identity.Name, page);
+            followers = await _service.GetFollowers(author.Email);
+        }
+        
+
         foreach (var row in result)
         {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
+            var id = row.Author.AuthorId;
+            IsFollowed = false;
+           
+            foreach(int t in followers)
+            {   
+                if(id == t)
+                {
+                    IsFollowed = true;
+                    break;
+                }
+                
+            }    
+            if (IsFollowed)
+            {
+                Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Unfollow"));
+                continue;
+            }
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));
+
         }
 
         return Page();
@@ -36,6 +71,7 @@ public class PublicModel(ICheepService service) : PageModel
         int index = input.IndexOf("@");
         if (index >= 0)
         {
+
             input = input.Substring(0, index);
         }
         await _service.CreateCheep(input, User.Identity.Name, cheep_message);
@@ -46,11 +82,60 @@ public class PublicModel(ICheepService service) : PageModel
         var result = await _service.GetCheeps(0);
         foreach (var row in result)
         {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));
         }
 
 
 
         return Page();
     }
+
+    [BindProperty]
+    public string Email { get; set; }
+
+    public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
+    {
+        var id = await _service.GetAuthorId(Email);
+        var author = await _service.GetEmail(User.Identity.Name, page);
+        var IsFollowed = false;
+
+        var followers = await _service.GetFollowers(author.Email);
+        foreach(int t in followers)
+        {   
+            if(id == t)
+            {
+
+                IsFollowed = true;
+                break;
+            }
+            else
+            {
+                IsFollowed = false;
+            }
+        }
+
+        if (!IsFollowed)
+        {
+            _service.AddFollowerId(author, id);
+        }
+        else
+        {
+            _service.RemoveFollowerId(author, id);
+        }
+
+        followers = await _service.GetFollowers(User.Identity.Name);
+
+        Console.WriteLine(User.Identity.Name + "You are following these people:");
+
+        foreach(int t in followers)
+        {
+            Console.WriteLine(t);
+        }
+
+
+
+        return RedirectToPage("");
+    } 
+
+
 }

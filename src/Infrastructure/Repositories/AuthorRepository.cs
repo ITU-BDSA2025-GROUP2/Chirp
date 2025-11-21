@@ -29,6 +29,23 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
     }
 
+    public void AddFollowerId(Author author, int id)
+    {
+        author.Follows.Add(id);
+        _dbContext.Update(author);
+        _dbContext.SaveChanges();
+
+    }
+
+    public void RemoveFollowerId(Author author, int id)
+    {
+        author.Follows.Remove(id);
+        _dbContext.Update(author);
+        _dbContext.SaveChanges();
+
+    }
+    
+
     #region Helper methods
 
     public int FindNewAuthorId()
@@ -54,6 +71,38 @@ public class AuthorRepository : IAuthorRepository
         var result = await query.ToListAsync();
 
         return result;
+    }
+
+    public async Task<List<int>> ReturnFollowAuthorsIds(string email)
+    {
+        var query = (
+            from person in _dbContext.Authors
+            where person.Email == email
+            select person.Follows
+            );
+
+        var result = await query.ToListAsync();
+        try
+        {
+            return result[0];
+        }
+        catch
+        {
+            return new List<int>();
+        }
+        
+    }
+
+    public async Task<int> ReturnAuthorsId(string email)
+    {
+        var query = (
+            from person in _dbContext.Authors
+            where person.Email == email
+            select person.AuthorId
+        );
+        var result = await query.ToListAsync();
+
+        return result[0];
     }
 
     public async Task<Author> ReturnBasedOnNameAsync(string name, int page = 0)
