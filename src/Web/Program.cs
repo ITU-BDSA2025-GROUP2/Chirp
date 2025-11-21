@@ -10,7 +10,7 @@ namespace Web;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static WebApplication BuildWebApplication(string[]? args = null)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +32,7 @@ public class Program
                 o.ClientSecret = builder.Configuration["authentication_github_clientSecret"];
                 o.CallbackPath = new PathString("/git-login");
             });
-        
+
         // Add services to the container.
         builder.Services.AddRazorPages();
         builder.Services.AddScoped<ICheepService, CheepService>();
@@ -49,13 +49,13 @@ public class Program
         {
             options.Cookie.HttpOnly = true;
             options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-            
+
             options.LoginPath = "/Identity/Account/Login";
             options.AccessDeniedPath = "/Identity/Account/AccessDenied";
             options.SlidingExpiration = true;
         });
-        
-        
+
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -65,23 +65,11 @@ public class Program
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
-
-
-
-        //Initialise Database
-        using (var scope = app.Services.CreateScope())
+        
+        if (app.Environment.EnvironmentName != "Development")
         {
-            var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
-
-            
-            context.Database.EnsureCreated();
-
-
-            DbInitializer.SeedDatabase(context);
+            app.UseHttpsRedirection();
         }
-
-
-        app.UseHttpsRedirection();
         app.UseStaticFiles();
 
         app.UseRouting();
@@ -92,8 +80,24 @@ public class Program
 
         app.MapRazorPages();
 
-        app.Run();
+        return app;
+    }
 
+
+    public static void Main(string[] args)
+    {
+        var app = BuildWebApplication(args);
+        
+        //Initialise Database
+        if (!app.Environment.IsEnvironment("Testing"))
+        {
+            using var scope = app.Services.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
+            context.Database.EnsureCreated();
+            DbInitializer.SeedDatabase(context);
+        }
+
+        
+        app.Run();
     }
 }
-
