@@ -72,4 +72,18 @@ public class CheepRepository : ICheepRepository
         return result;
     }
 
+    public async Task<List<Cheep>> ReadCheepsFollowed(List<int> follows, int page)
+    {
+        
+        var query = (
+            from cheep in _dbContext.Cheeps.Include(c => c.Author)
+            where follows.Contains(cheep.Author.AuthorId)
+            select cheep
+            ).OrderByDescending(c => c.TimeStamp).Skip(page * 32).Take(32);
+        var result = await query.ToListAsync();
+
+        
+        return result;
+    }
+
 }

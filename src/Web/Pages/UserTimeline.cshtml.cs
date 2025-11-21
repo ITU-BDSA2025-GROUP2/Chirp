@@ -12,8 +12,14 @@ public class UserTimelineModel(ICheepService service) : PageModel
 
     public async Task<ActionResult> OnGet(string author, [FromQuery] int page)
     {
-        var returnList = await _service.GetCheepsFromAuthor(author, page);
+        var ids = await _service.GetFollowers(User.Identity.Name);
+        var returnList = await _service.GetCheepsFromFollowed(ids, page);
         Cheeps = new List<CheepViewModel>();
+        foreach (var row in returnList)
+        {
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));
+        }
+        returnList = await _service.GetCheepsFromAuthor(author, page);
         foreach (var row in returnList)
         {
             Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));

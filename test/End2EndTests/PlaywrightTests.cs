@@ -82,19 +82,16 @@ public class PlaywrightTests :  PageTest
         var email = "testbot@test.com";
         var password = "test123?T";
         var username = "testbot";
-        var cheepMessage = "Hello everybody! This is a REAL CHEEEEEEP";
-        
         // Act
         await LoginAccountIdentity(email, password);
         await Page.Locator("#Cheep_Text").ClickAsync();
-        await Page.Locator("#Cheep_Text").FillAsync(cheepMessage);
+        await Page.Locator("#Cheep_Text").FillAsync("Hello im a real uwu");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
-        
-        // Assert
-        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync(
-            $"- listitem:\n  - paragraph:\n    - strong:\n      - link \"{username}\":\n        - /url: /{username}\n    - text: /{cheepMessage} — \\d+-\\d+-\\d+ \\d+:\\d+:\\d+/");
-        await Page.Locator("html").ClickAsync();
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- listitem:\n  - paragraph:\n    - strong:\n      - link \"testbot@test.com\":\n        - /url: /testbot@test.com\n    - text: /Hello im a real uwu — \\d+\\/\\d+\\/\\d+ \\d+:\\d+:\\d+/");
+
     }
+
+    
 
 
     private async Task LoginAccountIdentity(string email, string password)

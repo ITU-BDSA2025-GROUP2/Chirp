@@ -21,6 +21,13 @@ public class PublicModel(ICheepService service) : PageModel
         var IsFollowed = false;
         var followers = new List<int>(); 
         if (User.Identity.Name != null) {
+            var authorFromQuery = await _service.GetEmail(User.Identity.Name, page);
+
+            if (authorFromQuery == null)
+            {
+                await _service.CreateAuthor(User.Identity.Name, User.Identity.Name);   
+            }
+
             author = await _service.GetEmail(User.Identity.Name, page);
             followers = await _service.GetFollowers(author.Email);
         }

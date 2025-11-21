@@ -31,6 +31,11 @@ public class CheepService : ICheepService
         return await _cheepRepository.ReadCheepsPerson(author, page);
     }
 
+    public async Task<List<Cheep>> GetCheepsFromFollowed(List<int> follows, int page = 0)
+    {
+        // filter by the provided author name
+        return await _cheepRepository.ReadCheepsFollowed(follows, page);
+    }
 
 
     public async Task<Author> GetAuthor(string author, int page)
@@ -47,7 +52,14 @@ public class CheepService : ICheepService
     public async Task<Author> GetEmail(string email, int page)
     {
         var result = await _authorRepository.ReturnBasedOnEmailAsync(email, page);
-        return result[0];
+        try
+        {
+            return result[0];
+        }
+        catch
+        {
+            return null;
+        }
     }
 
 
@@ -61,6 +73,10 @@ public class CheepService : ICheepService
         await _cheepRepository.CreateCheep(author, email, msg);
     }
 
+    public async Task CreateAuthor(string author, string email)
+    {
+        _authorRepository.CreateAuthor(author, email);
+    }
 
 
     public void AddFollowerId(Author author, int id)
