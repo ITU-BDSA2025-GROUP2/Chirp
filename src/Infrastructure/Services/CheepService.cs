@@ -1,11 +1,12 @@
+using System.Security.Claims;
 using Core;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
 
 public record CheepViewModel(string Author, string Message, string Timestamp);
-public record AuthorViewModel(string Author, string Email);
-
 
 public class CheepService : ICheepService
 {
@@ -47,7 +48,11 @@ public class CheepService : ICheepService
         await _cheepRepository.CreateCheep(author, email, msg);
     }
 
-
+    public async Task DeleteAuthor(string email)
+    {
+        
+        await _authorRepository.DeleteAuthor(email);
+    }
 }
 
 

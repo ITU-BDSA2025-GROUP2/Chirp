@@ -1,5 +1,6 @@
 ﻿using Core;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -33,10 +34,9 @@ public class AboutMeModel(ICheepService service) : PageModel
 
     public async Task<IActionResult> OnPostForget()
     {
-        var user = User.Identity!.Name;
+        var identity = User.Identity.Name;
         
-        
-        
+        await _service.DeleteAuthor(identity);
 
         return RedirectToPage("Public");
     }

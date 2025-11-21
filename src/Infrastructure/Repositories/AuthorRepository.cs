@@ -29,6 +29,20 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
     }
 
+    public async Task DeleteAuthor(string email)
+    {
+        var author = await ReturnBasedOnEmailAsync(email);
+
+        if (author.Count() != 1 || author.Count == 0) return;
+        
+        //await _dbContext.Users.FindAsync(email);
+        _dbContext.Authors.Remove(author.First());
+        //_dbContext.Users.Remove();
+        
+        await _dbContext.SaveChangesAsync();
+    }
+    
+
     #region Helper methods
 
     public int FindNewAuthorId()

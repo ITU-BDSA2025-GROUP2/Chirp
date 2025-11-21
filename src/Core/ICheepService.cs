@@ -8,4 +8,6 @@ public interface ICheepService
     public Task<Author> GetEmail(string email, int page);
 
     public Task CreateCheep(string author, string email, string msg);
+
+    public Task DeleteAuthor(string email);
 }
