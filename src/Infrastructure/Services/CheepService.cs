@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
 
-public record CheepViewModel(string Author, string Message, string Timestamp);
+public record CheepViewModel(string Author, string Message, string Timestamp, string Email, string IsFollowed);
+public record AuthorViewModel(string Author, string Email);
+
 
 public class CheepService : ICheepService
 {
@@ -32,21 +34,64 @@ public class CheepService : ICheepService
         return await _cheepRepository.ReadCheepsPerson(author, page);
     }
 
+    public async Task<List<Cheep>> GetCheepsFromFollowed(List<int> follows, int page = 0)
+    {
+        // filter by the provided author name
+        return await _cheepRepository.ReadCheepsFollowed(follows, page);
+    }
+
+
     public async Task<Author> GetAuthor(string author, int page)
     {
         return await _authorRepository.ReturnBasedOnNameAsync(author, page);
     }
 
+
+     public async Task<int> GetAuthorId(string email)
+    {
+        return await _authorRepository.ReturnAuthorsId(email);
+    }
+
     public async Task<Author> GetEmail(string email, int page)
     {
         var result = await _authorRepository.ReturnBasedOnEmailAsync(email, page);
-        return result[0];
+        try
+        {
+            return result[0];
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+
+    public async Task<List<int>> GetFollowers(string email)
+    {
+        return await _authorRepository.ReturnFollowAuthorsIds(email);
     }
 
     public async Task CreateCheep(string author, string email, string msg)
     {
         await _cheepRepository.CreateCheep(author, email, msg);
     }
+
+    public async Task CreateAuthor(string author, string email)
+    {
+        _authorRepository.CreateAuthor(author, email);
+    }
+
+
+    public void AddFollowerId(Author author, int id)
+    {
+        _authorRepository.AddFollowerId(author, id);
+    }
+
+    public void RemoveFollowerId(Author author, int id)
+    {
+        _authorRepository.RemoveFollowerId(author, id);
+    }
+
 
     public async Task DeleteAuthor(string email)
     {

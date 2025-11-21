@@ -81,18 +81,46 @@ public class PlaywrightTests : PageTest
         var email = "testbot@test.com";
         var password = "test123?T";
         var username = "testbot";
-        var cheepMessage = "Hello everybody! This is a REAL CHEEEEEEP";
-
         // Act
         await LoginAccountIdentity(email, password);
         await Page.Locator("#Cheep_Text").ClickAsync();
-        await Page.Locator("#Cheep_Text").FillAsync(cheepMessage);
+        await Page.Locator("#Cheep_Text").FillAsync("Hello im a real uwu");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- listitem:\n  - paragraph:\n    - strong:\n      - link \"testbot@test.com\":\n        - /url: /testbot@test.com\n    - text: /Hello im a real uwu — \\d+\\/\\d+\\/\\d+ \\d+:\\d+:\\d+/");
 
-        // Assert
-        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync(
-            $"- listitem:\n  - paragraph:\n    - strong:\n      - link \"{username}\":\n        - /url: /{username}\n    - text: /{cheepMessage} — \\d+-\\d+-\\d+ \\d+:\\d+:\\d+/");
-        await Page.Locator("html").ClickAsync();
+    }
+
+    [Test]
+    public async Task FollowAUser()
+    {
+        var email = "testbot@test.com";
+        var password = "test123?T";
+        var username = "testbot";
+        // Act
+        await LoginAccountIdentity(email, password);
+
+        await Page.GetByRole(AriaRole.Listitem).Filter(new() { HasText = "Jacqualine Gilcoine I wonder" }).GetByRole(AriaRole.Button).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- listitem:\n  - paragraph:\n    - strong:\n      - link \"Jacqualine Gilcoine\":\n        - /url: /Jacqualine Gilcoine\n    - text: /Starbuck now is what we hear the worst\\. — \\d+\\/\\d+\\/\\d+ \\d+:\\d+:\\d+/\n  - button \"Unfollow\"\n  - paragraph");
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- button \"Unfollow\"");
+    }
+
+    [Test]
+    public async Task UnfollowAUser()
+    {
+        var email = "testbot@test.com";
+        var password = "test123?T";
+        var username = "testbot";
+        // Act
+        await LoginAccountIdentity(email, password);
+
+        await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- button \"Unfollow\"");
+        await Page.GetByRole(AriaRole.Listitem).Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Button).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- button \"Follow\"");
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- listitem:\n  - paragraph:\n    - strong:\n      - link \"Jacqualine Gilcoine\":\n        - /url: /Jacqualine Gilcoine\n    - text: /I wonder if he''d give a very shiny top hat and my outstretched hand and countless subtleties, to which it contains\\. — \\d+\\/\\d+\\/\\d+ \\d+:\\d+:\\d+/\n  - button \"Follow\"\n  - paragraph");
+
     }
 
     
