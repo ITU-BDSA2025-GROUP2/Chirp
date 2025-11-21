@@ -30,4 +30,14 @@ public class AboutMeModel(ICheepService service) : PageModel
         }
         return Page();
     }
+
+    public async Task<IActionResult> OnPostForget()
+    {
+        var user = User.Identity!.Name;
+        
+        
+        
+
+        return RedirectToPage("Public");
+    }
 }

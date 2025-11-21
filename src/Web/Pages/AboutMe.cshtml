@@ -15,8 +15,6 @@
 
 <div>
     <!-- User Info /-->
-    
-    
     @if (Model.Author != null)
     {
         <h2>@Model.Author.Name's Information</h2>
@@ -68,6 +66,21 @@
         {
             <em>There are no cheeps so far.</em>
         }
+        
+        
+        
+        <!-- Forget Me Section /-->
+        
+        <h2>Forget Me</h2>
+        <p>
+            Delete your account from Chirp. WARNING THIS CANNOT BE REVERSED
+        </p>
+        
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" formaction="/info/?handler=Forget">Forget me!</button>
+        </form>
+        
     }
     else
     {
