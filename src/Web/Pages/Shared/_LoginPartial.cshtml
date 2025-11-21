@@ -6,6 +6,8 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 <ul class="navbar-nav">
+    
+    
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
@@ -17,7 +19,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" href="/info" > About Me</a>
+            <a class="nav-link text-dark" href="/info"> About Me</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" href="/Identity/Account/Logout">
@@ -33,7 +35,7 @@
             <a class="nav-link text-dark" href="/Identity/Account/Register">Register</a>
         </li>
         <li class="nav-item">
-            <a  class="nav-link text-dark" href="/Identity/Account/Login">Login</a>
+            <a class="nav-link text-dark" href="/Identity/Account/Login">Login</a>
         </li>
     }
 </ul>

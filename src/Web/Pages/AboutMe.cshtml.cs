@@ -37,7 +37,11 @@ public class AboutMeModel(ICheepService service) : PageModel
         var identity = User.Identity.Name;
         
         await _service.DeleteAuthor(identity);
-
+        
+        Response.Cookies.Delete(".AspNetCore.Identity.Application");
+        Response.Cookies.Delete("Seq-Session");
+        Response.Cookies.Delete(".AspNetCore.Antiforgery.xYiNViD5USA");
+        
         return RedirectToPage("Public");
     }
 }

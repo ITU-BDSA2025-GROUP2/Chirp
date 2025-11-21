@@ -32,10 +32,11 @@ public class AuthorRepository : IAuthorRepository
     public async Task DeleteAuthor(string email)
     {
         //var usersList = _dbContext.Users;
-        var myUser = _dbContext.Users.SingleOrDefault(user => user.Email == email);
+        var myUser = _dbContext.Users.SingleOrDefault(user => user.NormalizedEmail == email.ToUpper());
         var author = await ReturnBasedOnEmailAsync(email);
 
         if (author.Count() != 1 || author.Count == 0) return;
+        
         
         //await _dbContext.Users.FindAsync(email);
         _dbContext.Authors.Remove(author.First());
