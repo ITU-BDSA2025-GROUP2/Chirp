@@ -9,6 +9,7 @@
 @using Infrastructure.Repositories
 @using Microsoft.AspNetCore.Identity
 @using Infrastructure
+@using System.Diagnostics.Eventing.Reader
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -47,11 +48,17 @@
                         @cheep.Message
                         <small>&mdash; @cheep.Timestamp</small>
 
-                        @if(SignInManager.IsSignedIn(User)){
+                        @if(SignInManager.IsSignedIn(User) && User.Identity.Name != cheep.Email){
+                            
                             <form method="post">
                             @Html.AntiForgeryToken()
                                 <input type="hidden" name="Email" value="@cheep.Email"/>
-                                <button type="submit" formaction="/?handler=Follow">Follow</button>
+                                @if(@cheep.IsFollowed == "Follow"){
+                                    <button type="submit" formaction="/?handler=Follow">Follow</button>
+                                }else{
+                                    <button type="submit" formaction="/?handler=Follow">Unfollow</button>
+                                }
+                                 
                             </form>
                         }
                     </p>
