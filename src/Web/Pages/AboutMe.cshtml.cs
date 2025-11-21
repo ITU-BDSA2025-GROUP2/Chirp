@@ -17,13 +17,8 @@ public class AboutMeModel(ICheepService service) : PageModel
         var user = User.Identity!.Name;
         Author = await _service.GetEmail(user!, 0);
         
-        int index = user.IndexOf("@")!;
-        string username = "";
-        if (index >= 0)
-        {
-            username = user.Substring(0, index);
-        }
-        var returnList = await _service.GetCheepsFromAuthor(username, page);
+       
+        var returnList = await _service.GetCheepsFromAuthor(user, page);
         Cheeps = new List<CheepViewModel>();
         foreach (var row in returnList)
         {
