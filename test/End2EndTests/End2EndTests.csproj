@@ -11,6 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EnvironmentVariable Include="ASPNETCORE_ENVIRONMENT">
+      <Value>Testing</Value>
+    </EnvironmentVariable>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
@@ -31,5 +37,4 @@
     <ProjectReference Include="..\..\src\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\SupportScripts\SupportScripts.csproj" />
   </ItemGroup>
-
 </Project>

@@ -11,10 +11,13 @@ public class PlaywrightTests : PageTest
     public PlaywrightTests()
     {
         // CustomWebAppFactory doesn't work fully, but is left here
-        //var factory = new PlaywrightCustomWebApplicationFactory();
-        //factory.CreateClient();
+        var factory = new PlaywrightCustomWebApplicationFactory();
+        factory.CreateClient();
+        
+        factory.Server.Host.Start();
 
-        _serverAddress = "http://localhost:5273/";
+        //_serverAddress = factory.ServerAddress;
+        //_serverAddress = "http://localhost:5273/";
     }
 
     [SetUp]

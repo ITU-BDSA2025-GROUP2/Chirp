@@ -1,56 +1,58 @@
+using Infrastructure;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Web;
-
 
 namespace PlaywrightTests;
 
 public class PlaywrightCustomWebApplicationFactory : WebApplicationFactory<Program>
 {
-    private IHost? _host;
-    public string ServerAddress
+    private SqliteConnection _connection;
+
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        get
+        builder.UseEnvironment("Testing");
+
+        builder.ConfigureServices(services =>
         {
-            EnsureServer();
-            return ClientOptions.BaseAddress.ToString();
-        }
-    }
+            // 1. REMOVE the existing ChatDbContext registration
+            var descriptor = services.SingleOrDefault(
+                d => d.ServiceType == typeof(DbContextOptions<ChatDbContext>)
+            );
 
-    protected override IHost CreateHost(IHostBuilder builder)
-    {
-        var testHost = builder.Build();
-        
-        builder.ConfigureWebHost(webHostBuilder => webHostBuilder.UseKestrel());
-        
-        _host = builder.Build();
+            if (descriptor != null)
+                services.Remove(descriptor);
 
-        _host.Start();
+            // 2. CREATE ONE SHARED IN-MEMORY SQLITE CONNECTION
+            _connection = new SqliteConnection("DataSource=:memory:");
+            _connection.Open(); // IMPORTANT
 
-        var server = _host.Services.GetRequiredService<IServer>();
-        var addresses = server.Features.Get<IServerAddressesFeature>();
-        
-        ClientOptions.BaseAddress = addresses!.Addresses.Select(x => new Uri(x)).Last();  
+            // 3. REGISTER the shared connection so DbContext stays alive
+            services.AddSingleton(_connection);
 
-        testHost.Start();  
+            // 4. REGISTER ChatDbContext using the shared connection
+            services.AddDbContext<ChatDbContext>((sp, options) =>
+            {
+                var conn = sp.GetRequiredService<SqliteConnection>();
+                options.UseSqlite(conn);
+            });
 
-        return testHost;
+            // 5. BUILD THE SERVICE PROVIDER & INITIALIZE DATABASE
+            var sp = services.BuildServiceProvider();
+
+            using var scope = sp.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
+
+            db.Database.EnsureCreated();
+        });
     }
 
     protected override void Dispose(bool disposing)
     {
-        _host?.Dispose();
-    }
-
-    private void EnsureServer()
-    {
-        if (_host is null)
-        {
-            using var _ = CreateDefaultClient();
-        }
+        base.Dispose(disposing);
+        _connection?.Dispose(); // keep alive until tests end
     }
 }

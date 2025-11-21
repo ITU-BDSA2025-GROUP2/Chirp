@@ -4,8 +4,8 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-      <UserSecretsId>42eb1f06-545f-4fd3-8e33-7ad89c4c43d7</UserSecretsId>
-  </PropertyGroup>
+        <UserSecretsId>42eb1f06-545f-4fd3-8e33-7ad89c4c43d7</UserSecretsId>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="8.0.0" />
@@ -13,6 +13,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.8" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
@@ -23,7 +24,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Update="Pages\**\*.cshtml" CopyToOutputDirectory="PreserveNewest" />
+        <Content Update="wwwroot\**\*" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
 </Project>
