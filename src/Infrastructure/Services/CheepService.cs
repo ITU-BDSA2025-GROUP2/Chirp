@@ -1,5 +1,8 @@
+using System.Security.Claims;
 using Core;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
 
@@ -90,6 +93,11 @@ public class CheepService : ICheepService
     }
 
 
+    public async Task DeleteAuthor(string email)
+    {
+        
+        await _authorRepository.DeleteAuthor(email);
+    }
 }
 
 

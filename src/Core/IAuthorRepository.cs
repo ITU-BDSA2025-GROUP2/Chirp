@@ -14,4 +14,5 @@ public interface IAuthorRepository
     public Task<int> ReturnAuthorsId(string email);
 
     public Task<Author> ReturnBasedOnNameAsync(string name, int page = 0);
+    public Task DeleteAuthor(string email);
 }

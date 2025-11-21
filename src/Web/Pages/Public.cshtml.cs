@@ -74,12 +74,18 @@ public class PublicModel(ICheepService service) : PageModel
 
             input = input.Substring(0, index);
         }
-        await _service.CreateCheep(input, User.Identity.Name, cheep_message);
+
+        if (cheep_message.Length < 161)
+        {
+            await _service.CreateCheep(input, User.Identity.Name, cheep_message);
+        }
+
 
 
         Cheeps = new List<CheepViewModel>();
 
         var result = await _service.GetCheeps(0);
+
         foreach (var row in result)
         {
             Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));

@@ -1,0 +1,91 @@
+﻿@page "/info"
+@model Web.Pages.AboutMeModel
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
+    var routeName = HttpContext.GetRouteValue("author");
+}
+
+@using Core
+@using Microsoft.AspNetCore.Identity
+@using Infrastructure
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<div>
+    <!-- User Info /-->
+    @if (Model.Author != null)
+    {
+        <h2>@Model.Author.Name's Information</h2>
+        
+        <li>
+            <p>
+                Name: @Model.Author.Name
+            </p>
+            <p>
+                Email: @Model.Author.Email
+            </p>
+        </li>
+        
+        <!-- /-->
+        <h2> @Model.Author.Name's Following List</h2>
+        
+        <!--
+        foreach (var following in Model.User.Following)
+        <li>
+            <p>
+                <strong>
+                    <a href="/following.Name">following.Name</a>
+                </strong>
+            </p>
+        </li>
+        /-->
+        
+        
+        <!-- User Cheeps /-->
+        <h2> @Model.Author.Name's Cheeps </h2>
+        @if (Model.Cheeps.Any())
+        {
+            <ul id="messagelist" class="cheeps">
+                @foreach (var cheep in Model.Cheeps)
+                {
+                    <li>
+                        <p>
+                            <strong>
+                                <a href="/@cheep.Author">@cheep.Author</a>
+                            </strong>
+                            @cheep.Message
+                            <small>&mdash; @cheep.Timestamp</small>
+                        </p>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <em>There are no cheeps so far.</em>
+        }
+        
+        
+        
+        <!-- Forget Me Section /-->
+        
+        <h2>Forget Me</h2>
+        <p>
+            Delete your account from Chirp. WARNING THIS CANNOT BE REVERSED
+        </p>
+        
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" formaction="/info/?handler=Forget">Forget me!</button>
+        </form>
+        
+    }
+    else
+    {
+        <em>Hello Mister Frog</em>
+        
+        <h1>Y O U   A R E  N O T  S U P P O S E D  T O  B E  H E R E</h1>
+    }
+</div>
