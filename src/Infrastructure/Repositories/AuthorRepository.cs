@@ -82,7 +82,14 @@ public class AuthorRepository : IAuthorRepository
             );
 
         var result = await query.ToListAsync();
-        return result[0];
+        try
+        {
+            return result[0];
+        }
+        catch
+        {
+            return new List<int>();
+        }
         
     }
 

@@ -1,5 +1,6 @@
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
+using Xunit;
 
 namespace PlaywrightTests;
 
@@ -91,7 +92,37 @@ public class PlaywrightTests :  PageTest
 
     }
 
-    
+    [Test]
+    public async Task FollowAUser()
+    {
+        var email = "testbot@test.com";
+        var password = "test123?T";
+        var username = "testbot";
+        // Act
+        await LoginAccountIdentity(email, password);
+
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- button \"Follow\"");
+        await Page.Locator("li:nth-child(16) > form > button").ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- listitem:\n  - paragraph:\n    - strong:\n      - link \"Mellie Yost\":\n        - /url: /Mellie Yost\n    - text: /But what was behind the barricade\\. — \\d+\\/\\d+\\/\\d+ \\d+:\\d+:\\d+/\n  - button \"Unfollow\"\n  - paragraph");
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- button \"Unfollow\"");
+    }
+
+    [Test]
+    public async Task UnfollowAUser()
+    {
+        var email = "testbot@test.com";
+        var password = "test123?T";
+        var username = "testbot";
+        // Act
+        await LoginAccountIdentity(email, password);
+
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- button \"Follow\"");
+        await Page.Locator("li:nth-child(16) > form > button").ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- listitem:\n  - paragraph:\n    - strong:\n      - link \"Mellie Yost\":\n        - /url: /Mellie Yost\n    - text: /But what was behind the barricade\\. — \\d+\\/\\d+\\/\\d+ \\d+:\\d+:\\d+/\n  - button \"Unfollow\"\n  - paragraph");
+        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- button \"Unfollow\"");
+    }
 
 
     private async Task LoginAccountIdentity(string email, string password)
