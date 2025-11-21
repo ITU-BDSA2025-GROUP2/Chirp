@@ -9,26 +9,25 @@ public class AboutMeModel(ICheepService service) : PageModel
 {
     private readonly ICheepService _service = service;
     public required List<CheepViewModel> Cheeps { get; set; }
+    public required Author Author { get; set; }
 
-    public async Task<ActionResult> OnGet(string author, [FromQuery] int page)
+    public async Task<ActionResult> OnGet([FromQuery] int page)
     {
-
-        int index = author.IndexOf("@");
+        var user = User.Identity!.Name;
+        Author = await _service.GetEmail(user!, 0);
+        
+        int index = user.IndexOf("@")!;
+        string username = "";
         if (index >= 0)
         {
-            author = author.Substring(0, index);
+            username = user.Substring(0, index);
         }
-        var returnList = await _service.GetCheepsFromAuthor(author, page);
+        var returnList = await _service.GetCheepsFromAuthor(username, page);
         Cheeps = new List<CheepViewModel>();
         foreach (var row in returnList)
         {
             Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString()));
         }
-
-
         return Page();
     }
-
-
-    
 }
