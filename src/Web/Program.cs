@@ -13,7 +13,7 @@ public class Program
     public static void Main(string[] args)
     {
         var app = BuildWebApplication(args);
-        
+
         //Initialise Database
         if (!app.Environment.IsEnvironment("Testing"))
         {
@@ -23,16 +23,15 @@ public class Program
             context.Database.EnsureCreated();
             DbInitializer.SeedDatabase(context);
         }
-        
+
         app.Run();
-        
     }
-    
+
     public static WebApplication BuildWebApplication(string[]? args = null, string? environment = null)
     {
         var baseDir = AppContext.BaseDirectory;
         string webProjectPath;
-        
+
         // For Testing environment, use the output directory where files are copied
         if (environment == "Testing")
         {
@@ -40,13 +39,11 @@ public class Program
             if (Directory.Exists(Path.Combine(baseDir, "Pages")))
             {
                 webProjectPath = baseDir;
-                Console.WriteLine($"[DEBUG] Using test output directory: {webProjectPath}");
             }
             else
             {
                 // Fallback: try to find it in the source
                 webProjectPath = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "..", "src", "Web"));
-                Console.WriteLine($"[DEBUG] Pages not found in output, using source: {webProjectPath}");
             }
         }
         else
@@ -54,52 +51,38 @@ public class Program
             // For non-testing, try to find the Web project source directory
             var currentDir = new DirectoryInfo(baseDir);
             DirectoryInfo? foundDir = null;
-            
+
             while (currentDir != null)
             {
                 var webCsprojDirect = Path.Combine(currentDir.FullName, "Web.csproj");
                 var webCsprojInSrc = Path.Combine(currentDir.FullName, "src", "Web", "Web.csproj");
-                
+
                 if (File.Exists(webCsprojDirect))
                 {
                     foundDir = currentDir;
                     break;
                 }
+
                 if (File.Exists(webCsprojInSrc))
                 {
                     foundDir = new DirectoryInfo(Path.Combine(currentDir.FullName, "src", "Web"));
                     break;
                 }
-                
+
                 currentDir = currentDir.Parent;
             }
-            
-            webProjectPath = foundDir?.FullName ?? Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "..", "src", "Web"));
-            Console.WriteLine($"[DEBUG] Using source directory: {webProjectPath}");
+
+            webProjectPath = foundDir?.FullName ??
+                             Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "..", "src", "Web"));
         }
-        
-        Console.WriteLine($"[DEBUG] Pages folder exists: {Directory.Exists(Path.Combine(webProjectPath, "Pages"))}");
-        Console.WriteLine($"[DEBUG] wwwroot folder exists: {Directory.Exists(Path.Combine(webProjectPath, "wwwroot"))}");
-        
-        if (Directory.Exists(Path.Combine(webProjectPath, "Pages")))
-        {
-            var pageFiles = Directory.GetFiles(Path.Combine(webProjectPath, "Pages"), "*.cshtml", SearchOption.AllDirectories);
-            Console.WriteLine($"[DEBUG] Found {pageFiles.Length} .cshtml files:");
-            foreach (var file in pageFiles.Take(10))
-            {
-                Console.WriteLine($"[DEBUG]   - {file}");
-            }
-        }
-        
-        var options = new WebApplicationOptions
+
+        var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
         {
             Args = args ?? Array.Empty<string>(),
             EnvironmentName = environment ?? Environments.Development,
             ContentRootPath = webProjectPath,
             WebRootPath = Path.Combine(webProjectPath, "wwwroot")
-        };
-        
-        var builder = WebApplication.CreateBuilder(options);
+        });
 
         builder.Services.AddSession();
         builder.Services.AddDistributedMemoryCache();
@@ -107,14 +90,11 @@ public class Program
         // Configure database based on environment
         if (builder.Environment.IsEnvironment("Testing"))
         {
-            // Use shared in-memory SQLite for testing
-            // Cache=Shared allows multiple connections to access the same in-memory database
             builder.Services.AddDbContext<ChatDbContext>(options =>
                 options.UseSqlite("DataSource=TestDb;Mode=Memory;Cache=Shared"));
         }
         else
         {
-            // Use file-based SQLite for development/production
             string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ChatDbContext>(options =>
                 options.UseSqlite(connectionString));
@@ -122,26 +102,41 @@ public class Program
 
         builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ChatDbContext>();
-        
-        if (!builder.Environment.IsEnvironment("Development") && !builder.Environment.IsEnvironment("Testing"))
+
+
+        // Load User Secrets given Dev/Testing environment
+        if (builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("Testing"))
         {
-            builder.Services.AddAuthentication()
-                .AddCookie()
-                .AddGitHub(o =>
-                {
-                    o.ClientId = builder.Configuration["authentication_github_clientId"];
-                    o.ClientSecret = builder.Configuration["authentication_github_clientSecret"];
-                    o.CallbackPath = new PathString("/git-login");
-                });
+            builder.Configuration.AddUserSecrets<Program>(optional: true);
+        }
+
+        var githubClientId = builder.Configuration["authentication_github_clientId"];
+        var githubClientSecret = builder.Configuration["authentication_github_clientSecret"];
+        var hasGitHubCredentials = !string.IsNullOrEmpty(githubClientId) && !string.IsNullOrEmpty(githubClientSecret);
+
+        // Ensure github credentials exist
+        if (!builder.Environment.IsDevelopment() && !builder.Environment.IsEnvironment("Testing") &&
+            !hasGitHubCredentials)
+        {
+            throw new Exception(
+                "GitHub OAuth credentials missing");
+        }
+
+        var authBuilder = builder.Services.AddAuthentication().AddCookie();
+        if (hasGitHubCredentials)
+        {
+            Console.WriteLine($"[DEBUG] GitHub OAuth enabled - ClientId: {githubClientId}");
+            authBuilder.AddGitHub(o =>
+            {
+                o.ClientId = githubClientId!;
+                o.ClientSecret = githubClientSecret!;
+                o.CallbackPath = new PathString("/git-login");
+            });
         }
         else
         {
-            builder.Services.AddAuthentication()
-                .AddCookie(); // Only cookie auth for tests
+            Console.WriteLine("[DEBUG] GitHub OAuth disabled - no credentials configured");
         }
-
-        // Add services to the container.
-        Console.WriteLine("[DEBUG] Adding Razor Pages services...");
         
         // Configure Razor Pages with specific settings for testing
         var razorPagesBuilder = builder.Services.AddRazorPages(options =>
@@ -149,22 +144,17 @@ public class Program
             // Set the root directory for pages
             options.RootDirectory = "/Pages";
         });
-        
+
         // Enable runtime compilation for Testing and Development
         if (builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("Testing"))
         {
-            Console.WriteLine("[DEBUG] Enabling Razor Runtime Compilation...");
             razorPagesBuilder.AddRazorRuntimeCompilation();
         }
-        
+
         // Explicitly configure MVC to use the Web assembly
         builder.Services.AddMvc()
             .AddApplicationPart(typeof(Program).Assembly);
-        
-        Console.WriteLine($"[DEBUG] Web assembly: {typeof(Program).Assembly.FullName}");
-        Console.WriteLine($"[DEBUG] Web assembly location: {typeof(Program).Assembly.Location}");
-        Console.WriteLine("[DEBUG] Razor Pages services added");
-        
+
         builder.Services.AddScoped<ICheepService, CheepService>();
         builder.Services.AddScoped<ICheepRepository, CheepRepository>();
         builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -196,11 +186,12 @@ public class Program
                 app.UseHttpsRedirection();
             }
         }
-        
+
         if (!app.Environment.IsDevelopment() && !app.Environment.IsEnvironment("Testing"))
         {
             app.UseHttpsRedirection();
         }
+
         app.UseStaticFiles();
 
         app.UseRouting();
@@ -208,47 +199,7 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseSession();
-
-        Console.WriteLine("[DEBUG] About to call MapRazorPages()...");
         app.MapRazorPages();
-        Console.WriteLine("[DEBUG] MapRazorPages() completed");
-
-        var endpoints = app.Services.GetRequiredService<EndpointDataSource>().Endpoints;
-        Console.WriteLine($"[DEBUG] Mapped {endpoints.Count} endpoints after MapRazorPages()");
-        
-        if (endpoints.Count == 0)
-        {
-            Console.WriteLine("[DEBUG] WARNING: No endpoints were registered!");
-            Console.WriteLine($"[DEBUG] Checking assemblies:");
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(a => a.GetName().Name?.Contains("Web") == true || a.GetName().Name?.Contains("Razor") == true);
-            foreach (var asm in assemblies)
-            {
-                Console.WriteLine($"[DEBUG]   - {asm.GetName().Name} ({asm.Location})");
-            }
-            
-            Console.WriteLine($"[DEBUG] Checking for PageModel types in Web.dll:");
-            var webAsm = AppDomain.CurrentDomain.GetAssemblies()
-                .FirstOrDefault(a => a.GetName().Name == "Web");
-            if (webAsm != null)
-            {
-                var pageModelTypes = webAsm.GetTypes()
-                    .Where(t => t.BaseType?.Name == "PageModel")
-                    .ToList();
-                Console.WriteLine($"[DEBUG] Found {pageModelTypes.Count} PageModel types:");
-                foreach (var type in pageModelTypes)
-                {
-                    Console.WriteLine($"[DEBUG]   - {type.FullName}");
-                }
-            }
-        }
-        else
-        {
-            foreach (var endpoint in endpoints.Take(10))
-            {
-                Console.WriteLine($"[DEBUG] Endpoint: {endpoint.DisplayName}");
-            }
-        }
 
         return app;
     }

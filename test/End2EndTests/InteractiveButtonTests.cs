@@ -59,7 +59,7 @@ public class InteractiveButtonTests : PageTest
     public async Task Timeline_CheepAuthorLinkTest()
     {
         // Navigate to the timeline page
-        await Page.GotoAsync("http://127.0.0.1:5273/");
+        await Page.GotoAsync(ServerAddress);
 
         // Wait for page to load
         await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);

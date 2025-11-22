@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
+    <UserSecretsId>42eb1f06-545f-4fd3-8e33-7ad89c4c43d7</UserSecretsId>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <RootNamespace>PlaywrightTests</RootNamespace>
@@ -36,10 +36,5 @@
     <ProjectReference Include="..\..\src\Web\Web.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\SupportScripts\SupportScripts.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Server\" />
-    <Folder Include="TestClasses\" />
   </ItemGroup>
 </Project>

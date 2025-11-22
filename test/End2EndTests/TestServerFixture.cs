@@ -12,7 +12,7 @@ public class TestServerFixture : IAsyncDisposable
     private static bool _serverStarted;
     private static WebApplication? _app;
     private static SqliteConnection? _keepAliveConnection;
-    public string ServerAddress = "http://127.0.0.1:5273";
+    public string ServerAddress = "http://localhost:5273";
 
     public async Task StartAsync()
     {
