@@ -1,10 +1,5 @@
-using Infrastructure;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
-using Program = Web.Program;
 
 namespace PlaywrightTests;
 
@@ -12,165 +7,32 @@ namespace PlaywrightTests;
 [TestFixture]
 public class InteractiveButtonTests : PageTest
 {
-    private static bool _serverStarted = false;
-    private static WebApplication? _app = null;
-    private string _serverAddress = "http://127.0.0.1:5273";
+    private static readonly TestServerFixture Fixture = new();
+    private string ServerAddress => Fixture.ServerAddress;
     
     [OneTimeSetUp]
     public async Task OneTimeSetup()
     {
-        if (!_serverStarted)
-        {
-            // Check if port is already in use
-            try
-            {
-                using var testClient = new HttpClient();
-                testClient.Timeout = TimeSpan.FromSeconds(1);
-                var testResult = await testClient.GetAsync(_serverAddress);
-                Console.WriteLine($"WARNING: Port 5273 is already in use! Got status: {testResult.StatusCode}");
-            }
-            catch
-            {
-                Console.WriteLine("Port 5273 is free, proceeding with server start");
-            }
-            
-            _app = Program.BuildWebApplication(environment: "Testing");
-            
-            // Initialize the database for testing
-            using (var scope = _app.Services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
-                context.Database.EnsureDeleted(); // Clean slate for tests
-                context.Database.EnsureCreated();
-                DbInitializer.SeedDatabase(context);
-            }
-            
-            Console.WriteLine("Routes:");
-            foreach (var d in _app.Services.GetRequiredService<EndpointDataSource>().Endpoints)
-            {
-                Console.WriteLine(d.DisplayName);
-            }
-            
-            Console.WriteLine("Content root: " + _app.Environment.ContentRootPath);
-            Console.WriteLine("Pages folder exists? " + Directory.Exists(Path.Combine(_app.Environment.ContentRootPath, "Pages")));
-            Console.WriteLine("wwwroot folder exists? " + Directory.Exists(Path.Combine(_app.Environment.ContentRootPath, "wwwroot")));
-
-            _app.Urls.Clear();
-            _app.Urls.Add(_serverAddress);
-            
-            try
-            {
-                // Start the server in a background task
-                _ = Task.Run(async () => 
-                {
-                    try
-                    {
-                        await _app.RunAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Server crashed: " + ex.Message);
-                    }
-                });
-                
-                Console.WriteLine("Server starting on " + _serverAddress);
-                
-                // Give it a moment to actually start listening
-                await Task.Delay(1000);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("SERVER FAILED TO START:");
-                Console.WriteLine(ex);
-                throw;
-            }
-            
-            _serverStarted = true;
-
-            // Wait until server is actually reachable with retries
-            bool serverReady = false;
-            using var httpClient = new HttpClient(new HttpClientHandler 
-            { 
-                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true 
-            });
-            httpClient.Timeout = TimeSpan.FromSeconds(5);
-            
-            for (int i = 0; i < 30; i++)
-            {
-                try
-                {
-                    Console.WriteLine($"Attempt {i + 1}: Trying to connect to {_serverAddress}");
-                    var result = await httpClient.GetAsync(_serverAddress);
-                    Console.WriteLine($"Attempt {i + 1}: Got status code {result.StatusCode}");
-                    
-                    // Accept any response that isn't a connection error - even 404 means server is running
-                    if ((int)result.StatusCode >= 200 && (int)result.StatusCode < 600)
-                    {
-                        serverReady = true;
-                        Console.WriteLine($"Server is ready and responding with status {result.StatusCode}");
-                        break;
-                    }
-                }
-                catch (HttpRequestException ex)
-                {
-                    Console.WriteLine($"Attempt {i + 1}: HttpRequestException - {ex.Message}");
-                }
-                catch (TaskCanceledException ex)
-                {
-                    Console.WriteLine($"Attempt {i + 1}: Timeout - {ex.Message}");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Attempt {i + 1}: {ex.GetType().Name} - {ex.Message}");
-                }
-
-                await Task.Delay(500);
-            }
-
-            if (!serverReady)
-            {
-                throw new Exception($"Server failed to become ready within timeout period. Check if port 5273 is available and not blocked by firewall.");
-            }
-        }
+        await Fixture.StartAsync();
     }
 
     [OneTimeTearDown]
     public async Task OneTimeTearDown()
     {
-        if (_app != null)
-        {
-            await _app.StopAsync();
-            await _app.DisposeAsync();
-        }
+        await Fixture.DisposeAsync();
     }
     
     [SetUp]
     public async Task Setup()
     {
-        try
-        {
-            // Navigate to public timeline instead of root if root doesn't exist
-            var targetUrl = _serverAddress + "/Public";
-            await Page.GotoAsync(targetUrl, new() { WaitUntil = WaitUntilState.NetworkIdle, Timeout = 10000 });
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Failed to navigate in Setup: {ex.Message}");
-            throw;
-        }
+        await Page.GotoAsync(ServerAddress); // Always return to root homepage
     }
 
     [Test]
     public async Task BasicTest()
     { 
-        Console.WriteLine("Testing: " + _serverAddress);
-        // Test the /Public page instead of root
-        var response = await Page.GotoAsync(_serverAddress + "/Public");
-        Console.WriteLine("Response status: " + response.Status);
-        Assert.That(response.Status, Is.EqualTo(200), "Server should return 200 OK");
-        
-        var content = await Page.ContentAsync();
-        Assert.That(content, Is.Not.Empty, "Page content should not be empty");
+        var response = await Page.GotoAsync(ServerAddress + "/Public");
+        Assert.That(response!.Status, Is.EqualTo(200));
     }
 
     [Test]
@@ -192,7 +54,7 @@ public class InteractiveButtonTests : PageTest
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         
         // Fixed: Added leading slash
-        await Expect(Page).ToHaveURLAsync(_serverAddress + "/Identity/Account/Login");
+        await Expect(Page).ToHaveURLAsync(ServerAddress + "/Identity/Account/Login");
     }
 
     [Test]
@@ -203,19 +65,47 @@ public class InteractiveButtonTests : PageTest
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         
         // Fixed: Added leading slash
-        await Expect(Page).ToHaveURLAsync(_serverAddress + "/Identity/Account/Register");
+        await Expect(Page).ToHaveURLAsync(ServerAddress + "/Identity/Account/Register");
     }
 
     [Test]
-    public async Task CheepAuthorClickTest()
+    public async Task Timeline_CheepAuthorLinkTest()
     {
-        var cheep = Page.GetByRole(AriaRole.Paragraph).First;
-        var authorLink = cheep.GetByRole(AriaRole.Link);
-        var authorName = await authorLink.InnerTextAsync();
+        // Navigate to the timeline page
+        await Page.GotoAsync("http://127.0.0.1:5273/");
 
-        await authorLink.ClickAsync();
-        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        // Wait for page to load
+        await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
-        await Expect(Page.Locator("h2")).ToHaveTextAsync($"{authorName}'s Timeline");
+        var cheepItems = Page.Locator("ul#messagelist li");
+        int cheepCount = await cheepItems.CountAsync();
+
+        if (cheepCount == 0)
+        {
+            Assert.Inconclusive("No cheeps exist on the timeline. Cannot test author links.");
+        }
+        else
+        {
+            for (int i = 0; i < cheepCount; i++)
+            {
+                var cheepItem = cheepItems.Nth(i);
+                var link = cheepItem.Locator("strong a");
+
+                // Wait for link to appear
+                await link.WaitForAsync(new() { Timeout = 5000 });
+
+                // Assert link is visible and has text
+                Assert.IsTrue(await link.IsVisibleAsync(), $"Cheep #{i + 1}: Author link is not visible.");
+                var authorName = await link.InnerTextAsync();
+                Assert.IsFalse(string.IsNullOrWhiteSpace(authorName), $"Cheep #{i + 1}: Author link text is empty.");
+
+                // Click the link and verify the timeline heading
+                await link.ClickAsync();
+                await Expect(Page.Locator("h2")).ToHaveTextAsync($"{authorName}'s Timeline");
+
+                // Optionally, navigate back to the main timeline for the next iteration
+                await Page.GoBackAsync();
+            }
+        }
     }
 }

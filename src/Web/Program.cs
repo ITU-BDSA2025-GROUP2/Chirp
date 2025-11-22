@@ -19,6 +19,7 @@ public class Program
         {
             using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
+            context.Database.OpenConnection();
             context.Database.EnsureCreated();
             DbInitializer.SeedDatabase(context);
         }
@@ -32,7 +33,7 @@ public class Program
         var baseDir = AppContext.BaseDirectory;
         string webProjectPath;
         
-        Console.WriteLine($"[DEBUG] Base directory: {baseDir}");
+        //Console.WriteLine($"[DEBUG] Base directory: {baseDir}");
         
         // For Testing environment, use the output directory where files are copied
         if (environment == "Testing")
@@ -66,7 +67,7 @@ public class Program
                     foundDir = currentDir;
                     break;
                 }
-                else if (File.Exists(webCsprojInSrc))
+                if (File.Exists(webCsprojInSrc))
                 {
                     foundDir = new DirectoryInfo(Path.Combine(currentDir.FullName, "src", "Web"));
                     break;
@@ -107,7 +108,9 @@ public class Program
 
         // Load database connection via configuration.
         string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlite(connectionString));
+        builder.Services.AddDbContext<ChatDbContext>(options =>
+            options.UseSqlite(connectionString));
+        
 
         builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ChatDbContext>();

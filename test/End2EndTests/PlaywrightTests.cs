@@ -6,30 +6,32 @@ namespace PlaywrightTests;
 [Parallelizable(ParallelScope.Self)]
 public class PlaywrightTests : PageTest
 {
-    private readonly string _serverAddress;
-
-    public PlaywrightTests()
+    private static TestServerFixture _fixture = new();
+    private string ServerAddress => _fixture.ServerAddress;
+    
+    [OneTimeSetUp]
+    public async Task OneTimeSetup()
     {
-        // CustomWebAppFactory doesn't work fully, but is left here
-        var factory = new PlaywrightCustomWebApplicationFactory();
-        factory.CreateClient();
-        
-        factory.Server.Host.Start();
-
-        //_serverAddress = factory.ServerAddress;
-        //_serverAddress = "http://localhost:5273/";
+        await _fixture.StartAsync();
     }
 
+    [OneTimeTearDown]
+    public async Task OneTimeTearDown()
+    {
+        await _fixture.DisposeAsync();
+    }
+    
     [SetUp]
     public async Task Setup()
     {
-        await Page.GotoAsync(_serverAddress);
+        await Page.GotoAsync(ServerAddress); // Always return to root homepage
     }
 
     [Test]
     public async Task BasicTest()
-    {
-        await Page.GotoAsync(_serverAddress);
+    { 
+        var response = await Page.GotoAsync(ServerAddress + "/Public");
+        Assert.That(response!.Status, Is.EqualTo(200));
     }
 
     [Test]
@@ -70,7 +72,6 @@ public class PlaywrightTests : PageTest
 
         // Log into valid account
         await LoginAccountIdentity("testbot@test.com", "test123?T");
-
 
         // Assert Cheep Box exists
         await Expect(Page.Locator("#Cheep_Text")).ToBeVisibleAsync();
@@ -185,7 +186,7 @@ public class PlaywrightTests : PageTest
 
     private async Task DeleteAccountIdentity()
     {
-        await Page.GotoAsync(_serverAddress);
+        await Page.GotoAsync(ServerAddress);
         await Page.GetByRole(AriaRole.Link, new() { Name = "About Me" }).ClickAsync();
         await Page.GetByRole(AriaRole.Button, new() { Name = "Forget me!" }).ClickAsync();
     }
