@@ -10,10 +10,7 @@ public class PlaywrightTests : PageTest
 {
     private static readonly TestServerFixture Fixture = new();
     private string ServerAddress => Fixture.ServerAddress;
-    
-    // Test user credentials (should match what's in your DbInitializer)
-    private const string TestUserEmail = "test@example.com";
-    private const string TestUserPassword = "Test123!";
+
     
     [OneTimeSetUp]
     public async Task OneTimeSetup()
@@ -26,7 +23,7 @@ public class PlaywrightTests : PageTest
     {
         await Fixture.DisposeAsync();
     }
-    
+
     [SetUp]
     public async Task Setup()
     {
@@ -35,7 +32,7 @@ public class PlaywrightTests : PageTest
 
     [Test]
     public async Task BasicTest()
-    { 
+    {
         var response = await Page.GotoAsync(ServerAddress + "/Public");
         Assert.That(response!.Status, Is.EqualTo(200));
     }
@@ -46,16 +43,16 @@ public class PlaywrightTests : PageTest
     {
         var email = "newAccount@test.com";
         var password = "Test12345!";
-        
+
         await RegisterAccountIdentity(email, password);
         await LoginAccountIdentity(email, password);
-        
+
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         await Expect(Page).ToHaveURLAsync(new Regex(".*/?"));
         await Expect(Page.GetByRole(AriaRole.Link, new() { Name = "Register" })).Not.ToBeVisibleAsync();
         await Expect(Page.GetByRole(AriaRole.Link, new() { Name = "Login" })).Not.ToBeVisibleAsync();
     }
-    
+
     [Test]
     public async Task LoginLogoutIdentityTest_AccountDoesNotExist()
     {
@@ -68,6 +65,7 @@ public class PlaywrightTests : PageTest
         await Expect(Page.GetByRole(AriaRole.Alert)).ToMatchAriaSnapshotAsync("- listitem: Invalid login attempt.");
     }
     
+
     [Test]
     public async Task DeleteAccount_AccountGetsDeleted()
     {
@@ -77,54 +75,83 @@ public class PlaywrightTests : PageTest
 
         await RegisterAccountIdentity(email, password);
         await LoginAccountIdentity(email, password);
-        
+
+        await Expect(Page.GetByRole(AriaRole.Link, new() { Name = "Login" }))
+            .Not.ToBeVisibleAsync();
+
         await Page.Locator("#Cheep_Text").ClickAsync();
         await Page.Locator("#Cheep_Text").FillAsync("DELETE MY CHIRP");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
 
         await DeleteAccountIdentity();
-        
+
         await Expect(Page.Locator("body")).ToMatchAriaSnapshotAsync(
             "- link \"public timeline\":\n  - /url: /\n- text: \"|\"\n- list:\n  - listitem:\n    - link \"Register\":\n      - /url: /Identity/Account/Register\n  - listitem:\n    - link \"Login\":\n      - /url: /Identity/Account/Login");
 
         var cheep = Page.GetByRole(AriaRole.Paragraph).First;
         var authorLink = cheep.GetByRole(AriaRole.Link);
         var authorName = await authorLink.InnerTextAsync();
-        
+
         Assert.That(username != authorName);
     }
+
     
     [Test]
     public async Task SendCheepTest_UserSendsValidCheep()
     {
         // Arrange
-        var email = "testbot@test.com";
+        var email = "newCheepAccount@test.com";
         var password = "test123?T";
-        var username = "testbot";
+        var cheepText = "Hello im a real uwu";
+    
         // Act
+        await RegisterAccountIdentity(email, password);
         await LoginAccountIdentity(email, password);
         await Page.Locator("#Cheep_Text").ClickAsync();
-        await Page.Locator("#Cheep_Text").FillAsync("Hello im a real uwu");
+        await Page.Locator("#Cheep_Text").FillAsync(cheepText);
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
-        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- listitem:\n  - paragraph:\n    - strong:\n      - link \"testbot@test.com\":\n        - /url: /testbot@test.com\n    - text: /Hello im a real uwu — \\d+\\/\\d+\\/\\d+ \\d+:\\d+:\\d+/");
-
-    }
     
+        // Wait for the page to reload/update after posting
+        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+    
+        // Assert - Check that the first item in the message list is our new cheep
+        var firstCheep = Page.Locator("#messagelist > li").First;
+    
+        // Simpler approach: verify individual elements without complex regex
+        await Expect(firstCheep).ToContainTextAsync(cheepText);
+        await Expect(firstCheep.GetByRole(AriaRole.Link).First).ToHaveTextAsync(email);
+        await Expect(firstCheep.GetByRole(AriaRole.Link).First).ToHaveAttributeAsync("href", $"/{email}");
+    
+        // Verify timestamp format exists
+        var cheepFullText = await firstCheep.InnerTextAsync();
+        Assert.That(cheepFullText, Does.Match(@"\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}"));
+    }
+
     [Test]
     public async Task FollowAUser()
     {
-        var email = "testbot@test.com";
+        var email = "followAccount@test.com";
         var password = "test123?T";
-        var username = "testbot";
-        // Act
+        
+        await RegisterAccountIdentity(email, password);
         await LoginAccountIdentity(email, password);
-
-        await Page.GetByRole(AriaRole.Listitem).Filter(new() { HasText = "Jacqualine Gilcoine I wonder" }).GetByRole(AriaRole.Button).ClickAsync();
+        
+        await Page.GetByRole(AriaRole.Listitem)
+            .Filter(new() { HasText = "Jacqualine Gilcoine I wonder" })
+            .GetByRole(AriaRole.Button)
+            .ClickAsync();
+        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
-        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- listitem:\n  - paragraph:\n    - strong:\n      - link \"Jacqualine Gilcoine\":\n        - /url: /Jacqualine Gilcoine\n    - text: /Starbuck now is what we hear the worst\\. — \\d+\\/\\d+\\/\\d+ \\d+:\\d+:\\d+/\n  - button \"Unfollow\"\n  - paragraph");
-        await Expect(Page.Locator("#messagelist")).ToMatchAriaSnapshotAsync("- button \"Unfollow\"");
-    }
+        await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     
+        var firstCheep = Page.Locator("#messagelist > li").First;
+        await Expect(firstCheep).ToMatchAriaSnapshotAsync(
+            "- listitem:\n  - paragraph:\n    - strong:\n      - link \"Jacqualine Gilcoine\":\n        - /url: /Jacqualine Gilcoine\n    - text: /Starbuck now is what we hear the worst\\. — \\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2}/\n  - button \"Unfollow\"\n  - paragraph");
+        var unfollowButtons = Page.GetByRole(AriaRole.Button, new() { Name = "Unfollow" });
+        var buttonCount = await unfollowButtons.CountAsync();
+        Assert.That(buttonCount, Is.GreaterThan(0), "Should have at least one Unfollow button");
+    }
+
     private async Task LoginAccountIdentity(string email, string password)
     {
         await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
@@ -143,7 +170,7 @@ public class PlaywrightTests : PageTest
         await Page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync(email);
         await Page.GetByRole(AriaRole.Textbox, new() { Name = "Password", Exact = true }).FillAsync(password);
         await Page.GetByRole(AriaRole.Textbox, new() { Name = "Confirm Password" }).FillAsync(password);
-        
+
         await Page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
@@ -154,12 +181,12 @@ public class PlaywrightTests : PageTest
         // Navigate to About Me page with page parameter
         await Page.GotoAsync(ServerAddress + "/info?page=1");
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-        
+
         Console.WriteLine($"URL: {Page.Url}");
-        
+
         // Wait for the page to render and check if the button exists
         var forgetButton = Page.GetByRole(AriaRole.Button, new() { Name = "Forget me!" });
-        
+
         // If button doesn't exist, print debug info
         if (await forgetButton.CountAsync() == 0)
         {
@@ -167,7 +194,7 @@ public class PlaywrightTests : PageTest
             Console.WriteLine($"Page content: {bodyText}");
             throw new Exception("'Forget me!' button not found on /info page");
         }
-        
+
         await forgetButton.ClickAsync();
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
