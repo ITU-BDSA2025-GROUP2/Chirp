@@ -8,48 +8,36 @@ namespace Web.Pages;
 public class UserTimelineModel(ICheepService service) : PageModel
 {
     private readonly ICheepService _service = service;
+    [BindProperty(SupportsGet = true)]
+    public string Author { get; set; } // Route-bound property
+    
     public required List<CheepViewModel> Cheeps { get; set; }
+    
 
-    public async Task<ActionResult> OnGet(string author, [FromQuery] int page)
+    public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
-
-        //This would be nice to order all by timestamp instead of person. 
+        // Author is automatically populated from the route
         var ids = await _service.GetFollowers(User.Identity.Name);
         var returnList = await _service.GetCheepsFromFollowed(ids, page);
-        var IsFollowed = false;
+
         Cheeps = new List<CheepViewModel>();
-        if (author == User.Identity.Name)
-        {   
+        var IsFollowed = false;
+
+        if (Author == User.Identity.Name)
+        {
             foreach (var row in returnList)
             {
-                var id = row.Author.AuthorId;
-                IsFollowed = false;
-
-                foreach(int t in ids)
-                {   
-                    if(id == t)
-                    {
-                        IsFollowed = true;
-                        break;
-                    }
-                    
-                }
-                if (IsFollowed)
-                {
-                    Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Unfollow"));
-                    continue;
-                }
-                Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));
-
+                IsFollowed = ids.Contains(row.Author.AuthorId);
+                Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, IsFollowed ? "Unfollow" : "Follow"));
             }
         }
-        returnList = await _service.GetCheepsFromAuthor(author, page);
+
+        returnList = await _service.GetCheepsFromAuthor(Author, page);
         foreach (var row in returnList)
         {
             Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));
         }
 
-//
         return Page();
     }
 
@@ -59,25 +47,9 @@ public class UserTimelineModel(ICheepService service) : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        var cheep_message = Text;
-        string input = User.Identity.Name;
-        int index = input.IndexOf("@");
-        if (index >= 0)
-        {
-            input = input.Substring(0, index);
-        }
-        await _service.CreateCheep(input, User.Identity.Name, cheep_message);
-
-
-        Cheeps = new List<CheepViewModel>();
-
-        var result = await _service.GetCheeps(0);
-        foreach (var row in result)
-        {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));
-        }
-
-        return RedirectToPage("UserTimeline");
+        var input = User.Identity.Name.Split('@')[0];
+        await _service.CreateCheep(input, User.Identity.Name, Text);
+        return RedirectToPage("UserTimeline", new { author = Author });
     }
 
     [BindProperty]
@@ -87,44 +59,13 @@ public class UserTimelineModel(ICheepService service) : PageModel
     {
         var id = await _service.GetAuthorId(Email);
         var author = await _service.GetEmail(User.Identity.Name, page);
-        var IsFollowed = false;
 
         var followers = await _service.GetFollowers(author.Email);
-        foreach(int t in followers)
-        {   
-            if(id == t)
-            {
-
-                IsFollowed = true;
-                break;
-            }
-            else
-            {
-                IsFollowed = false;
-            }
-        }
-
-        if (!IsFollowed)
-        {
-            _service.AddFollowerId(author, id);
-        }
-        else
-        {
+        if (followers.Contains(id))
             _service.RemoveFollowerId(author, id);
-        }
+        else
+            _service.AddFollowerId(author, id);
 
-        followers = await _service.GetFollowers(User.Identity.Name);
-
-        Console.WriteLine(User.Identity.Name + "You are following these people:");
-
-        foreach(int t in followers)
-        {
-            Console.WriteLine(t);
-        }
-
-
-
-        return RedirectToPage("UserTimeline");
-    } 
-
+        return RedirectToPage("UserTimeline", new { author = Author });
+    }
 }

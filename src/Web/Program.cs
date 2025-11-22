@@ -131,28 +131,27 @@ public class Program
 
         // Add services to the container.
         Console.WriteLine("[DEBUG] Adding Razor Pages services...");
-        var razorPagesBuilder = builder.Services.AddRazorPages();
         
-        // Explicitly add the Web assembly as an application part
-        var webAssembly = typeof(Program).Assembly;
-        Console.WriteLine($"[DEBUG] Web assembly: {webAssembly.FullName}");
-        Console.WriteLine($"[DEBUG] Web assembly location: {webAssembly.Location}");
-        
-        razorPagesBuilder.AddApplicationPart(webAssembly);
+        // Configure Razor Pages with specific settings for testing
+        var razorPagesBuilder = builder.Services.AddRazorPages(options =>
+        {
+            // Set the root directory for pages
+            options.RootDirectory = "/Pages";
+        });
         
         // Enable runtime compilation for Testing and Development
         if (builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("Testing"))
         {
             Console.WriteLine("[DEBUG] Enabling Razor Runtime Compilation...");
-            razorPagesBuilder.AddRazorRuntimeCompilation(options =>
-            {
-                var pagesPath = Path.Combine(builder.Environment.ContentRootPath, "Pages");
-                Console.WriteLine($"[DEBUG] Adding file provider for: {pagesPath}");
-                options.FileProviders.Clear();
-                options.FileProviders.Add(new Microsoft.Extensions.FileProviders.PhysicalFileProvider(pagesPath));
-            });
+            razorPagesBuilder.AddRazorRuntimeCompilation();
         }
         
+        // Explicitly configure MVC to use the Web assembly
+        builder.Services.AddMvc()
+            .AddApplicationPart(typeof(Program).Assembly);
+        
+        Console.WriteLine($"[DEBUG] Web assembly: {typeof(Program).Assembly.FullName}");
+        Console.WriteLine($"[DEBUG] Web assembly location: {typeof(Program).Assembly.Location}");
         Console.WriteLine("[DEBUG] Razor Pages services added");
         
         builder.Services.AddScoped<ICheepService, CheepService>();
@@ -217,6 +216,21 @@ public class Program
             foreach (var asm in assemblies)
             {
                 Console.WriteLine($"[DEBUG]   - {asm.GetName().Name} ({asm.Location})");
+            }
+            
+            Console.WriteLine($"[DEBUG] Checking for PageModel types in Web.dll:");
+            var webAsm = AppDomain.CurrentDomain.GetAssemblies()
+                .FirstOrDefault(a => a.GetName().Name == "Web");
+            if (webAsm != null)
+            {
+                var pageModelTypes = webAsm.GetTypes()
+                    .Where(t => t.BaseType?.Name == "PageModel")
+                    .ToList();
+                Console.WriteLine($"[DEBUG] Found {pageModelTypes.Count} PageModel types:");
+                foreach (var type in pageModelTypes)
+                {
+                    Console.WriteLine($"[DEBUG]   - {type.FullName}");
+                }
             }
         }
         else

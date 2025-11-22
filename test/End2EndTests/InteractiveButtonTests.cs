@@ -1,8 +1,7 @@
+using Infrastructure;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using Program = Web.Program;
@@ -36,6 +35,15 @@ public class InteractiveButtonTests : PageTest
             }
             
             _app = Program.BuildWebApplication(environment: "Testing");
+            
+            // Initialize the database for testing
+            using (var scope = _app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
+                context.Database.EnsureDeleted(); // Clean slate for tests
+                context.Database.EnsureCreated();
+                DbInitializer.SeedDatabase(context);
+            }
             
             Console.WriteLine("Routes:");
             foreach (var d in _app.Services.GetRequiredService<EndpointDataSource>().Endpoints)
