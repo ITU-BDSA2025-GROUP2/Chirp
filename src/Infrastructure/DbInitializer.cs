@@ -1,5 +1,6 @@
 using System;
 using Core;
+using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure;
 
@@ -9,8 +10,6 @@ public static class DbInitializer
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {
-            
-
             var a1 = new Author() { AuthorId = 1, Name = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>() };
             var a2 = new Author() { AuthorId = 2, Name = "Luanna Muro", Email = "Luanna-Muro@ku.dk", Cheeps = new List<Cheep>() };
             var a3 = new Author() { AuthorId = 3, Name = "Wendell Ballan", Email = "Wendell-Ballan@gmail.com", Cheeps = new List<Cheep>() };
@@ -700,6 +699,26 @@ public static class DbInitializer
 
             chirpContext.Authors.AddRange(authors);
             chirpContext.Cheeps.AddRange(cheeps);
+            chirpContext.SaveChanges();
+        }
+        
+        if (!chirpContext.Users.Any(u => u.Email == "test@example.com"))
+        {
+            var testUser = new ApplicationUser
+            {
+                UserName = "testuser",
+                Email = "test@example.com",
+                NormalizedEmail = "TEST@EXAMPLE.COM",
+                NormalizedUserName = "TESTUSER",
+                EmailConfirmed = true, // Important: must be confirmed to log in
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+        
+            // Hash the password
+            var hasher = new PasswordHasher<ApplicationUser>();
+            testUser.PasswordHash = hasher.HashPassword(testUser, "Test123!");
+        
+            chirpContext.Users.Add(testUser);
             chirpContext.SaveChanges();
         }
     }

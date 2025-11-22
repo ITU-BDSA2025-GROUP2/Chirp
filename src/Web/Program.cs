@@ -33,8 +33,6 @@ public class Program
         var baseDir = AppContext.BaseDirectory;
         string webProjectPath;
         
-        //Console.WriteLine($"[DEBUG] Base directory: {baseDir}");
-        
         // For Testing environment, use the output directory where files are copied
         if (environment == "Testing")
         {
@@ -106,11 +104,21 @@ public class Program
         builder.Services.AddSession();
         builder.Services.AddDistributedMemoryCache();
 
-        // Load database connection via configuration.
-        string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        builder.Services.AddDbContext<ChatDbContext>(options =>
-            options.UseSqlite(connectionString));
-        
+        // Configure database based on environment
+        if (builder.Environment.IsEnvironment("Testing"))
+        {
+            // Use shared in-memory SQLite for testing
+            // Cache=Shared allows multiple connections to access the same in-memory database
+            builder.Services.AddDbContext<ChatDbContext>(options =>
+                options.UseSqlite("DataSource=TestDb;Mode=Memory;Cache=Shared"));
+        }
+        else
+        {
+            // Use file-based SQLite for development/production
+            string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            builder.Services.AddDbContext<ChatDbContext>(options =>
+                options.UseSqlite(connectionString));
+        }
 
         builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ChatDbContext>();
@@ -166,7 +174,6 @@ public class Program
             // Define configuration settings for our Identity
         });
 
-
         builder.Services.ConfigureApplicationCookie(options =>
         {
             options.Cookie.HttpOnly = true;
@@ -176,7 +183,6 @@ public class Program
             options.AccessDeniedPath = "/Identity/Account/AccessDenied";
             options.SlidingExpiration = true;
         });
-
 
         var app = builder.Build();
 

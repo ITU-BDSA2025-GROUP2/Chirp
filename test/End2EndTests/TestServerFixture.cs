@@ -1,6 +1,7 @@
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Web;
@@ -11,6 +12,7 @@ public class TestServerFixture : IAsyncDisposable
 {
     private static bool _serverStarted;
     private static WebApplication? _app;
+    private static SqliteConnection? _keepAliveConnection;
     public string ServerAddress = "http://127.0.0.1:5273";
 
     public async Task StartAsync()
@@ -30,15 +32,20 @@ public class TestServerFixture : IAsyncDisposable
                 Console.WriteLine("Port 5273 is free, proceeding with server start");
             }
 
+            // Create and keep open a connection to prevent in-memory DB from being destroyed
+            _keepAliveConnection = new SqliteConnection("DataSource=TestDb;Mode=Memory;Cache=Shared");
+            _keepAliveConnection.Open();
+            Console.WriteLine("Opened persistent in-memory database connection");
+
             _app = Program.BuildWebApplication(environment: "Testing");
 
-            // Initialize the database for testing
+            // Initialize the in-memory database
             using (var scope = _app.Services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
-                context.Database.OpenConnection();
                 context.Database.EnsureCreated();
                 DbInitializer.SeedDatabase(context);
+                Console.WriteLine("Database initialized and seeded");
             }
 
             Console.WriteLine("Routes:");
@@ -101,7 +108,6 @@ public class TestServerFixture : IAsyncDisposable
                     var result = await httpClient.GetAsync(ServerAddress);
                     Console.WriteLine($"Attempt {i + 1}: Got status code {result.StatusCode}");
 
-                    // Accept any response that isn't a connection error - even 404 means server is running
                     if ((int)result.StatusCode >= 200 && (int)result.StatusCode < 600)
                     {
                         serverReady = true;
@@ -139,6 +145,13 @@ public class TestServerFixture : IAsyncDisposable
         {
             await _app.StopAsync();
             await _app.DisposeAsync();
+        }
+
+        if (_keepAliveConnection != null)
+        {
+            _keepAliveConnection.Close();
+            _keepAliveConnection.Dispose();
+            Console.WriteLine("Closed in-memory database connection");
         }
     }
 }
