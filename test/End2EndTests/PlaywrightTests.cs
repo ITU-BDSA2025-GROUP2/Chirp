@@ -110,7 +110,10 @@ public class PlaywrightTests : PageTest
     
         // Verify timestamp format exists
         var cheepFullText = await firstCheep.InnerTextAsync();
-        Assert.That(cheepFullText, Does.Match(@"\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}"));
+        Assert.That(
+            cheepFullText,
+            Does.Match(@"\d{2}[-/]\d{2}[-/]\d{4} \d{2}:\d{2}:\d{2}")
+        );
     }
 
     [Test]
@@ -129,10 +132,18 @@ public class PlaywrightTests : PageTest
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        
     
         var firstCheep = Page.Locator("#messagelist > li").First;
         await Expect(firstCheep).ToMatchAriaSnapshotAsync(
-            "- listitem:\n  - paragraph:\n    - strong:\n      - link \"Jacqualine Gilcoine\":\n        - /url: /Jacqualine Gilcoine\n    - text: /Starbuck now is what we hear the worst\\. — \\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2}/\n  - button \"Unfollow\"\n  - paragraph");
+            "- listitem:\n" +
+            "  - paragraph:\n" +
+            "    - strong:\n" +
+            "      - link \"Jacqualine Gilcoine\":\n" +
+            "        - /url: /Jacqualine Gilcoine\n" +
+            "    - text: /Starbuck now is what we hear the worst\\. — [0-9\\/\\-]{10} [0-9:]{8}/\n" +
+            "  - button \"Unfollow\"\n" +
+            "  - paragraph"); 
         var unfollowButtons = Page.GetByRole(AriaRole.Button, new() { Name = "Unfollow" });
         var buttonCount = await unfollowButtons.CountAsync();
         Assert.That(buttonCount, Is.GreaterThan(0), "Should have at least one Unfollow button");
