@@ -37,4 +37,9 @@
     <ProjectReference Include="..\..\src\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\SupportScripts\SupportScripts.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Server\" />
+    <Folder Include="TestClasses\" />
+  </ItemGroup>
 </Project>

@@ -8,22 +8,8 @@ namespace PlaywrightTests;
 [TestFixture]
 public class PlaywrightTests : PageTest
 {
-    private static readonly TestServerFixture Fixture = new();
-    private string ServerAddress => Fixture.ServerAddress;
-
+    private string ServerAddress => GlobalTestSetup.ServerAddress;
     
-    [OneTimeSetUp]
-    public async Task OneTimeSetup()
-    {
-        await Fixture.StartAsync();
-    }
-
-    [OneTimeTearDown]
-    public async Task OneTimeTearDown()
-    {
-        await Fixture.DisposeAsync();
-    }
-
     [SetUp]
     public async Task Setup()
     {

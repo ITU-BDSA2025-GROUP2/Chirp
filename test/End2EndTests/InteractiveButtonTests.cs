@@ -7,20 +7,7 @@ namespace PlaywrightTests;
 [TestFixture]
 public class InteractiveButtonTests : PageTest
 {
-    private static readonly TestServerFixture Fixture = new();
-    private string ServerAddress => Fixture.ServerAddress;
-    
-    [OneTimeSetUp]
-    public async Task OneTimeSetup()
-    {
-        await Fixture.StartAsync();
-    }
-
-    [OneTimeTearDown]
-    public async Task OneTimeTearDown()
-    {
-        await Fixture.DisposeAsync();
-    }
+    private string ServerAddress => GlobalTestSetup.ServerAddress;
     
     [SetUp]
     public async Task Setup()
