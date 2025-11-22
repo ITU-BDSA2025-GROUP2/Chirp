@@ -19,7 +19,16 @@ public class Program
         {
             using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
-            context.Database.OpenConnection();
+        
+            try
+            {
+                if (context.Database.IsSqlite())
+                {
+                    context.Database.OpenConnection();
+                }
+            }
+            catch (InvalidOperationException) { }
+        
             context.Database.EnsureCreated();
             DbInitializer.SeedDatabase(context);
         }

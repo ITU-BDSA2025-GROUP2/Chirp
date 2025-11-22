@@ -24,5 +24,4 @@ jobs:
         authentication_github_clientId: ${{ secrets.GITHUBCLIENTID }}
         authentication_github_clientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
       run: |
-        dotnet test test/IntegrationTest --no-build --verbosity normal
-        dotnet test test/UnitTest --no-build --verbosity normal
+        dotnet test --no-build --verbosity normal
