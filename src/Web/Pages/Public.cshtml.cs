@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Threading.Tasks;
 using Core;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Components.Forms;
@@ -55,7 +56,7 @@ public class PublicModel(ICheepService service) : PageModel
             Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));
 
         }
-
+        //Cheeps = _service.getAllCheeps()
         return Page();
     }
 
@@ -91,7 +92,7 @@ public class PublicModel(ICheepService service) : PageModel
             Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));
         }
 
-
+        //_service.updateCheepsInDb
 
         return Page();
     }
@@ -138,10 +139,17 @@ public class PublicModel(ICheepService service) : PageModel
             Console.WriteLine(t);
         }
 
-
+        //_service.updateAuthorFollowers
 
         return RedirectToPage("");
     } 
 
+    public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
+    {
+       
+        //_service.updateAuthorLikes
+
+        return RedirectToPage("");
+    }
 
 }
