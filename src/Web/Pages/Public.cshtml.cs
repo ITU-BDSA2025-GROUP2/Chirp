@@ -56,6 +56,7 @@ public class PublicModel(ICheepService service) : PageModel
             Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));
 
         }
+        //above should be deleted!!!!!!w
         //Cheeps = _service.getAllCheeps()
         return Page();
     }
