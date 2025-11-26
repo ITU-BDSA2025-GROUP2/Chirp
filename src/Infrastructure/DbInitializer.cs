@@ -701,25 +701,5 @@ public static class DbInitializer
             chirpContext.Cheeps.AddRange(cheeps);
             chirpContext.SaveChanges();
         }
-        
-        if (!chirpContext.Users.Any(u => u.Email == "test@example.com"))
-        {
-            var testUser = new ApplicationUser
-            {
-                UserName = "testuser",
-                Email = "test@example.com",
-                NormalizedEmail = "TEST@EXAMPLE.COM",
-                NormalizedUserName = "TESTUSER",
-                EmailConfirmed = true, // Important: must be confirmed to log in
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
-        
-            // Hash the password
-            var hasher = new PasswordHasher<ApplicationUser>();
-            testUser.PasswordHash = hasher.HashPassword(testUser, "Test123!");
-        
-            chirpContext.Users.Add(testUser);
-            chirpContext.SaveChanges();
-        }
     }
 }
