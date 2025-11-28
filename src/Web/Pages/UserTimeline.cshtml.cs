@@ -15,39 +15,40 @@ public class UserTimelineModel(ICheepService service) : PageModel
 
     public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
-        // Author is automatically populated from the route
-        var ids = await _service.GetFollowers(User.Identity.Name);
-        var returnList = await _service.GetCheepsFromFollowed(ids, page);
-
-        Cheeps = new List<CheepViewModel>();
-        var IsFollowed = false;
-
-        if (Author == User.Identity.Name)
+        // Get UserID and follower ID and their cheeps
+        List<Cheep> returnList;
+        List<int> followerIds;
+        if (Author == User.Identity!.Name)
         {
-            foreach (var row in returnList)
-            {
-                var id = row.Author.AuthorId;
-                IsFollowed = false;
+            followerIds = await _service.GetFollowers(User.Identity.Name);
+            var userId = await _service.GetAuthorId(User.Identity.Name);
+            followerIds.Add(userId);
 
-                foreach (int t in ids)
-                {
-                    if (id == t)
-                    {
-                        IsFollowed = true;
-                        break;
-                    }
-                }
-
-                Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email,
-                    IsFollowed));
-            }
+            returnList = await _service.GetCheepsFromFollowed(followerIds, page);
+        }
+        else
+        {
+            followerIds = await _service.GetFollowers(User.Identity!.Name!);
+            returnList = await _service.GetCheepsFromAuthor(Author, page);
         }
 
-        returnList = await _service.GetCheepsFromAuthor(Author, page);
+
+        Cheeps = new List<CheepViewModel>();
+
         foreach (var row in returnList)
         {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email,
-                false));
+            var id = row.Author.AuthorId;
+            var isFollowed = false;
+           
+            foreach(int t in followerIds)
+            {   
+                if(id == t)
+                {
+                    isFollowed = true;
+                    break;
+                }
+            }    
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, isFollowed));
         }
 
         return Page();
@@ -119,7 +120,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
         {
             Console.WriteLine(t);
         }
-        
-        return RedirectToPage("UserTimeline", new { author = Author});
+
+        return RedirectToPage("UserTimeline", new { author = Author });
     }
 }

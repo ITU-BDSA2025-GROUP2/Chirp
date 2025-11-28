@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
-    //var routeName = HttpContext.GetRouteValue("author");
     var routeName = Model.Author;
 }
 
@@ -16,6 +15,7 @@
 <div>
     <h2> @routeName's Timeline </h2>
 
+    <!-- Cheep box -->
     @if (SignInManager.IsSignedIn(User))
     {
         <div class="cheepbox">
@@ -27,8 +27,8 @@
             </form>
         </div>
     }
-
-
+    
+    
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
