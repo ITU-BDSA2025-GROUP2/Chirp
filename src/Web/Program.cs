@@ -146,6 +146,9 @@ public class Program
                 o.ClientId = githubClientId!;
                 o.ClientSecret = githubClientSecret!;
                 o.CallbackPath = new PathString("/git-login");
+
+                o.Scope.Add("user:email");
+                o.Scope.Add("read:user");
             });
         }
         else
