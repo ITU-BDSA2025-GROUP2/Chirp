@@ -67,17 +67,12 @@ public class PublicModel(ICheepService service) : PageModel
     public async Task<IActionResult> OnPost()
     {
         var cheep_message = Text;
-        string input = User.Identity.Name;
-        int index = input.IndexOf("@");
-        if (index >= 0)
-        {
 
-            input = input.Substring(0, index);
-        }
+        var author = await _service.GetAuthor(User.Identity.Name, 0);
 
         if (cheep_message.Length < 161)
         {
-            await _service.CreateCheep(input, User.Identity.Name, cheep_message);
+            await _service.CreateCheep(User.Identity.Name, author.Email, cheep_message);
         }
 
 
@@ -102,7 +97,7 @@ public class PublicModel(ICheepService service) : PageModel
     public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
     {
         var id = await _service.GetAuthorId(Email);
-        var author = await _service.GetEmail(User.Identity.Name, page);
+        var author = await _service.GetAuthor(User.Identity.Name, page);
         var IsFollowed = false;
 
         var followers = await _service.GetFollowers(author.Email);
@@ -129,7 +124,7 @@ public class PublicModel(ICheepService service) : PageModel
             _service.RemoveFollowerId(author, id);
         }
 
-        followers = await _service.GetFollowers(User.Identity.Name);
+        followers = await _service.GetFollowers(author.Email);
 
         Console.WriteLine(User.Identity.Name + "You are following these people:");
 
