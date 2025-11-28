@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using System.Security.Claims;
+using Core;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,17 +17,17 @@ public class AboutMeModel(ICheepService service) : PageModel
 
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
-        Cheeps = await _service.GetUserCheeps(User.Identity!.Name!, page);
-        Author =  await _service.GetAuthorViewModel(User.Identity!.Name!);
-        Following = await _service.GetFollowerViewModel(User.Identity!.Name!);
-        LikedCheeps = await _service.GetLikedCheepsForAuthor(User.Identity!.Name!);
+        Cheeps = await _service.GetUserCheeps(User.FindFirst(ClaimTypes.Email)?.Value!, page);
+        Author =  await _service.GetAuthorViewModel(User.FindFirst(ClaimTypes.Email)?.Value!);
+        Following = await _service.GetFollowerViewModel(User.FindFirst(ClaimTypes.Email)?.Value!);
+        LikedCheeps = await _service.GetLikedCheepsForAuthor(User.FindFirst(ClaimTypes.Email)?.Value!);
         
         return Page();
     }
 
     public async Task<IActionResult> OnPostForget()
     {
-        var identity = User.Identity!.Name;
+        var identity = User.FindFirst(ClaimTypes.Email)?.Value;
         await _service.DeleteAuthor(identity!);
         
         Response.Cookies.Delete(".AspNetCore.Identity.Application");
@@ -40,7 +41,7 @@ public class AboutMeModel(ICheepService service) : PageModel
 
     public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
     {
-        await _service.UpdateFollower(User.Identity!.Name!, Email);
+        await _service.UpdateFollower(User.FindFirst(ClaimTypes.Email)?.Value!, Email);
         return RedirectToPage("AboutMe");
     }
 
@@ -49,7 +50,7 @@ public class AboutMeModel(ICheepService service) : PageModel
     public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
     {
 
-        _service.UpdateCheepLikes(CheepID, User.Identity.Name);
+        _service.UpdateCheepLikes(CheepID, User.FindFirst(ClaimTypes.Email)?.Value);
 
         return RedirectToPage("AboutMe");
     }

@@ -10,6 +10,7 @@
 @using Core
 @using Microsoft.AspNetCore.Identity
 @using Infrastructure
+@using System.Security.Claims
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -64,15 +65,15 @@
                             <small>Likes @cheep.Likes.Count</small>
                             @if (SignInManager.IsSignedIn(User))
                             {
-                                @if(User.Identity.Name != cheep.Email) {
-                                <!-- Follow Button -->
-                                <form method="post">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="Email" value="@cheep.Email"/>
-                                    <button type="submit" formaction="@routeName/?handler=Follow">
-                                        @(cheep.IsFollowed ? "Unfollow" : "Follow")
-                                    </button>
-                                </form>
+                                @if(User.FindFirst(ClaimTypes.Email)?.Value != cheep.Email) {
+                                    <!-- Follow Button -->
+                                    <form method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="Email" value="@cheep.Email"/>
+                                        <button type="submit" formaction="@routeName/?handler=Follow">
+                                            @(cheep.IsFollowed ? "Unfollow" : "Follow")
+                                        </button>
+                                    </form>
                                 }
                                 <!-- Like Button -->
                                 <form method="post">
@@ -98,7 +99,7 @@
         @if (Model.LikedCheeps.Any())
         {
             <ul id="messagelist" class="cheeps">
-                @foreach (var cheep in Model.Cheeps)
+                @foreach (var cheep in Model.LikedCheeps)
                 {
                     <li>
                         <p>
@@ -111,14 +112,16 @@
                             <small>Likes @cheep.Likes.Count</small>
                             @if (SignInManager.IsSignedIn(User))
                             {
+                                @if(User.FindFirst(ClaimTypes.Email)?.Value != cheep.Email) {
                                 <!-- Follow Button -->
-                                <form method="post">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="Email" value="@cheep.Email"/>
-                                    <button type="submit" formaction="/info/?handler=Follow">
-                                        @(cheep.IsFollowed ? "Unfollow" : "Follow")
-                                    </button>
-                                </form>
+                                    <form method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="Email" value="@cheep.Email"/>
+                                        <button type="submit" formaction="/info/?handler=Follow">
+                                            @(cheep.IsFollowed ? "Unfollow" : "Follow")
+                                        </button>
+                                    </form>
+                                }
                                 <!-- Like Button -->
                                 <form method="post">
                                     @Html.AntiForgeryToken()

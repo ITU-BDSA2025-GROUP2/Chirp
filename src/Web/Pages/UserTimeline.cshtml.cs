@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using System.Security.Claims;
+using Core;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,7 +16,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
 
     public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
-        Cheeps = await _service.GetUserTimelineCheeps(User.Identity!.Name!, Author, page);
+        Cheeps = await _service.GetUserTimelineCheeps(User.FindFirst(ClaimTypes.Email)?.Value, Author, page);
         return Page();
     }
 
@@ -24,7 +25,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        await _service.CreateCheep(User.Identity!.Name!, User.Identity!.Name!, Text);
+        await _service.CreateCheep(User.Identity!.Name!, User.FindFirst(ClaimTypes.Email)?.Value, Text);
 
         return RedirectToPage("UserTimeline", new { author = Author });
     }
@@ -33,7 +34,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
 
     public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
     {
-        await _service.UpdateFollower(User.Identity!.Name!, Email);
+        await _service.UpdateFollower(User.FindFirst(ClaimTypes.Email)?.Value, Email);
         return RedirectToPage("UserTimeline", new { author = Author });
     }
 
@@ -42,7 +43,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
     public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
     {
 
-        _service.UpdateCheepLikes(CheepID, User.Identity.Name);
+        _service.UpdateCheepLikes(CheepID, User.FindFirst(ClaimTypes.Email)?.Value);
 
         return RedirectToPage("UserTimeline", new { author = Author });
     }

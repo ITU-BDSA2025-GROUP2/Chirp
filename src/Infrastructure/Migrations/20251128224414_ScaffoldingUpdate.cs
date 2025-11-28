@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDBSchema : Migration
+    public partial class ScaffoldingUpdate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -57,7 +57,9 @@ namespace Infrastructure.Migrations
                     AuthorId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false)
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Follows = table.Column<string>(type: "TEXT", nullable: false),
+                    CheepLikes = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -178,7 +180,8 @@ namespace Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Text = table.Column<string>(type: "TEXT", maxLength: 160, nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    AuthorId = table.Column<int>(type: "INTEGER", nullable: false)
+                    AuthorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    PeopleLikes = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

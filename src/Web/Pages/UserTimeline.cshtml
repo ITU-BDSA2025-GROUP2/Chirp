@@ -8,6 +8,7 @@
 
 @using Microsoft.AspNetCore.Identity
 @using Infrastructure
+@using System.Security.Claims
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -45,7 +46,7 @@
                         <small>Likes @cheep.Likes.Count</small>
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            @if(User.Identity.Name != cheep.Email) {
+                            @if(User.FindFirst(ClaimTypes.Email)?.Value != cheep.Email) {
                                 <!-- Follow Button -->
                                 <form method="post">
                                     @Html.AntiForgeryToken()

@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Core;
 using Infrastructure.Services;
@@ -16,7 +17,8 @@ public class PublicModel(ICheepService service) : PageModel
 
     public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
-        Cheeps = await _service.GetAllCheeps(User.Identity.Name, page);
+        
+        Cheeps = await _service.GetAllCheeps(User.Identity.Name, User.FindFirst(ClaimTypes.Email)?.Value, page);
         return Page();
     }
 
@@ -34,7 +36,7 @@ public class PublicModel(ICheepService service) : PageModel
         if (cheep_message.Length < 161)
         {
             //Username fix when scaffolding is doen. 
-            await _service.CreateCheep(User.Identity.Name, User.Identity.Name, cheep_message);
+            await _service.CreateCheep(User.Identity.Name, User.FindFirst(ClaimTypes.Email)?.Value, cheep_message);
         }
 
 
@@ -48,7 +50,7 @@ public class PublicModel(ICheepService service) : PageModel
     //TODO make redirect so you stay on the current page even if its >0
     public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
     {
-        await _service.UpdateFollower(User.Identity.Name, Email);
+        await _service.UpdateFollower(User.FindFirst(ClaimTypes.Email)?.Value, Email);
 
         return RedirectToPage("");
     } 
@@ -57,7 +59,7 @@ public class PublicModel(ICheepService service) : PageModel
     public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
     {
 
-        _service.UpdateCheepLikes(CheepID, User.Identity.Name);
+        _service.UpdateCheepLikes(CheepID, User.FindFirst(ClaimTypes.Email)?.Value);
 
         return RedirectToPage("");
     }

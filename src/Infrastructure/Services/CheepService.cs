@@ -112,7 +112,7 @@ public class CheepService : ICheepService
         await _authorRepository.DeleteAuthor(email);
     }
 
-    public async Task<List<CheepViewModel>> GetAllCheeps(string userEmail, int page) //user, page
+    public async Task<List<CheepViewModel>> GetAllCheeps(string name, string userEmail, int page) //user, page
     {
         var cheeps = new List<CheepViewModel>();
         var result = await _cheepRepository.ReadCheeps(page);
@@ -124,7 +124,7 @@ public class CheepService : ICheepService
 
             if (authorFromQuery == null)
             {
-                await CreateAuthor(userEmail, userEmail);   
+                await CreateAuthor(name, userEmail);   
             }
 
             userId = await GetAuthorId(userEmail);
