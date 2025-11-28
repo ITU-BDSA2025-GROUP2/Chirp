@@ -162,12 +162,12 @@ public class CheepService : ICheepService
         // Get UserID and follower ID and their cheeps
         List<Cheep> cheepsList;
         List<int> followerIds;
+        var userId = -1;
         if (userTimelineAuthor == userEmail)
         {
             followerIds = await GetFollowers(userEmail);
-            var userId = await GetAuthorId(userEmail);
+            userId = await GetAuthorId(userEmail);
             followerIds.Add(userId);
-
             cheepsList = await GetCheepsFromFollowed(followerIds, page);
         }
         else
@@ -192,7 +192,7 @@ public class CheepService : ICheepService
                 }
             }    
             
-            var userId = await GetAuthorId(userEmail);
+            
             var isLiked = cheep.PeopleLikes.Contains(userId);
             cheeps.Add(new CheepViewModel(cheep.CheepId, cheep.Author.Name, cheep.Text, cheep.TimeStamp.ToString(), cheep.Author.Email, 
                 isFollowed, await GetCheepLikesAmount(cheep.CheepId), isLiked));
