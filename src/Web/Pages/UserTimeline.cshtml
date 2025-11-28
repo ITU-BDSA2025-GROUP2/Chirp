@@ -42,17 +42,24 @@
                         @cheep.Message
                         <small>&mdash; @cheep.Timestamp</small>
 
-                        @if(SignInManager.IsSignedIn(User) && User.Identity.Name != cheep.Email){
-                            
+                        <small>Likes @cheep.Likes.Count</small>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <!-- Follow Button -->
                             <form method="post">
-                            @Html.AntiForgeryToken()
+                                @Html.AntiForgeryToken()
                                 <input type="hidden" name="Email" value="@cheep.Email"/>
-                                @if(@cheep.IsFollowed){
-                                    <button type="submit" formaction="/@routeName/?handler=Follow">Unfollow</button>
-                                }else{
-                                    <button type="submit" formaction="/@routeName/?handler=Follow">Follow</button>
-                                }
-                                 
+                                <button type="submit" formaction="@routeName/?handler=Follow">
+                                    @(cheep.IsFollowed ? "Unfollow" : "Follow")
+                                </button>
+                            </form>
+                            <!-- Like Button -->
+                            <form method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="CheepID" value="@cheep.CheepId" />
+                                <button type="submit" formaction="@routeName/?handler=Like">
+                                    @(cheep.IsLiked ? "UnLike" : "Like")
+                                </button> 
                             </form>
                         }
                     </p>

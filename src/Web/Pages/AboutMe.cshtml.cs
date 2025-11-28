@@ -35,4 +35,22 @@ public class AboutMeModel(ICheepService service) : PageModel
         
         return RedirectToPage("Public");
     }
+    
+    [BindProperty] public required string Email { get; set; }
+
+    public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
+    {
+        await _service.UpdateFollower(User.Identity!.Name!, Email);
+        return RedirectToPage("AboutMe");
+    }
+
+    [BindProperty]
+    public int CheepID { get; set; }
+    public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
+    {
+
+        _service.UpdateCheepLikes(CheepID, User.Identity.Name);
+
+        return RedirectToPage("AboutMe");
+    }
 }

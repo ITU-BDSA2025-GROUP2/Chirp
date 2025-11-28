@@ -290,45 +290,46 @@ public class CheepService : ICheepService
     
     public async Task<List<CheepViewModel>> GetLikedCheepsForAuthor(string userEmail)
     {
-        Console.WriteLine("IM RUNNING");
+        
         
         var author = await GetAuthor(userEmail, 0);
 
         var likedCheepIds = await _authorRepository.GetLikedCheeps(userEmail);
-        Console.WriteLine(likedCheepIds.Count());
+        
         
         var likedCheeps = new List<CheepViewModel>();
+        var followers = new List<int>();
+        if (userEmail != null) {
+                followers = await GetFollowers(userEmail);
+        }
+
         foreach (var cheepId in likedCheepIds)
         {
             var cheep = await _cheepRepository.GetCheepFromId(cheepId);
             
             
             
-            var followers = new List<int>();
-            if (userEmail != null) {
-                followers = await GetFollowers(userEmail);
-            }
+            
             
             if (cheep == null)
             {
                 _authorRepository.RemoveLikeId(author, cheepId);
+                continue;
             }
-            else
-            {
-                var isFollowed = false;
-                
-                foreach(int t in followers)
-                {   
-                    if(cheep.AuthorId == t)
-                    {
-                        isFollowed = true;
-                        break;
-                    }
+            
+            var isFollowed = false;
+            
+            foreach(int t in followers)
+            {   
+                if(cheep.AuthorId == t)
+                {
+                    isFollowed = true;
+                    break;
                 }
-                
-                likedCheeps.Add(new CheepViewModel(cheep.CheepId,cheep.Author.Name, cheep.Text, cheep.TimeStamp.ToString(), cheep.Author.Email,
-                    isFollowed, cheep.PeopleLikes, true));
             }
+            
+            likedCheeps.Add(new CheepViewModel(cheep.CheepId,cheep.Author.Name, cheep.Text, cheep.TimeStamp.ToString(), cheep.Author.Email, isFollowed, cheep.PeopleLikes, true));
+            
         }
         return likedCheeps;
     }

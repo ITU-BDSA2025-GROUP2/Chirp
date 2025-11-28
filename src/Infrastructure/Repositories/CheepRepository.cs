@@ -125,15 +125,15 @@ public class CheepRepository : ICheepRepository
 
     }
 
-    public async Task<Cheep?> GetCheepFromId(int cheepId)
+    public async Task<Cheep> GetCheepFromId(int cheepId)
     {
         var query = (
-            from cheep in _dbContext.Cheeps
+            from cheep in _dbContext.Cheeps.Include(c => c.Author)
             where cheep.CheepId == cheepId
             select cheep
         );
 
-        var returnList =  await query.ToListAsync();
+        var returnList = await query.ToListAsync();
 
         try
         {
