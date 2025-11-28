@@ -13,6 +13,7 @@ public class PublicModel(ICheepService service) : PageModel
     private readonly ICheepService _service = service;
     public required List<CheepViewModel> Cheeps { get; set; }
 
+
     public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
         
@@ -22,89 +23,39 @@ public class PublicModel(ICheepService service) : PageModel
     }
 
 
-/* 
+
     [BindProperty]
     public string Text { get; set; }
 
     public async Task<IActionResult> OnPost()
     {
+        
+
         var cheep_message = Text;
-        string input = User.Identity.Name;
-        int index = input.IndexOf("@");
-        if (index >= 0)
-        {
-
-            input = input.Substring(0, index);
-        }
-
+       
         if (cheep_message.Length < 161)
         {
-            await _service.CreateCheep(input, User.Identity.Name, cheep_message);
+            //Username fix when scaffolding is doen. 
+            await _service.CreateCheep(User.Identity.Name, User.Identity.Name, cheep_message);
         }
 
-
-
-        Cheeps = new List<CheepViewModel>();
-
-        var result = await _service.GetCheeps(0);
-
-        foreach (var row in result)
-        {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));
-        }
-
-        //_service.updateCheepsInDb
-
-        return Page();
+        return RedirectToPage("");
     }
 
     [BindProperty]
     public string Email { get; set; }
 
+    //TODO make redirect so you stay on the current page even if its >0
     public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
     {
-        var id = await _service.GetAuthorId(Email);
-        var author = await _service.GetEmail(User.Identity.Name, page);
-        var IsFollowed = false;
+       
 
-        var followers = await _service.GetFollowers(author.Email);
-        foreach(int t in followers)
-        {   
-            if(id == t)
-            {
-
-                IsFollowed = true;
-                break;
-            }
-            else
-            {
-                IsFollowed = false;
-            }
-        }
-
-        if (!IsFollowed)
-        {
-            _service.AddFollowerId(author, id);
-        }
-        else
-        {
-            _service.RemoveFollowerId(author, id);
-        }
-
-        followers = await _service.GetFollowers(User.Identity.Name);
-
-        Console.WriteLine(User.Identity.Name + "You are following these people:");
-
-        foreach(int t in followers)
-        {
-            Console.WriteLine(t);
-        }
-
-        //_service.updateAuthorFollowers
+        await _service.UpdateFollower(User.Identity.Name, Email);
 
         return RedirectToPage("");
     } 
 
+    //TODO make redirect so you stay on the current page even if its >0
     public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
     {
        
@@ -112,5 +63,7 @@ public class PublicModel(ICheepService service) : PageModel
 
         return RedirectToPage("");
     }
- */
+
+
+    
 }
