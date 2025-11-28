@@ -64,14 +64,16 @@
                             <small>Likes @cheep.Likes.Count</small>
                             @if (SignInManager.IsSignedIn(User))
                             {
+                                @if(User.Identity.Name != cheep.Email) {
                                 <!-- Follow Button -->
                                 <form method="post">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="Email" value="@cheep.Email"/>
-                                    <button type="submit" formaction="/?handler=Follow">
+                                    <button type="submit" formaction="@routeName/?handler=Follow">
                                         @(cheep.IsFollowed ? "Unfollow" : "Follow")
                                     </button>
                                 </form>
+                                }
                                 <!-- Like Button -->
                                 <form method="post">
                                     @Html.AntiForgeryToken()
@@ -113,7 +115,7 @@
                                 <form method="post">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="Email" value="@cheep.Email"/>
-                                    <button type="submit" formaction="/?handler=Follow">
+                                    <button type="submit" formaction="/info/?handler=Follow">
                                         @(cheep.IsFollowed ? "Unfollow" : "Follow")
                                     </button>
                                 </form>
@@ -121,7 +123,7 @@
                                 <form method="post">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="CheepID" value="@cheep.CheepId" />
-                                    <button type="submit" formaction="/?handler=Like">
+                                    <button type="submit" formaction="/info/?handler=Like">
                                         @(cheep.IsLiked ? "UnLike" : "Like")
                                     </button> 
                                 </form>

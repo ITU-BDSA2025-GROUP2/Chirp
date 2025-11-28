@@ -47,14 +47,16 @@
                         <small>Likes @cheep.Likes.Count</small>
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <!-- Follow Button -->
-                            <form method="post">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="Email" value="@cheep.Email"/>
-                                <button type="submit" formaction="/?handler=Follow">
-                                    @(cheep.IsFollowed ? "Unfollow" : "Follow")
-                                </button>
-                            </form>
+                            @if(User.Identity.Name != cheep.Email) {
+                                <!-- Follow Button -->
+                                <form method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="Email" value="@cheep.Email"/>
+                                    <button type="submit" formaction="/?handler=Follow">
+                                        @(cheep.IsFollowed ? "Unfollow" : "Follow")
+                                    </button>
+                                </form>
+                            }
                             <!-- Like Button -->
                             <form method="post">
                                 @Html.AntiForgeryToken()

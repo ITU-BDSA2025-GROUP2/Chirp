@@ -36,4 +36,14 @@ public class UserTimelineModel(ICheepService service) : PageModel
         await _service.UpdateFollower(User.Identity!.Name!, Email);
         return RedirectToPage("UserTimeline", new { author = Author });
     }
+
+    [BindProperty]
+    public int CheepID { get; set; }
+    public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
+    {
+
+        _service.UpdateCheepLikes(CheepID, User.Identity.Name);
+
+        return RedirectToPage("UserTimeline", new { author = Author });
+    }
 }

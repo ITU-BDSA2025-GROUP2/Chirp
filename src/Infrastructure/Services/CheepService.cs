@@ -181,11 +181,10 @@ public class CheepService : ICheepService
         // Get UserID and follower ID and their cheeps
         List<Cheep> cheepsList;
         List<int> followerIds;
-        var userId = -1;
+        var userId = await GetAuthorId(userEmail);
         if (userTimelineAuthor == userEmail)
         {
             followerIds = await GetFollowers(userEmail);
-            userId = await GetAuthorId(userEmail);
             followerIds.Add(userId);
             cheepsList = await GetCheepsFromFollowed(followerIds, page);
         }

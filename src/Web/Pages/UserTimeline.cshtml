@@ -16,7 +16,7 @@
     <h2> @routeName's Timeline </h2>
 
     <!-- Cheep box -->
-    @if (SignInManager.IsSignedIn(User))
+    @if (SignInManager.IsSignedIn(User) && @routeName == User.Identity.Name)
     {
         <div class="cheepbox">
             <h3>What's on your mind @(User.Identity.Name)?</h3>
@@ -45,14 +45,16 @@
                         <small>Likes @cheep.Likes.Count</small>
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <!-- Follow Button -->
-                            <form method="post">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="Email" value="@cheep.Email"/>
-                                <button type="submit" formaction="@routeName/?handler=Follow">
-                                    @(cheep.IsFollowed ? "Unfollow" : "Follow")
-                                </button>
-                            </form>
+                            @if(User.Identity.Name != cheep.Email) {
+                                <!-- Follow Button -->
+                                <form method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="Email" value="@cheep.Email"/>
+                                    <button type="submit" formaction="@routeName/?handler=Follow">
+                                        @(cheep.IsFollowed ? "Unfollow" : "Follow")
+                                    </button>
+                                </form>
+                            }
                             <!-- Like Button -->
                             <form method="post">
                                 @Html.AntiForgeryToken()
