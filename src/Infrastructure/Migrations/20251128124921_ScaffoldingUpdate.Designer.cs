@@ -3,6 +3,7 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ChatDbContext))]
-    partial class ChatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251128124921_ScaffoldingUpdate")]
+    partial class ScaffoldingUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.22");
@@ -22,10 +25,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("AuthorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("CheepLikes")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -52,10 +51,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("AuthorId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("PeopleLikes")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Text")
                         .IsRequired()

@@ -37,6 +37,8 @@ public class PublicModel(ICheepService service) : PageModel
             await _service.CreateCheep(User.Identity.Name, User.Identity.Name, cheep_message);
         }
 
+
+
         return RedirectToPage("");
     }
 
