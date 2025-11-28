@@ -34,7 +34,6 @@ public class AuthorRepository : IAuthorRepository
         author.Follows.Add(id);
         _dbContext.Update(author);
         _dbContext.SaveChanges();
-
     }
 
     public void RemoveFollowerId(Author author, int id)
@@ -44,7 +43,6 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
 
     }
-    
 
     public async Task DeleteAuthor(string email)
     {
@@ -145,5 +143,25 @@ public class AuthorRepository : IAuthorRepository
         var result = await query.ToListAsync();
 
         return result;
+    }
+
+    public async Task<List<int>> GetLikedCheeps(string email)
+    {
+        var query = (
+            from person in _dbContext.Authors
+            where person.Email == email
+            select person.CheepLikes
+        );
+        
+        var result = await query.ToListAsync();
+
+        try
+        {
+            return result[0];
+        }
+        catch
+        {
+            return new List<int>();
+        }
     }
 }

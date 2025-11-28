@@ -52,12 +52,12 @@ public class PublicModel(ICheepService service) : PageModel
 
         return RedirectToPage("");
     } 
-
-    //TODO make redirect so you stay on the current page even if its >0
+    [BindProperty]
+    public int CheepID { get; set; }
     public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
     {
-       
-        //_service.updateAuthorLikes
+
+        _service.UpdateCheepLikes(CheepID, User.Identity.Name);
 
         return RedirectToPage("");
     }

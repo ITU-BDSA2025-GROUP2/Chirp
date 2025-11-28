@@ -26,4 +26,8 @@ public interface ICheepService
     public Task<AuthorViewModel> GetAuthorViewModel(string email);
 
     public Task<List<AuthorViewModel>> GetFollowerViewModel(string email);
+
+    public Task UpdateCheepLikes(int cheepId, string userEmail);
+    public Task<List<int>> GetCheepLikesAmount(int cheepId);
+    public Task<List<int>> GetAuthorsLikes(string email);
 }

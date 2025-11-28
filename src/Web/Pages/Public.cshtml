@@ -31,11 +31,6 @@
         </div>
     }
 
-
-
-
-
-
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
@@ -49,29 +44,26 @@
                         @cheep.Message
                         <small>&mdash; @cheep.Timestamp</small>
 
-                        <small>Likes 0</small>
-                        @if(SignInManager.IsSignedIn(User)){
-                            
-                            @if(User.Identity.Name != cheep.Email){
-                                <form method="post">
-                                @Html.AntiForgeryToken()
-                                    <input type="hidden" name="Email" value="@cheep.Email"/>
-                                    @if (@cheep.IsFollowed){
-                                        <button type="submit" formaction="/?handler=Follow">Unfollow</button>
-                                    }
-                                    else{
-                                        <button type="submit" formaction="/?handler=Follow">Follow</button>
-                                    }
-                                </form>
-                            }
+                        <small>Likes @cheep.Likes.Count</small>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <!-- Follow Button -->
                             <form method="post">
                                 @Html.AntiForgeryToken()
-                                <button type="submit" formaction="/?handler=Like">Like</button>
+                                <input type="hidden" name="Email" value="@cheep.Email"/>
+                                <button type="submit" formaction="/?handler=Follow">
+                                    @(cheep.IsFollowed ? "Unfollow" : "Follow")
+                                </button>
                             </form>
-
+                            <!-- Like Button -->
+                            <form method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="CheepID" value="@cheep.CheepId" />
+                                <button type="submit" formaction="/?handler=Like">
+                                    @(cheep.Likes.Contains(0) ? "UnLike" : "Like")
+                                </button> 
+                            </form>
                         }
-                        
-
                     </p>
                 </li>
             }

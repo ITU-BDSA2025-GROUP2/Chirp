@@ -17,4 +17,5 @@ public interface IAuthorRepository
     public Task DeleteAuthor(string email);
 
     public Task<List<Author>> GetAuthorsFromIdList(List<int> idList);
+    public Task<List<int>> GetLikedCheeps(string email);
 }
