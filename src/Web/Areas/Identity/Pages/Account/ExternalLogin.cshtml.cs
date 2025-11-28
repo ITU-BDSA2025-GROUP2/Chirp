@@ -111,9 +111,11 @@ namespace Web.Areas.Identity.Pages.Account
 
             var email = info.Principal.FindFirstValue(ClaimTypes.Email);
 
+            var username = info.Principal.FindFirstValue(ClaimTypes.Name)  ?? info.Principal.FindFirstValue("urn:github:login");
+
             if (email != null)
             {
-                var user = new ApplicationUser { UserName = email, Email = email };
+                var user = new ApplicationUser { UserName = username, Email = email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
