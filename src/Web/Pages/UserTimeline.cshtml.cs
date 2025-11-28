@@ -38,15 +38,8 @@ public class UserTimelineModel(ICheepService service) : PageModel
                     }
                 }
 
-                if (IsFollowed)
-                {
-                    Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email,
-                        "Unfollow"));
-                    continue;
-                }
-
                 Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email,
-                    "Follow"));
+                    IsFollowed));
             }
         }
 
@@ -54,7 +47,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
         foreach (var row in returnList)
         {
             Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email,
-                "Follow"));
+                false));
         }
 
         return Page();
@@ -81,7 +74,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
         foreach (var row in result)
         {
             Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email,
-                "Follow"));
+                false));
         }
 
         return RedirectToPage("UserTimeline", new { author = Author });

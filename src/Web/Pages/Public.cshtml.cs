@@ -15,54 +15,14 @@ public class PublicModel(ICheepService service) : PageModel
 
     public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
-        Cheeps = new List<CheepViewModel>();
-        var result = await _service.GetCheeps(page);
         
-        Author author;
-        var IsFollowed = false;
-        var followers = new List<int>(); 
-        if (User.Identity.Name != null) {
-            var authorFromQuery = await _service.GetEmail(User.Identity.Name, page);
-
-            if (authorFromQuery == null)
-            {
-                await _service.CreateAuthor(User.Identity.Name, User.Identity.Name);   
-            }
-
-            author = await _service.GetEmail(User.Identity.Name, page);
-            followers = await _service.GetFollowers(author.Email);
-        }
         
-
-        foreach (var row in result)
-        {
-            var id = row.Author.AuthorId;
-            IsFollowed = false;
-           
-            foreach(int t in followers)
-            {   
-                if(id == t)
-                {
-                    IsFollowed = true;
-                    break;
-                }
-                
-            }    
-            if (IsFollowed)
-            {
-                Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Unfollow"));
-                continue;
-            }
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, "Follow"));
-
-        }
-        //above should be deleted!!!!!!w
-        //Cheeps = _service.getAllCheeps()
+        Cheeps = await _service.GetAllCheeps(User.Identity.Name, page);
         return Page();
     }
 
 
-
+/* 
     [BindProperty]
     public string Text { get; set; }
 
@@ -152,5 +112,5 @@ public class PublicModel(ICheepService service) : PageModel
 
         return RedirectToPage("");
     }
-
+ */
 }

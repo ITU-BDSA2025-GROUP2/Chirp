@@ -21,7 +21,7 @@ public class AboutMeModel(ICheepService service) : PageModel
         Cheeps = new List<CheepViewModel>();
         foreach (var row in returnList)
         {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, ""));
+            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, false));
         }
         return Page();
     }

@@ -47,10 +47,10 @@
                             <form method="post">
                             @Html.AntiForgeryToken()
                                 <input type="hidden" name="Email" value="@cheep.Email"/>
-                                @if(@cheep.IsFollowed == "Follow"){
-                                    <button type="submit" formaction="/@routeName/?handler=Follow">Follow</button>
-                                }else{
+                                @if(@cheep.IsFollowed){
                                     <button type="submit" formaction="/@routeName/?handler=Follow">Unfollow</button>
+                                }else{
+                                    <button type="submit" formaction="/@routeName/?handler=Follow">Follow</button>
                                 }
                                  
                             </form>

@@ -6,13 +6,10 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
 
-public record CheepViewModel(string Author, string Message, string Timestamp, string Email, string IsFollowed);
-public record AuthorViewModel(string Author, string Email);
 
 
 public class CheepService : ICheepService
 {
-
     private CheepRepository _cheepRepository;
     private AuthorRepository _authorRepository;
     public CheepService(ChatDbContext dbContext)
@@ -97,6 +94,47 @@ public class CheepService : ICheepService
     {
         
         await _authorRepository.DeleteAuthor(email);
+    }
+
+    public async Task<List<CheepViewModel>> GetAllCheeps(string userEmail, int page) //user, page
+    {
+        var cheeps = new List<CheepViewModel>();
+        var result = await _cheepRepository.ReadCheeps(page);
+        
+      
+        var followers = new List<int>(); 
+        if (userEmail != null) {
+            var authorFromQuery = await GetEmail(userEmail, page);
+
+            if (authorFromQuery == null)
+            {
+                await CreateAuthor(userEmail, userEmail);   
+            }
+
+            
+            followers = await GetFollowers(userEmail);
+        }
+        
+        foreach (var row in result)
+        {
+            var id = row.Author.AuthorId;
+            var IsFollowed = false;
+           
+            foreach(int t in followers)
+            {   
+                if(id == t)
+                {
+                    IsFollowed = true;
+                    break;
+                }
+                
+            }    
+            
+            cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, IsFollowed));
+
+        }
+
+        return cheeps;
     }
 }
 

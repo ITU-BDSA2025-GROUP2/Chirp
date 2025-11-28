@@ -10,6 +10,7 @@
 @using Microsoft.AspNetCore.Identity
 @using Infrastructure
 @using System.Diagnostics.Eventing.Reader
+@using Microsoft.CodeAnalysis.CSharp.Syntax
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -47,15 +48,20 @@
                         </strong>
                         @cheep.Message
                         <small>&mdash; @cheep.Timestamp</small>
-                        <small>Likes 0</small>
 
+                        <small>Likes 0</small>
                         @if(SignInManager.IsSignedIn(User)){
                             
                             @if(User.Identity.Name != cheep.Email){
                                 <form method="post">
                                 @Html.AntiForgeryToken()
                                     <input type="hidden" name="Email" value="@cheep.Email"/>
-                                    <button type="submit" formaction="/?handler=Follow">@cheep.IsFollowed</button>
+                                    @if (@cheep.IsFollowed){
+                                        <button type="submit" formaction="/?handler=Follow">Unfollow</button>
+                                    }
+                                    else{
+                                        <button type="submit" formaction="/?handler=Follow">Follow</button>
+                                    }
                                 </form>
                             }
                             <form method="post">
