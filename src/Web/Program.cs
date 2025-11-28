@@ -13,6 +13,11 @@ public class Program
     public static void Main(string[] args)
     {
         var app = BuildWebApplication(args);
+        var connectionString = builder.Configuration.GetConnectionString("ChatDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ChatDbContextConnection' not found.");;
+
+        builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlServer(connectionString));
+
+        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ChatDbContext>();
 
         //Initialise Database
         if (!app.Environment.IsEnvironment("Testing"))
