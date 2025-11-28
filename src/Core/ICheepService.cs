@@ -16,4 +16,6 @@ public interface ICheepService
     public Task DeleteAuthor(string email);
 
     public Task<List<CheepViewModel>> GetAllCheeps(string userEmail, int page);
+
+    public Task UpdateFollower(string userEmail, string followerEmail);
 }

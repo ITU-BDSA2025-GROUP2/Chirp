@@ -136,6 +136,27 @@ public class CheepService : ICheepService
 
         return cheeps;
     }
+
+    public async Task UpdateFollower(string userEmail, string followerEmail)
+    {
+        var id = await _authorRepository.ReturnAuthorsId(followerEmail);
+        var author = await GetEmail(userEmail, 0);
+        var IsFollowed = false;
+
+        var followers = await GetFollowers(userEmail);
+        foreach(int t in followers)
+        {   
+            if(id == t)
+            {
+
+                _authorRepository.RemoveFollowerId(author, id);
+                return;
+            }
+            
+            
+        }
+        _authorRepository.AddFollowerId(author, id);
+    }
 }
 
 
