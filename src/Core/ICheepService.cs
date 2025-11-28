@@ -30,4 +30,5 @@ public interface ICheepService
     public Task UpdateCheepLikes(int cheepId, string userEmail);
     public Task<List<int>> GetCheepLikesAmount(int cheepId);
     public Task<List<int>> GetAuthorsLikes(string email);
+    public Task<List<CheepViewModel>> GetLikedCheepsForAuthor(string userEmail);
 }

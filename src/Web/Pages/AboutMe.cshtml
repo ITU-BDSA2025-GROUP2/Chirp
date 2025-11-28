@@ -70,6 +70,45 @@
             <em>There are no cheeps so far.</em>
         }
 
+        <!-- Liked Cheeps Section /-->
+        <h2>Liked Cheeps</h2>
+        @if (Model.LikedCheeps.Any())
+        {
+            @foreach (var cheep in Model.LikedCheeps)
+            {
+                <li>
+                    <p>
+                        <strong>
+                            <a href="/@cheep.Author">@cheep.Author</a>
+                        </strong>
+                        @cheep.Message
+                        <small>&mdash; @cheep.Timestamp</small>
+
+                        @if (SignInManager.IsSignedIn(User) && User.Identity.Name != cheep.Email)
+                        {
+                        <form method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="Email" value="@cheep.Email"/>
+                            @if (@cheep.IsFollowed)
+                            {
+                                <button type="submit" formaction="/@routeName/?handler=Follow">Unfollow</button>
+                            }
+                            else
+                            {
+                                <button type="submit" formaction="/@routeName/?handler=Follow">Follow</button>
+                            }
+
+                        </form>
+                    }
+                    </p>
+                </li>
+            }
+        }
+        else
+        {
+            <em> There are no cheeps so far.</em>
+        }
+
         <!-- Forget Me Section /-->
         <h2>Forget Me</h2>
         <p>

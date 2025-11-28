@@ -12,12 +12,14 @@ public class AboutMeModel(ICheepService service) : PageModel
     public required List<CheepViewModel> Cheeps { get; set; }
     public required AuthorViewModel Author { get; set; }
     public required List<AuthorViewModel> Following { get; set; }
+    public required List<CheepViewModel> LikedCheeps { get; set; }
 
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
         Cheeps = await _service.GetUserCheeps(User.Identity!.Name!, page);
         Author =  await _service.GetAuthorViewModel(User.Identity!.Name!);
         Following = await _service.GetFollowerViewModel(User.Identity!.Name!);
+        LikedCheeps = await _service.GetLikedCheepsForAuthor(User.Identity!.Name!);
         
         return Page();
     }

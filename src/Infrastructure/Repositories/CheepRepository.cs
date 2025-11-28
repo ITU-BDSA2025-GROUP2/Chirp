@@ -105,6 +105,9 @@ public class CheepRepository : ICheepRepository
             return new List<int>();
         }
     }
+
+    
+    
     
     public void AddlikedId(Cheep cheep, int authorId)
     {
@@ -122,17 +125,42 @@ public class CheepRepository : ICheepRepository
 
     }
 
-    public async Task<Cheep> GetCheepFromId(int cheepId)
+    public async Task<Cheep?> GetCheepFromId(int cheepId)
     {
         var query = (
             from cheep in _dbContext.Cheeps
             where cheep.CheepId == cheepId
             select cheep
         );
-        
+
         var returnList =  await query.ToListAsync();
+
+        try
+        {
+            return returnList[0];
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task<List<Cheep>> GetAuthorCheeps(int authorId)
+    {
+        var query = (
+            from cheep in _dbContext.Cheeps
+            where cheep.AuthorId == authorId 
+            select cheep
+        );
         
-        return returnList[0];
+        var returnList = await query.ToListAsync();
+        return returnList;
+    }
+
+    public async Task DeleteCheep(Cheep cheep)
+    {
+        _dbContext.Remove(cheep);
+        _dbContext.SaveChanges();  
     }
     
 }

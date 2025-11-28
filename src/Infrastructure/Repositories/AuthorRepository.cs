@@ -153,15 +153,29 @@ public class AuthorRepository : IAuthorRepository
             select person.CheepLikes
         );
         
-        var result = await query.ToListAsync();
-
+        var result = (await query.ToListAsync())[0];
+        
         try
         {
-            return result[0];
+            return result;
         }
         catch
         {
             return new List<int>();
         }
+    }
+    
+    public void RemoveLikeId(Author author, int cheepId)
+    {
+        author.CheepLikes.Remove(cheepId);
+        _dbContext.Update(author);
+        _dbContext.SaveChanges();
+    }
+    
+    public void AddLikeId(Author author, int cheepId)
+    {
+        author.CheepLikes.Add(cheepId);
+        _dbContext.Update(author);
+        _dbContext.SaveChanges();
     }
 }
