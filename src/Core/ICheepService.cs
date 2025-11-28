@@ -18,4 +18,6 @@ public interface ICheepService
     public Task<List<CheepViewModel>> GetAllCheeps(string userEmail, int page);
 
     public Task UpdateFollower(string userEmail, string followerEmail);
+
+    public Task<List<CheepViewModel>> GetUserTimelineCheeps(string userEmail, string userTimelineAuthor, int page);
 }

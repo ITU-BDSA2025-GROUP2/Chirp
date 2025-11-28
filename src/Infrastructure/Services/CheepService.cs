@@ -157,6 +157,47 @@ public class CheepService : ICheepService
         }
         _authorRepository.AddFollowerId(author, id);
     }
+
+    public async Task<List<CheepViewModel>> GetUserTimelineCheeps(string userEmail, string userTimelineAuthor, int page)
+    {
+        // Get UserID and follower ID and their cheeps
+        List<Cheep> cheepsList;
+        List<int> followerIds;
+        if (userTimelineAuthor == userEmail)
+        {
+            followerIds = await GetFollowers(userEmail);
+            var userId = await GetAuthorId(userEmail);
+            followerIds.Add(userId);
+
+            cheepsList = await GetCheepsFromFollowed(followerIds, page);
+        }
+        else
+        {
+            followerIds = await GetFollowers(userEmail);
+            cheepsList = await GetCheepsFromAuthor(userTimelineAuthor, page);
+        }
+
+        // Add all cheeps into a CheepViewModel and return it
+        var cheeps = new List<CheepViewModel>();
+        foreach (var cheep in cheepsList)
+        {
+            var id = cheep.Author.AuthorId;
+            var isFollowed = false;
+           
+            foreach(int t in followerIds)
+            {   
+                if(id == t)
+                {
+                    isFollowed = true;
+                    break;
+                }
+            }    
+            cheeps.Add(new CheepViewModel(cheep.Author.Name, cheep.Text, cheep.TimeStamp.ToString(), cheep.Author.Email, isFollowed));
+        }
+
+        return cheeps;
+    }
+    
 }
 
 
