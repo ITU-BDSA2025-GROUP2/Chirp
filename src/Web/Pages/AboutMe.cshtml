@@ -16,36 +16,38 @@
 
 <div>
     <!-- User Info /-->
-    @if (Model.Author != null)
+    @if (routeName != null)
     {
-        <h2>@Model.Author.Name's Information</h2>
-        
+        <h2>@routeName.Author's Information</h2>
+
+        <!-- User Info -->
         <li>
             <p>
-                Name: @Model.Author.Name
+                Name: @routeName.Author
             </p>
             <p>
-                Email: @Model.Author.Email
+                Email: @routeName.Email
             </p>
         </li>
-        
-        <!-- /-->
-        <h2> @Model.Author.Name's Following List</h2>
-        
-        <!--
-        foreach (var following in Model.User.Following)
-        <li>
-            <p>
-                <strong>
-                    <a href="/following.Name">following.Name</a>
-                </strong>
-            </p>
-        </li>
-        /-->
-        
-        
+
+        <!-- Follower List /-->
+        <h2> @routeName.Author's Following List</h2>
+        @if (Model.Following.Any())
+        {
+            @foreach (var following in Model.Following)
+            {
+                <li>
+                    <p>
+                        <strong>
+                            <a href="/@following.Author">@following.Author</a>
+                        </strong>
+                    </p>
+                </li>
+            }
+        }
+
         <!-- User Cheeps /-->
-        <h2> @Model.Author.Name's Cheeps </h2>
+        <h2> @routeName.Author's Cheeps </h2>
         @if (Model.Cheeps.Any())
         {
             <ul id="messagelist" class="cheeps">
@@ -67,26 +69,22 @@
         {
             <em>There are no cheeps so far.</em>
         }
-        
-        
-        
+
         <!-- Forget Me Section /-->
-        
         <h2>Forget Me</h2>
         <p>
             Delete your account from Chirp. WARNING THIS CANNOT BE REVERSED
         </p>
-        
+
         <form method="post">
             @Html.AntiForgeryToken()
             <button type="submit" formaction="/info/?handler=Forget">Forget me!</button>
         </form>
-        
     }
     else
     {
         <em>Hello Mister Frog</em>
-        
-        <h1>Y O U   A R E  N O T  S U P P O S E D  T O  B E  H E R E</h1>
+
+        <h1>Y O U A R E N O T S U P P O S E D T O B E H E R E</h1>
     }
 </div>

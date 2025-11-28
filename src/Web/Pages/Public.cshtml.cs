@@ -48,8 +48,6 @@ public class PublicModel(ICheepService service) : PageModel
     //TODO make redirect so you stay on the current page even if its >0
     public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
     {
-       
-
         await _service.UpdateFollower(User.Identity.Name, Email);
 
         return RedirectToPage("");

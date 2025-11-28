@@ -134,4 +134,16 @@ public class AuthorRepository : IAuthorRepository
 
         return result[0];
     }
+    
+    public async Task<List<Author>> GetAuthorsFromIdList(List<int> idList)
+    {
+        var query = (
+            from author in _dbContext.Authors
+            where idList.Contains(author.AuthorId)
+            select author
+        ).OrderByDescending(c => c.Name);
+        var result = await query.ToListAsync();
+
+        return result;
+    }
 }

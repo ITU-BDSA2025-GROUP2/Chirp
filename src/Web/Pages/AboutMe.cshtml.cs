@@ -10,27 +10,22 @@ public class AboutMeModel(ICheepService service) : PageModel
 {
     private readonly ICheepService _service = service;
     public required List<CheepViewModel> Cheeps { get; set; }
-    public required Author Author { get; set; }
+    public required AuthorViewModel Author { get; set; }
+    public required List<AuthorViewModel> Following { get; set; }
 
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
-        var user = User.Identity!.Name;
-        Author = await _service.GetEmail(user!, 0);
-       
-        var returnList = await _service.GetCheepsFromAuthor(user, page);
-        Cheeps = new List<CheepViewModel>();
-        foreach (var row in returnList)
-        {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, false));
-        }
+        Cheeps = await _service.GetUserCheeps(User.Identity!.Name!, page);
+        Author =  await _service.GetAuthorViewModel(User.Identity!.Name!);
+        Following = await _service.GetFollowerViewModel(User.Identity!.Name!);
+        
         return Page();
     }
 
     public async Task<IActionResult> OnPostForget()
     {
-        var identity = User.Identity.Name;
-        
-        await _service.DeleteAuthor(identity);
+        var identity = User.Identity!.Name;
+        await _service.DeleteAuthor(identity!);
         
         Response.Cookies.Delete(".AspNetCore.Identity.Application");
         Response.Cookies.Delete("Seq-Session");

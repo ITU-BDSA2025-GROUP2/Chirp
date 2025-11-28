@@ -197,6 +197,41 @@ public class CheepService : ICheepService
 
         return cheeps;
     }
+
+
+    public async Task<List<CheepViewModel>> GetUserCheeps(string userEmail, int page)
+    {
+        var userCheeps = await GetCheepsFromAuthor(userEmail, page);
+        var cheeps = new List<CheepViewModel>();
+        foreach (var cheep in userCheeps)
+        {
+            cheeps.Add(new CheepViewModel(cheep.Author.Name, cheep.Text, cheep.TimeStamp.ToString(), cheep.Author.Email, false));
+        }
+
+        return cheeps;
+    }
+
+    public async Task<AuthorViewModel> GetAuthorViewModel(string email)
+    {
+        var author = await GetAuthor(email, 0);
+        var authorViewModel = new AuthorViewModel(author.Name, author.Email);
+
+        return authorViewModel;
+    }
+
+    public async Task<List<AuthorViewModel>> GetFollowerViewModel(string email)
+    {
+        var followerIds = await GetFollowers(email);
+        var followerViewModels = new List<AuthorViewModel>();
+        
+        var followers = await _authorRepository.GetAuthorsFromIdList(followerIds);
+        foreach (var followerAuthor in followers)
+        {
+            followerViewModels.Add(new AuthorViewModel(followerAuthor.Name, followerAuthor.Email));
+        }
+        
+        return followerViewModels;
+    }
     
 }
 
