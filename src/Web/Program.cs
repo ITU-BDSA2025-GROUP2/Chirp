@@ -13,6 +13,12 @@ public class Program
     public static void Main(string[] args)
     {
         var app = BuildWebApplication(args);
+        
+        /*var connectionString = builder.Configuration.GetConnectionString("ChatDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ChatDbContextConnection' not found.");;
+
+        builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlServer(connectionString));
+
+        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ChatDbContext>();*/
 
         //Initialise Database
         if (!app.Environment.IsEnvironment("Testing"))
@@ -140,6 +146,9 @@ public class Program
                 o.ClientId = githubClientId!;
                 o.ClientSecret = githubClientSecret!;
                 o.CallbackPath = new PathString("/git-login");
+
+                o.Scope.Add("user:email");
+                o.Scope.Add("read:user");
             });
         }
         else
