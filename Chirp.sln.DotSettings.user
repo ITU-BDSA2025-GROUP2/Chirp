@@ -14,12 +14,7 @@
 	
 	
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=97179945_002D5b28_002D4e35_002D8a9e_002D5d1733d61d1a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="InteractiveButtonTests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::C2C8C230-D6CE-4116-B432-27834B9FE23D::net8.0::PlaywrightTests.InteractiveButtonTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::C2C8C230-D6CE-4116-B432-27834B9FE23D::net8.0::PlaywrightTests.PlaywrightTests&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
+	
 	
 	
 	

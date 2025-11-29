@@ -16,7 +16,11 @@ public class UserTimelineModel(ICheepService service) : PageModel
 
     public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
-        Cheeps = await _service.GetUserTimelineCheeps(User.FindFirst(ClaimTypes.Email)?.Value, Author, page);
+        var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+        var author = await _service.GetAuthorFromName(Author, 0);
+        if (author == null) return NotFound();
+        
+        Cheeps = await _service.GetUserTimelineCheeps(userEmail, author, page);
         return Page();
     }
 

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
     //var routeName = HttpContext.GetRouteValue("author");
-    var routeName = Model.Author;
+    var routeName = Model.UserAuthorVm;
 }
 
 @using Core
@@ -33,9 +33,9 @@
 
         <!-- Follower List /-->
         <h2> @routeName.Author's Following List</h2>
-        @if (Model.Following.Any())
+        @if (Model.FollowingVm.Any())
         {
-            @foreach (var following in Model.Following)
+            @foreach (var following in Model.FollowingVm)
             {
                 <li>
                     <p>
@@ -49,10 +49,10 @@
 
         <!-- User Cheeps /-->
         <h2> @routeName.Author's Cheeps </h2>
-        @if (Model.Cheeps.Any())
+        @if (Model.UserCheepsVm.Any())
         {
             <ul id="messagelist" class="cheeps">
-                @foreach (var cheep in Model.Cheeps)
+                @foreach (var cheep in Model.UserCheepsVm)
                 {
                     <li>
                         <p>
@@ -96,10 +96,10 @@
 
         <!-- Liked Cheeps Section /-->
         <h2>Liked Cheeps</h2>
-        @if (Model.LikedCheeps.Any())
+        @if (Model.LikedCheepsVm.Any())
         {
             <ul id="messagelist" class="cheeps">
-                @foreach (var cheep in Model.LikedCheeps)
+                @foreach (var cheep in Model.LikedCheepsVm)
                 {
                     <li>
                         <p>

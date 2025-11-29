@@ -52,7 +52,6 @@ public class AuthorRepository : IAuthorRepository
 
         if (author.Count() != 1 || author.Count == 0) return;
         
-        
         //await _dbContext.Users.FindAsync(email);
         _dbContext.Authors.Remove(author.First());
         _dbContext.Users.Remove(myUser!);
@@ -117,6 +116,11 @@ public class AuthorRepository : IAuthorRepository
         );
         var result = await query.ToListAsync();
 
+        if (result.Count == 0)
+        {
+            throw new Exception("No authors found");
+        }
+
         return result[0];
     }
 
@@ -129,6 +133,8 @@ public class AuthorRepository : IAuthorRepository
             ).OrderByDescending(c => c.Name).Skip(page * 32).Take(32);
 
         var result = await query.ToListAsync();
+        
+        if (result.Count == 0) throw new Exception("No authors found from " + name);
 
         return result[0];
     }

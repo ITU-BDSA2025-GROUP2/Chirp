@@ -10,18 +10,18 @@ namespace Web.Pages;
 public class AboutMeModel(ICheepService service) : PageModel
 {
     private readonly ICheepService _service = service;
-    public required List<CheepViewModel> Cheeps { get; set; }
-    public required AuthorViewModel Author { get; set; }
-    public required List<AuthorViewModel> Following { get; set; }
-    public required List<CheepViewModel> LikedCheeps { get; set; }
+    public required List<CheepViewModel> UserCheepsVm { get; set; }
+    public required AuthorViewModel UserAuthorVm { get; set; }
+    public required List<AuthorViewModel> FollowingVm { get; set; }
+    public required List<CheepViewModel> LikedCheepsVm { get; set; }
 
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
-        Cheeps = await _service.GetUserCheeps(User.FindFirst(ClaimTypes.Email)?.Value!, page);
-        Author =  await _service.GetAuthorViewModel(User.FindFirst(ClaimTypes.Email)?.Value!);
-        Following = await _service.GetFollowerViewModel(User.FindFirst(ClaimTypes.Email)?.Value!);
-        LikedCheeps = await _service.GetLikedCheepsForAuthor(User.FindFirst(ClaimTypes.Email)?.Value!);
-        
+        UserCheepsVm = await _service.GetUserCheeps(User.FindFirst(ClaimTypes.Email)?.Value!, page);
+        UserAuthorVm =  await _service.GetAuthorViewModel(User.FindFirst(ClaimTypes.Email)?.Value!);
+        FollowingVm = await _service.GetFollowerViewModel(User.FindFirst(ClaimTypes.Email)?.Value!);
+        LikedCheepsVm = await _service.GetLikedCheepsForAuthor(User.FindFirst(ClaimTypes.Email)?.Value!);
+            
         return Page();
     }
 
@@ -49,9 +49,7 @@ public class AboutMeModel(ICheepService service) : PageModel
     public int CheepID { get; set; }
     public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
     {
-
         _service.UpdateCheepLikes(CheepID, User.FindFirst(ClaimTypes.Email)?.Value);
-
         return RedirectToPage("AboutMe");
     }
 }

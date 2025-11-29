@@ -5,7 +5,6 @@ namespace Infrastructure.Repositories;
 
 public class CheepRepository : ICheepRepository
 {
-
     private readonly ChatDbContext _dbContext;
     private readonly IAuthorRepository _authorRepository;
     public CheepRepository(ChatDbContext dbContext)

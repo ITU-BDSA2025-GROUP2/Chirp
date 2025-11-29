@@ -3,9 +3,9 @@ namespace Core;
 public interface ICheepService
 {
     public Task<List<Cheep>> GetCheeps(int page);
-    public Task<List<Cheep>> GetCheepsFromAuthor(string author, int page);
+    public Task<List<Cheep>> GetCheepsFromAuthorId(int authorId, int page);
     public Task<List<Cheep>> GetCheepsFromFollowed(List<int> follows, int page);
-    public Task<Author> GetAuthor(string author, int page);
+    public Task<Author> GetAuthorFromName(string authorName, int page);
     public Task<int> GetAuthorId(string email);
     public Task<Author> GetEmail(string email, int page);
     public Task<List<int>> GetFollowers(string email);
@@ -19,7 +19,7 @@ public interface ICheepService
 
     public Task UpdateFollower(string userEmail, string followerEmail);
 
-    public Task<List<CheepViewModel>> GetUserTimelineCheeps(string userEmail, string userTimelineAuthor, int page);
+    public Task<List<CheepViewModel>> GetUserTimelineCheeps(string userEmail, Author userTimelineAuthor, int page);
 
     public Task<List<CheepViewModel>> GetUserCheeps(string userEmail, int page);
 
@@ -31,4 +31,6 @@ public interface ICheepService
     public Task<List<int>> GetCheepLikesAmount(int cheepId);
     public Task<List<int>> GetAuthorsLikes(string email);
     public Task<List<CheepViewModel>> GetLikedCheepsForAuthor(string userEmail);
+
+    public Task<Author> GetAuthorFromEmail(string authorEmail, int page);
 }
