@@ -127,7 +127,7 @@ public class PlaywrightTests : PageTest
         
         await Page.GetByRole(AriaRole.Listitem)
             .Filter(new() { HasText = "Jacqualine Gilcoine I wonder" })
-            .GetByRole(AriaRole.Button)
+            .GetByRole(AriaRole.Button, new() { Name = "Follow" })
             .ClickAsync();
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
