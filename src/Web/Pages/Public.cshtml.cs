@@ -14,7 +14,7 @@ public class PublicModel(ICheepService service) : PageModel
 
     public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
-        Cheeps = await _service.GetAllCheeps(User.Identity.Name, User.FindFirst(ClaimTypes.Email)?.Value, page);
+        Cheeps = await _service.GetAllCheeps(User.Identity!.Name!, User.FindFirst(ClaimTypes.Email)?.Value!, page);
         return Page();
     }
 
