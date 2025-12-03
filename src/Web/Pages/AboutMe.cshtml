@@ -71,7 +71,7 @@
                         <form method="post">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="CheepID" value="@cheep.CheepId"/>
-                            <button type="submit" formaction="/?handler=Like">
+                            <button type="submit" formaction="@routeName/?handler=Like">
                                 @(cheep.IsLiked ? "UnLike" : "Like")
                             </button>
                         </form>
