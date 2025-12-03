@@ -97,8 +97,6 @@ public class Program
         {
             Args = args ?? Array.Empty<string>(),
             EnvironmentName = environment ?? Environments.Development,
-            ContentRootPath = root,
-            WebRootPath = Path.Combine(root, "wwwroot")
         });
 
         builder.Services.AddSession();
