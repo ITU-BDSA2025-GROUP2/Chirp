@@ -4,6 +4,7 @@
 #nullable disable
 
 using System.Security.Claims;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -16,6 +17,7 @@ namespace Web.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
+        private readonly ICheepService _service;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -30,8 +32,9 @@ namespace Web.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, ICheepService service)
         {
+            _service = service;
             _signInManager = signInManager;
             _userManager = userManager;
             _userStore = userStore;
@@ -137,7 +140,8 @@ namespace Web.Areas.Identity.Pages.Account
                 var identityResult = await _userManager.CreateAsync(user);
                 if (identityResult.Succeeded)
                 {
-                    Console.WriteLine("I AM RUNNING BITCHES");
+                    _service.CreateAuthor(user.UserName, user.Email);
+                    
                     await _userManager.AddLoginAsync(user, info);
                     await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                     return LocalRedirect(returnUrl);

@@ -15,25 +15,16 @@ public class CheepRepository : ICheepRepository
     }
     
     
-    public async Task CreateCheep(string author, string email, string msg)
+    public async Task CreateCheep(Author author, string msg)
     {
-
-        var authorFromQuery = await _authorRepository.ReturnBasedOnEmailAsync(email);
-
-        if (authorFromQuery.Count() <= 0)
-        {
-            _authorRepository.CreateAuthor(author, email);   
-        }
-
-        authorFromQuery = await _authorRepository.ReturnBasedOnEmailAsync(email);
 
        var cheep = new Cheep()
         {
             CheepId = FindNewCheepId(),
             Text = msg,
             TimeStamp = DateTime.Now,
-            AuthorId = authorFromQuery[0].AuthorId,
-            Author = authorFromQuery[0],
+            AuthorId = author.AuthorId,
+            Author = author,
         };
 
         _dbContext.Cheeps.Add(cheep);
