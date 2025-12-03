@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Core;
+namespace Core.Model;
 
 public class Cheep
 {

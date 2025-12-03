@@ -1,17 +1,15 @@
 <!-- login partial loaded -->
 @using Infrastructure
-@using Microsoft.AspNetCore.Identity
 
 
 @inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
 <ul class="navbar-nav">
     
     
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" href="/@(User.Identity.Name)">my timeline</a>
+            <a class="nav-link text-dark" href="/@(User.Identity!.Name)">my timeline</a>
         </li>
         <li class="nav-item">
             <a href="/Identity/Account/Manage/Index" title="Manage">

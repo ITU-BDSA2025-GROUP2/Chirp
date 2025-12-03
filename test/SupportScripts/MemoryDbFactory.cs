@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Core.Interfaces;
+using Core.Model;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.Data.Sqlite;

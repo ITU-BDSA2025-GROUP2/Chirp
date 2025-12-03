@@ -1,9 +1,6 @@
-﻿using System.Globalization;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using Core;
-using Infrastructure.Services;
-using Microsoft.AspNetCore.Components.Forms;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -17,49 +14,41 @@ public class PublicModel(ICheepService service) : PageModel
 
     public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
-        
-        Cheeps = await _service.GetAllCheeps(User.Identity.Name, User.FindFirst(ClaimTypes.Email)?.Value, page);
+        Cheeps = await _service.GetAllCheeps(User.Identity!.Name!, User.FindFirst(ClaimTypes.Email)?.Value!, page);
         return Page();
     }
 
 
 
     [BindProperty]
-    public string Text { get; set; }
+    public required string Text { get; set; }
 
     public async Task<IActionResult> OnPost()
     {
-        
-
-        var cheep_message = Text;
+        var cheepMessage = Text;
        
-        if (cheep_message.Length < 161)
+        if (cheepMessage.Length < 161)
         {
-            //Username fix when scaffolding is doen. 
-            await _service.CreateCheep(User.Identity.Name, User.FindFirst(ClaimTypes.Email)?.Value, cheep_message);
+            await _service.CreateCheep(User.Identity!.Name!, User.FindFirst(ClaimTypes.Email)?.Value!, cheepMessage);
         }
-
-
 
         return RedirectToPage("");
     }
 
     [BindProperty]
-    public string Email { get; set; }
+    public required string Email { get; set; }
 
-    //TODO make redirect so you stay on the current page even if its >0
     public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
     {
-        await _service.UpdateFollower(User.FindFirst(ClaimTypes.Email)?.Value, Email);
+        await _service.UpdateFollower(User.FindFirst(ClaimTypes.Email)?.Value!, Email);
 
         return RedirectToPage("");
     } 
     [BindProperty]
-    public int CheepID { get; set; }
+    public int CheepId { get; set; }
     public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
     {
-
-        _service.UpdateCheepLikes(CheepID, User.FindFirst(ClaimTypes.Email)?.Value);
+        await _service.UpdateCheepLikes(CheepId, User.FindFirst(ClaimTypes.Email)?.Value!);
 
         return RedirectToPage("");
     }

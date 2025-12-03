@@ -1,4 +1,5 @@
-using Core;
+using Core.Interfaces;
+using Core.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;

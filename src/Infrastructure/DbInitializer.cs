@@ -1,6 +1,4 @@
-using System;
-using Core;
-using Microsoft.AspNetCore.Identity;
+using Core.Model;
 
 namespace Infrastructure;
 

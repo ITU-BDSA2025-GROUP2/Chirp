@@ -1,10 +1,14 @@
 
-namespace Core;
+using System.ComponentModel.DataAnnotations;
+
+namespace Core.Model;
 
 public class Author
 {
     public required int AuthorId { get; set; }
+    [StringLength(200)]
     public required string Name { get; set; }
+    [StringLength(200)]
     public required string Email { get; set; }
     public required ICollection<Cheep> Cheeps { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using Core;
-using Infrastructure.Services;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,7 +8,6 @@ namespace Web.Pages;
 
 public class UserTimelineModel(ICheepService service) : PageModel
 {
-    private readonly ICheepService _service = service;
     [BindProperty(SupportsGet = true)] public required string Author { get; set; } // Route-bound property
 
     public required List<CheepViewModel> Cheeps { get; set; }
@@ -17,10 +16,9 @@ public class UserTimelineModel(ICheepService service) : PageModel
     public async Task<ActionResult> OnGet([FromQuery] int page = 0)
     {
         var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-        var author = await _service.GetAuthorFromName(Author, 0);
-        if (author == null) return NotFound();
+        var author = await service.GetAuthorFromName(Author, 0);
         
-        Cheeps = await _service.GetUserTimelineCheeps(userEmail, author, page);
+        Cheeps = await service.GetUserTimelineCheeps(userEmail!, author, page);
         return Page();
     }
 
@@ -29,7 +27,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        await _service.CreateCheep(User.Identity!.Name!, User.FindFirst(ClaimTypes.Email)?.Value, Text);
+        await service.CreateCheep(User.Identity!.Name!, User.FindFirst(ClaimTypes.Email)?.Value!, Text);
 
         return RedirectToPage("UserTimeline", new { author = Author });
     }
@@ -38,16 +36,15 @@ public class UserTimelineModel(ICheepService service) : PageModel
 
     public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
     {
-        await _service.UpdateFollower(User.FindFirst(ClaimTypes.Email)?.Value, Email);
+        await service.UpdateFollower(User.FindFirst(ClaimTypes.Email)?.Value!, Email);
         return RedirectToPage("UserTimeline", new { author = Author });
     }
 
     [BindProperty]
-    public int CheepID { get; set; }
+    public int CheepId { get; set; }
     public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
     {
-
-        _service.UpdateCheepLikes(CheepID, User.FindFirst(ClaimTypes.Email)?.Value);
+        await service.UpdateCheepLikes(CheepId, User.FindFirst(ClaimTypes.Email)?.Value!);
 
         return RedirectToPage("UserTimeline", new { author = Author });
     }
