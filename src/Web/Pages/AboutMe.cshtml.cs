@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using Core;
-using Infrastructure.Services;
-using Microsoft.AspNetCore.Identity;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,7 +8,6 @@ namespace Web.Pages;
 
 public class AboutMeModel(ICheepService service) : PageModel
 {
-    private readonly ICheepService _service = service;
     public required List<CheepViewModel> UserCheepsVm { get; set; }
     public required AuthorViewModel UserAuthorVm { get; set; }
     public required List<AuthorViewModel> FollowingVm { get; set; }
@@ -17,10 +15,10 @@ public class AboutMeModel(ICheepService service) : PageModel
 
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
-        UserCheepsVm = await _service.GetUserCheeps(User.FindFirst(ClaimTypes.Email)?.Value!, page);
-        UserAuthorVm =  await _service.GetAuthorViewModel(User.FindFirst(ClaimTypes.Email)?.Value!);
-        FollowingVm = await _service.GetFollowerViewModel(User.FindFirst(ClaimTypes.Email)?.Value!);
-        LikedCheepsVm = await _service.GetLikedCheepsForAuthor(User.FindFirst(ClaimTypes.Email)?.Value!);
+        UserCheepsVm = await service.GetUserCheeps(User.FindFirst(ClaimTypes.Email)?.Value!, page);
+        UserAuthorVm =  await service.GetAuthorViewModel(User.FindFirst(ClaimTypes.Email)?.Value!);
+        FollowingVm = await service.GetFollowerViewModel(User.FindFirst(ClaimTypes.Email)?.Value!);
+        LikedCheepsVm = await service.GetLikedCheepsForAuthor(User.FindFirst(ClaimTypes.Email)?.Value!);
             
         return Page();
     }
@@ -28,7 +26,7 @@ public class AboutMeModel(ICheepService service) : PageModel
     public async Task<IActionResult> OnPostForget()
     {
         var identity = User.FindFirst(ClaimTypes.Email)?.Value;
-        await _service.DeleteAuthor(identity!);
+        await service.DeleteAuthor(identity!);
         
         Response.Cookies.Delete(".AspNetCore.Identity.Application");
         Response.Cookies.Delete("Seq-Session");
@@ -41,15 +39,15 @@ public class AboutMeModel(ICheepService service) : PageModel
 
     public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
     {
-        await _service.UpdateFollower(User.FindFirst(ClaimTypes.Email)?.Value!, Email);
+        await service.UpdateFollower(User.FindFirst(ClaimTypes.Email)?.Value!, Email);
         return RedirectToPage("AboutMe");
     }
 
     [BindProperty]
-    public int CheepID { get; set; }
+    public int CheepId { get; set; }
     public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
     {
-        _service.UpdateCheepLikes(CheepID, User.FindFirst(ClaimTypes.Email)?.Value);
+        await service.UpdateCheepLikes(CheepId, User.FindFirst(ClaimTypes.Email)?.Value!);
         return RedirectToPage("AboutMe");
     }
 }

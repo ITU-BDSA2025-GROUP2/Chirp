@@ -1,10 +1,8 @@
-using Core;
+using Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Infrastructure;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 
 namespace Web;
 
@@ -177,10 +175,10 @@ public class Program
         builder.Services.AddScoped<ICheepRepository, CheepRepository>();
         builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
-        builder.Services.Configure<IdentityOptions>(options =>
-        {
+        //builder.Services.Configure<IdentityOptions>(options =>
+        //{
             // Define configuration settings for our Identity
-        });
+        //});
 
         builder.Services.ConfigureApplicationCookie(options =>
         {

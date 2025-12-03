@@ -1,4 +1,4 @@
-using Core;
+using Core.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -14,7 +14,8 @@ public class ChatDbContext : IdentityDbContext<ApplicationUser>
     {
         
     }
-
+    
+    
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

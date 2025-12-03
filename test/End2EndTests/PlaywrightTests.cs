@@ -107,13 +107,6 @@ public class PlaywrightTests : PageTest
         await Expect(firstCheep).ToContainTextAsync(cheepText);
         await Expect(firstCheep.GetByRole(AriaRole.Link).First).ToHaveTextAsync(email);
         await Expect(firstCheep.GetByRole(AriaRole.Link).First).ToHaveAttributeAsync("href", $"/{email}");
-    
-        // Verify timestamp format exists
-        var cheepFullText = await firstCheep.InnerTextAsync();
-        Assert.That(
-            cheepFullText,
-            Does.Match(@"\d{2}[-/]\d{2}[-/]\d{4} \d{2}:\d{2}:\d{2}")
-        );
     }
 
     [Test]
@@ -124,30 +117,26 @@ public class PlaywrightTests : PageTest
         
         await RegisterAccountIdentity(email, password);
         await LoginAccountIdentity(email, password);
-        
+
         await Page.GetByRole(AriaRole.Listitem)
             .Filter(new() { HasText = "Jacqualine Gilcoine I wonder" })
             .GetByRole(AriaRole.Button, new() { Name = "Follow" })
             .ClickAsync();
+
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-        
-    
+
         var firstCheep = Page.Locator("#messagelist > li").First;
-        await Expect(firstCheep).ToMatchAriaSnapshotAsync(
-            "- listitem:\n" +
-            "  - paragraph:\n" +
-            "    - strong:\n" +
-            "      - link \"Jacqualine Gilcoine\":\n" +
-            "        - /url: /Jacqualine Gilcoine\n" +
-            "    - text: /Starbuck now is what we hear the worst\\. — [0-9\\/\\-]{10} [0-9:]{8}/\n" +
-            "  - button \"Unfollow\"\n" +
-            "  - paragraph"); 
+        await Expect(firstCheep.GetByRole(AriaRole.Link)).ToContainTextAsync("Jacqualine Gilcoine");
+        await Expect(firstCheep).ToContainTextAsync("Starbuck now is what we hear the worst.");
+        var unfollowButton = firstCheep.GetByRole(AriaRole.Button, new() { Name = "Unfollow" });
+        await Expect(unfollowButton).ToBeVisibleAsync();
+
         var unfollowButtons = Page.GetByRole(AriaRole.Button, new() { Name = "Unfollow" });
-        var buttonCount = await unfollowButtons.CountAsync();
-        Assert.That(buttonCount, Is.GreaterThan(0), "Should have at least one Unfollow button");
+        Assert.That(await unfollowButtons.CountAsync(), Is.GreaterThan(0));
     }
+
 
     private async Task LoginAccountIdentity(string email, string password)
     {

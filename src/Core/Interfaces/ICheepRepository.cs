@@ -1,4 +1,6 @@
-namespace Core;
+using Core.Model;
+
+namespace Core.Interfaces;
 
 public interface ICheepRepository
 {

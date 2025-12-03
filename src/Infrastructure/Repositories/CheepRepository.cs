@@ -1,4 +1,5 @@
-using Core;
+using Core.Interfaces;
+using Core.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
@@ -124,7 +125,7 @@ public class CheepRepository : ICheepRepository
 
     }
 
-    public async Task<Cheep> GetCheepFromId(int cheepId)
+    public async Task<Cheep?> GetCheepFromId(int cheepId)
     {
         var query = (
             from cheep in _dbContext.Cheeps.Include(c => c.Author)
@@ -159,7 +160,7 @@ public class CheepRepository : ICheepRepository
     public async Task DeleteCheep(Cheep cheep)
     {
         _dbContext.Remove(cheep);
-        _dbContext.SaveChanges();  
+        await _dbContext.SaveChangesAsync();
     }
     
 }
