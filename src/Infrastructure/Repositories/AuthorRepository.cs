@@ -20,7 +20,7 @@ public class AuthorRepository : IAuthorRepository
     {
         var newAuthor = new Author()
         {
-            AuthorId = FindNewAuthorId(),
+            AuthorId = FindNewAuthorId().Result,
             Name = name,
             Email = email,
             Cheeps = new List<Cheep>()
@@ -63,12 +63,21 @@ public class AuthorRepository : IAuthorRepository
 
     #region Helper methods
 
-    public int FindNewAuthorId()
+    public async Task<int> FindNewAuthorId()
     {
         var length = _dbContext.Authors.Count();
-        return length + 1;
-    }
+        var newId = length + 1;
 
+        var idExists = await CheckIfAuthorIdIsAvailable(newId);
+        while (idExists == false)
+        {
+            Console.WriteLine("CURRENT ID TO CHECK:" + newId);
+            newId++;
+            idExists = await CheckIfAuthorIdIsAvailable(newId);
+        }
+
+        return newId;
+    }
 
     #endregion
 
@@ -150,6 +159,19 @@ public class AuthorRepository : IAuthorRepository
         var result = await query.ToListAsync();
 
         return result;
+    }
+
+    public async Task<bool> CheckIfAuthorIdIsAvailable(int authorId)
+    {
+        var query = (
+            from author in _dbContext.Authors
+            where authorId == author.AuthorId
+            select author
+        ).OrderByDescending(c => c.Name);
+        var result = await query.ToListAsync();
+
+        if (result.Count == 0) return true;
+        return false;
     }
 
     public async Task<List<int>> GetLikedCheeps(string email)
