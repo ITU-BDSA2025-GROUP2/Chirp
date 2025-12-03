@@ -85,16 +85,16 @@ public class Program
                 currentDir = currentDir.Parent;
             }
 
-            webProjectPath = foundDir?.FullName ??
-                             Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "..", "src", "Web"));
+            /* webProjectPath = foundDir?.FullName ??
+                             Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "..", "src", "Web")); */
         }
+
+        var root = AppContext.BaseDirectory;
 
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
         {
             Args = args ?? Array.Empty<string>(),
             EnvironmentName = environment ?? Environments.Development,
-            ContentRootPath = webProjectPath,
-            WebRootPath = Path.Combine(webProjectPath, "wwwroot")
         });
 
         builder.Services.AddSession();
