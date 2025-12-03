@@ -4,6 +4,7 @@ using Microsoft.Playwright.NUnit;
 
 namespace PlaywrightTests;
 
+
 [Parallelizable(ParallelScope.None)]
 [TestFixture]
 public class PlaywrightTests : PageTest
@@ -13,6 +14,7 @@ public class PlaywrightTests : PageTest
     [SetUp]
     public async Task Setup()
     {
+        
         await Page.GotoAsync(ServerAddress);
     }
 

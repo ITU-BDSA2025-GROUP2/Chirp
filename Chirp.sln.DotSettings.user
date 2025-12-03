@@ -7,6 +7,7 @@
     &lt;Project Location="C:\Users\Karam\Documents\Git Repos\Chirp\test\End2EndTests" Presentation="&amp;lt;End2EndTests&amp;gt;" /&gt;&#xD;
     &lt;TestAncestor&gt;&#xD;
       &lt;TestId&gt;xUnit::0B09F94F-9EC4-4897-ADC2-C23579D82990::net8.0::test.IntegrationTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::79EE8ACE-620E-4612-B7EF-315E7926354F::net8.0::UnitTest.CheepRepositoryTests&lt;/TestId&gt;&#xD;
     &lt;/TestAncestor&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
