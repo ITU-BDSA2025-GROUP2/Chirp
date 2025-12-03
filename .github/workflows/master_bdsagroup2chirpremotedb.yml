@@ -24,17 +24,10 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build Chirp.sln --configuration Release
-      #- name: Playwright Browsers
-       # run: pwsh test/End2EndTests/bin/Debug/net8.0/playwright.ps1 install --with-deps
-      - name: Test
-        run: |
-          export authentication_github_clientId="${{ secrets.GITHUBCLIENTID }}"
-          export authentication_github_clientSecret="${{ secrets.GITHUBCLIENTSECRET }}"
-      
-      
+        run: dotnet build --configuration Release
+
       - name: dotnet publish
-        run: dotnet publish src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -58,9 +51,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_94F763D4A2DB40F6915AD8F476E703F1 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_012603CEB82C4774ACE69AF2834F5AA6 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_DEC3201029D24A32919B444B9ABCED8B }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7B11E092E4564AB89AAD3F2CD12BE2FC }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F5DABD64127A430BB0C55D99C4BCCDEF }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E0E729EF437A47B495794F1E0497F42A }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -69,5 +62,4 @@ jobs:
           app-name: 'bdsagroup2chirpremotedb'
           slot-name: 'Production'
           package: .
-
           
