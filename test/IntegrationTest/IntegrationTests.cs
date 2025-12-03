@@ -15,13 +15,11 @@ public class IntegrationTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task GetFromSpecificAuthor()
     {
-        
         HttpClient client = _factory.CreateClient();
         var response = await client.GetAsync("/Helge");
         response.EnsureSuccessStatusCode();
         var readResponse = await response.Content.ReadAsStringAsync();
         Assert.Contains("Helge", readResponse);
-
     }
 
     [Fact]

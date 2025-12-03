@@ -19,7 +19,7 @@ public class PlaywrightTests : PageTest
     [Test]
     public async Task BasicTest()
     {
-        var response = await Page.GotoAsync(ServerAddress + "/Public");
+        var response = await Page.GotoAsync(ServerAddress);
         Assert.That(response!.Status, Is.EqualTo(200));
     }
 
@@ -127,7 +127,7 @@ public class PlaywrightTests : PageTest
         
         await Page.GetByRole(AriaRole.Listitem)
             .Filter(new() { HasText = "Jacqualine Gilcoine I wonder" })
-            .GetByRole(AriaRole.Button)
+            .GetByRole(AriaRole.Button, new() { Name = "Follow" })
             .ClickAsync();
         await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();

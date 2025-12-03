@@ -34,7 +34,6 @@ public class AuthorRepository : IAuthorRepository
         author.Follows.Add(id);
         _dbContext.Update(author);
         _dbContext.SaveChanges();
-
     }
 
     public void RemoveFollowerId(Author author, int id)
@@ -44,7 +43,6 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
 
     }
-    
 
     public async Task DeleteAuthor(string email)
     {
@@ -53,7 +51,6 @@ public class AuthorRepository : IAuthorRepository
         var author = await ReturnBasedOnEmailAsync(email);
 
         if (author.Count() != 1 || author.Count == 0) return;
-        
         
         //await _dbContext.Users.FindAsync(email);
         _dbContext.Authors.Remove(author.First());
@@ -119,6 +116,11 @@ public class AuthorRepository : IAuthorRepository
         );
         var result = await query.ToListAsync();
 
+        if (result.Count == 0)
+        {
+            throw new Exception("No authors found");
+        }
+
         return result[0];
     }
 
@@ -131,7 +133,55 @@ public class AuthorRepository : IAuthorRepository
             ).OrderByDescending(c => c.Name).Skip(page * 32).Take(32);
 
         var result = await query.ToListAsync();
+        
+        if (result.Count == 0) throw new Exception("No authors found from " + name);
 
         return result[0];
+    }
+    
+    public async Task<List<Author>> GetAuthorsFromIdList(List<int> idList)
+    {
+        var query = (
+            from author in _dbContext.Authors
+            where idList.Contains(author.AuthorId)
+            select author
+        ).OrderByDescending(c => c.Name);
+        var result = await query.ToListAsync();
+
+        return result;
+    }
+
+    public async Task<List<int>> GetLikedCheeps(string email)
+    {
+        var query = (
+            from person in _dbContext.Authors
+            where person.Email == email
+            select person.CheepLikes
+        );
+        
+        var result = (await query.ToListAsync())[0];
+        
+        try
+        {
+            return result;
+        }
+        catch
+        {
+            return new List<int>();
+        }
+    }
+    
+    public void RemoveLikeId(Author author, int cheepId)
+    {
+        author.CheepLikes.Remove(cheepId);
+        _dbContext.Update(author);
+        _dbContext.SaveChanges();
+    }
+    
+    public void AddLikeId(Author author, int cheepId)
+    {
+        author.CheepLikes.Add(cheepId);
+        _dbContext.Update(author);
+        _dbContext.SaveChanges();
     }
 }

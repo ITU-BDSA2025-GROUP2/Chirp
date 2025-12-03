@@ -9,4 +9,6 @@ public class Author
     public required ICollection<Cheep> Cheeps { get; set; }
 
     public List<int> Follows { get; set; } = new List<int>();
+    
+    public List<int> CheepLikes { get; set; } = new List<int>();
 }

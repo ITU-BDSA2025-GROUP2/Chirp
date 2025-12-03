@@ -10,6 +10,8 @@
 @using Microsoft.AspNetCore.Identity
 @using Infrastructure
 @using System.Diagnostics.Eventing.Reader
+@using Microsoft.CodeAnalysis.CSharp.Syntax
+@using System.Security.Claims
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -21,7 +23,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <div class="cheepbox">
-            <h3>What's on your mind @(User.Identity.Name)?</h3>
+            <h3>What's on your mind @(User.Identity!.Name!)?</h3>
             <form method="post">
                 @Html.AntiForgeryToken()
                 <input style="float: left" type="text" input id="Cheep_Text" name="Text" asp-for="Text" maxlength="160">
@@ -29,11 +31,6 @@
             </form>
         </div>
     }
-
-
-
-
-
 
     @if (Model.Cheeps.Any())
     {
@@ -48,17 +45,26 @@
                         @cheep.Message
                         <small>&mdash; @cheep.Timestamp</small>
 
-                        @if(SignInManager.IsSignedIn(User) && User.Identity.Name != cheep.Email){
-                            
+                        <small>Likes @cheep.Likes.Count</small>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            @if(User.FindFirst(ClaimTypes.Email)?.Value != cheep.Email) {
+                                <!-- Follow Button -->
+                                <form method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="Email" value="@cheep.Email"/>
+                                    <button type="submit" formaction="/?handler=Follow">
+                                        @(cheep.IsFollowed ? "Unfollow" : "Follow")
+                                    </button>
+                                </form>
+                            }
+                            <!-- Like Button -->
                             <form method="post">
-                            @Html.AntiForgeryToken()
-                                <input type="hidden" name="Email" value="@cheep.Email"/>
-                                @if(@cheep.IsFollowed == "Follow"){
-                                    <button type="submit" formaction="/?handler=Follow">Follow</button>
-                                }else{
-                                    <button type="submit" formaction="/?handler=Follow">Unfollow</button>
-                                }
-                                 
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="CheepID" value="@cheep.CheepId" />
+                                <button type="submit" formaction="/?handler=Like">
+                                    @(cheep.IsLiked ? "UnLike" : "Like")
+                                </button> 
                             </form>
                         }
                     </p>

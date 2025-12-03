@@ -15,4 +15,9 @@ public interface IAuthorRepository
 
     public Task<Author> ReturnBasedOnNameAsync(string name, int page = 0);
     public Task DeleteAuthor(string email);
+
+    public Task<List<Author>> GetAuthorsFromIdList(List<int> idList);
+    public Task<List<int>> GetLikedCheeps(string email);
+
+    public void AddLikeId(Author author, int cheepId);
 }

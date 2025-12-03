@@ -5,7 +5,6 @@ namespace Infrastructure.Repositories;
 
 public class CheepRepository : ICheepRepository
 {
-
     private readonly ChatDbContext _dbContext;
     private readonly IAuthorRepository _authorRepository;
     public CheepRepository(ChatDbContext dbContext)
@@ -86,4 +85,81 @@ public class CheepRepository : ICheepRepository
         return result;
     }
 
+    public async Task<List<int>> GetLikedAuthors(int cheepId)
+    {
+        var query = (
+            from cheep in _dbContext.Cheeps
+            where cheep.CheepId == cheepId
+            select cheep.PeopleLikes
+        );
+
+        var result = await query.ToListAsync();
+
+        try
+        {
+            return result[0];
+        }
+        catch
+        {
+            return new List<int>();
+        }
+    }
+
+    
+    
+    
+    public void AddlikedId(Cheep cheep, int authorId)
+    {
+        cheep.PeopleLikes.Add(authorId);
+        _dbContext.Update(cheep);
+        _dbContext.SaveChanges();
+
+    }
+
+    public void RemovelikedId(Cheep cheep, int authorId)
+    {
+        cheep.PeopleLikes.Remove(authorId);
+        _dbContext.Update(cheep);
+        _dbContext.SaveChanges();
+
+    }
+
+    public async Task<Cheep> GetCheepFromId(int cheepId)
+    {
+        var query = (
+            from cheep in _dbContext.Cheeps.Include(c => c.Author)
+            where cheep.CheepId == cheepId
+            select cheep
+        );
+
+        var returnList = await query.ToListAsync();
+
+        try
+        {
+            return returnList[0];
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task<List<Cheep>> GetAuthorCheeps(int authorId)
+    {
+        var query = (
+            from cheep in _dbContext.Cheeps
+            where cheep.AuthorId == authorId 
+            select cheep
+        );
+        
+        var returnList = await query.ToListAsync();
+        return returnList;
+    }
+
+    public async Task DeleteCheep(Cheep cheep)
+    {
+        _dbContext.Remove(cheep);
+        _dbContext.SaveChanges();  
+    }
+    
 }

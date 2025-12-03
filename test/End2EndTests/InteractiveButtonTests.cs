@@ -18,7 +18,7 @@ public class InteractiveButtonTests : PageTest
     [Test]
     public async Task BasicTest()
     { 
-        var response = await Page.GotoAsync(ServerAddress + "/Public");
+        var response = await Page.GotoAsync(ServerAddress);
         Assert.That(response!.Status, Is.EqualTo(200));
     }
 

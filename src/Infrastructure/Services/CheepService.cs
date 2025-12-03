@@ -1,24 +1,15 @@
-using System.Security.Claims;
 using Core;
 using Infrastructure.Repositories;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
 
-public record CheepViewModel(string Author, string Message, string Timestamp, string Email, string IsFollowed);
-public record AuthorViewModel(string Author, string Email);
-
-
 public class CheepService : ICheepService
 {
-
     private CheepRepository _cheepRepository;
     private AuthorRepository _authorRepository;
+
     public CheepService(ChatDbContext dbContext)
     {
-       
-        //_dbcontext = dbContext;
         _authorRepository = new AuthorRepository(dbContext);
         _cheepRepository = new CheepRepository(dbContext);
     }
@@ -28,10 +19,10 @@ public class CheepService : ICheepService
         return await _cheepRepository.ReadCheeps(page);
     }
 
-    public async Task<List<Cheep>> GetCheepsFromAuthor(string author, int page)
+    public async Task<List<Cheep>> GetCheepsFromAuthorId(int authorId, int page)
     {
         // filter by the provided author name
-        return await _cheepRepository.ReadCheepsPerson(author, page);
+        return await _cheepRepository.GetAuthorCheeps(authorId);
     }
 
     public async Task<List<Cheep>> GetCheepsFromFollowed(List<int> follows, int page = 0)
@@ -41,14 +32,25 @@ public class CheepService : ICheepService
     }
 
 
-    public async Task<Author> GetAuthor(string author, int page)
+    public async Task<Author> GetAuthorFromName(string authorName, int page)
     {
-        return await _authorRepository.ReturnBasedOnNameAsync(author, page);
+        return await _authorRepository.ReturnBasedOnNameAsync(authorName, page);
+    }
+
+    public async Task<Author> GetAuthorFromEmail(string authorEmail, int page)
+    {
+        var author = await _authorRepository.ReturnBasedOnEmailAsync(authorEmail, page);
+        
+        return author.First();
     }
 
 
-     public async Task<int> GetAuthorId(string email)
+    public async Task<int> GetAuthorId(string email)
     {
+        if (email == null)
+        {
+            throw new ArgumentNullException(nameof(email) + " is null");
+        }
         return await _authorRepository.ReturnAuthorsId(email);
     }
 
@@ -92,13 +94,219 @@ public class CheepService : ICheepService
         _authorRepository.RemoveFollowerId(author, id);
     }
 
-
     public async Task DeleteAuthor(string email)
     {
-        
+        var authorId = await _authorRepository.ReturnAuthorsId(email);
+        var likedCheepIds = await _authorRepository.GetLikedCheeps(email);
+
+        // Remove liked cheeps from the deleted author
+        var likedCheeps = new List<Cheep>();
+        foreach (var id in likedCheepIds)
+        {
+            likedCheeps.Add(await _cheepRepository.GetCheepFromId(id));
+        }
+
+        foreach (var cheep in likedCheeps)
+        {
+            _cheepRepository.RemovelikedId(cheep, authorId);
+        }
+
+        // Delete authors cheeps
+        var authorCheeps = await _cheepRepository.GetAuthorCheeps(authorId);
+        foreach (var cheep in authorCheeps)
+        {
+            await _cheepRepository.DeleteCheep(cheep);
+        }
+
+        // Delete author
         await _authorRepository.DeleteAuthor(email);
     }
+
+    public async Task<List<CheepViewModel>> GetAllCheeps(string name, string userEmail, int page) //user, page
+    {
+        var cheeps = new List<CheepViewModel>();
+        var result = await _cheepRepository.ReadCheeps(page);
+
+        var followerIds = new List<int>();
+        var userId = -1;
+        if (userEmail != null)
+        {
+            var authorFromQuery = await GetEmail(userEmail, page);
+
+            if (authorFromQuery == null)
+            {
+                await CreateAuthor(name, userEmail);
+            }
+
+            userId = await GetAuthorId(userEmail);
+            followerIds = await GetFollowers(userEmail);
+        }
+        
+        foreach (var cheep in result)
+        {
+            cheeps.Add(await BuildCheepViewModel(cheep, userId, followerIds));
+        }
+
+        return cheeps;
+    }
+
+    public async Task UpdateFollower(string userEmail, string followerEmail)
+    {
+        var followerId = await _authorRepository.ReturnAuthorsId(followerEmail);
+        var author = await GetEmail(userEmail, 0);
+        var followers = await GetFollowers(userEmail);
+        
+        if (followers.Contains(followerId))
+        {
+            _authorRepository.RemoveFollowerId(author, followerId);
+        }
+        else
+        {
+            _authorRepository.AddFollowerId(author, followerId);
+        }
+    }
+
+    public async Task<List<CheepViewModel>> GetUserTimelineCheeps(string? userEmail, Author userTimelineAuthor, int page)
+    {
+        var userId = -1;
+        List<int> followerIds = new();
+
+        if (userEmail != null)
+        {
+            userId = await GetAuthorId(userEmail);
+            followerIds = await GetFollowers(userEmail);
+        }
+        List<Cheep> cheepsList;
+        bool isOwnTimeline = userEmail != null && userTimelineAuthor.Email == userEmail;
+        
+        if (isOwnTimeline)
+        {
+            followerIds.Add(userId);
+            cheepsList = await GetCheepsFromFollowed(followerIds, page);
+        }
+        else
+        {
+            cheepsList = await GetCheepsFromAuthorId(userTimelineAuthor.AuthorId, page);
+        }
+
+        // Add all cheeps into a CheepViewModel and return it
+        var cheeps = new List<CheepViewModel>();
+        foreach (var cheep in cheepsList)
+        {
+            cheeps.Add(await BuildCheepViewModel(cheep, userId, followerIds));
+        }
+
+        return cheeps;
+    }
+
+
+    public async Task<List<CheepViewModel>> GetUserCheeps(string userEmail, int page)
+    {
+        var author = await GetAuthorFromEmail(userEmail, 0);
+        var userCheeps = await GetCheepsFromAuthorId(author.AuthorId, page);
+        var cheeps = new List<CheepViewModel>();
+        foreach (var cheep in userCheeps)
+        {
+            cheeps.Add(await BuildCheepViewModel(cheep, author.AuthorId));
+        }
+
+        return cheeps;
+    }
+
+    public async Task<AuthorViewModel> GetAuthorViewModel(string email)
+    {
+        var author = await GetAuthorFromEmail(email, 0);
+        var authorViewModel = new AuthorViewModel(author.Name, author.Email);
+
+        return authorViewModel;
+    }
+
+    public async Task<List<AuthorViewModel>> GetFollowerViewModel(string email)
+    {
+        var followerIds = await GetFollowers(email);
+        var followerViewModels = new List<AuthorViewModel>();
+
+        var followers = await _authorRepository.GetAuthorsFromIdList(followerIds);
+        foreach (var followerAuthor in followers)
+        {
+            followerViewModels.Add(new AuthorViewModel(followerAuthor.Name, followerAuthor.Email));
+        }
+
+        return followerViewModels;
+    }
+
+    public async Task UpdateCheepLikes(int cheepId, string userEmail)
+    {
+        var cheep = await _cheepRepository.GetCheepFromId(cheepId);
+        var author = await GetEmail(userEmail, 0);
+
+        var cheepLikes = await _cheepRepository.GetLikedAuthors(cheepId);
+        foreach (int t in cheepLikes)
+        {
+            if (author.AuthorId == t)
+            {
+                _cheepRepository.RemovelikedId(cheep, author.AuthorId);
+                _authorRepository.RemoveLikeId(author, cheepId);
+                return;
+            }
+        }
+
+        _cheepRepository.AddlikedId(cheep, author.AuthorId);
+        _authorRepository.AddLikeId(author, cheepId);
+    }
+
+    public async Task<List<int>> GetCheepLikesAmount(int cheepId)
+    {
+        return await _cheepRepository.GetLikedAuthors(cheepId);
+    }
+
+    public async Task<List<int>> GetAuthorsLikes(string email)
+    {
+        return null;
+    }
+
+    public async Task<List<CheepViewModel>> GetLikedCheepsForAuthor(string userEmail)
+    {
+        var author = await GetAuthorFromEmail(userEmail, 0);
+
+        var likedCheepIds = await _authorRepository.GetLikedCheeps(userEmail);
+        var likedCheeps = new List<CheepViewModel>();
+        var followerIds = await GetFollowers(userEmail);
+        
+        foreach (var cheepId in likedCheepIds)
+        {
+            var cheep = await _cheepRepository.GetCheepFromId(cheepId);
+            if (cheep == null)
+            {
+                _authorRepository.RemoveLikeId(author, cheepId);
+                continue;
+            }
+            
+            likedCheeps.Add(await BuildCheepViewModel(cheep, author.AuthorId, followerIds));
+        }
+
+        return likedCheeps;
+    }
+    
+    
+    private async Task<CheepViewModel> BuildCheepViewModel(
+        Cheep cheep,
+        int? userId = null,
+        List<int>? followerIds = null)
+    {
+        var isFollowed = followerIds?.Contains(cheep.Author.AuthorId) ?? false;
+        var isLiked = userId.HasValue && cheep.PeopleLikes.Contains(userId.Value);
+        var likes = await GetCheepLikesAmount(cheep.CheepId);
+
+        return new CheepViewModel(
+            cheep.CheepId,
+            cheep.Author.Name,
+            cheep.Text,
+            cheep.TimeStamp.ToString(),
+            cheep.Author.Email,
+            isFollowed,
+            likes,
+            isLiked
+        );
+    }
 }
-
-
-

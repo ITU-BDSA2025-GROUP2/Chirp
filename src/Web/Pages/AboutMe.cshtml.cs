@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using System.Security.Claims;
+using Core;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,33 +10,46 @@ namespace Web.Pages;
 public class AboutMeModel(ICheepService service) : PageModel
 {
     private readonly ICheepService _service = service;
-    public required List<CheepViewModel> Cheeps { get; set; }
-    public required Author Author { get; set; }
+    public required List<CheepViewModel> UserCheepsVm { get; set; }
+    public required AuthorViewModel UserAuthorVm { get; set; }
+    public required List<AuthorViewModel> FollowingVm { get; set; }
+    public required List<CheepViewModel> LikedCheepsVm { get; set; }
 
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
-        var user = User.Identity!.Name;
-        Author = await _service.GetEmail(user!, 0);
-       
-        var returnList = await _service.GetCheepsFromAuthor(user, page);
-        Cheeps = new List<CheepViewModel>();
-        foreach (var row in returnList)
-        {
-            Cheeps.Add(new CheepViewModel(row.Author.Name, row.Text, row.TimeStamp.ToString(), row.Author.Email, ""));
-        }
+        UserCheepsVm = await _service.GetUserCheeps(User.FindFirst(ClaimTypes.Email)?.Value!, page);
+        UserAuthorVm =  await _service.GetAuthorViewModel(User.FindFirst(ClaimTypes.Email)?.Value!);
+        FollowingVm = await _service.GetFollowerViewModel(User.FindFirst(ClaimTypes.Email)?.Value!);
+        LikedCheepsVm = await _service.GetLikedCheepsForAuthor(User.FindFirst(ClaimTypes.Email)?.Value!);
+            
         return Page();
     }
 
     public async Task<IActionResult> OnPostForget()
     {
-        var identity = User.Identity.Name;
-        
-        await _service.DeleteAuthor(identity);
+        var identity = User.FindFirst(ClaimTypes.Email)?.Value;
+        await _service.DeleteAuthor(identity!);
         
         Response.Cookies.Delete(".AspNetCore.Identity.Application");
         Response.Cookies.Delete("Seq-Session");
         Response.Cookies.Delete(".AspNetCore.Antiforgery.xYiNViD5USA");
         
         return RedirectToPage("Public");
+    }
+    
+    [BindProperty] public required string Email { get; set; }
+
+    public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
+    {
+        await _service.UpdateFollower(User.FindFirst(ClaimTypes.Email)?.Value!, Email);
+        return RedirectToPage("AboutMe");
+    }
+
+    [BindProperty]
+    public int CheepID { get; set; }
+    public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
+    {
+        _service.UpdateCheepLikes(CheepID, User.FindFirst(ClaimTypes.Email)?.Value);
+        return RedirectToPage("AboutMe");
     }
 }
