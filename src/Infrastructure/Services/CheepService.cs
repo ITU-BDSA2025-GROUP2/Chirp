@@ -141,6 +141,20 @@ public class CheepService : ICheepService
         var result = await _cheepRepository.ReadCheeps(page);
 
         int? userId = null;
+        
+        if (!string.IsNullOrEmpty(userEmail))
+        {
+            try
+            {
+                userId = await GetAuthorId(userEmail);
+            }
+            catch (Exception)
+            {
+                // User email doesn't exist as author yet, continue without userId
+                userId = null;
+            }
+        }
+        
         List<int>? followerIds = null;
         if (name != null && userEmail != null)
         {
