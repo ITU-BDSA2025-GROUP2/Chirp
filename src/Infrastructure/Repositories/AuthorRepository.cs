@@ -38,6 +38,7 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
     }
 
+    //Has test
     public void RemoveFollowerId(Author author, int id)
     {
         author.Follows.Remove(id);

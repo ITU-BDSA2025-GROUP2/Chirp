@@ -131,5 +131,16 @@ public class CheepRepositoryTests
         Assert.Equal(1, author.Follows[0]);
 
     }
+
+    [Fact]
+    public async Task DoesItRemoveFollowerId()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Helge");
+        Assert.NotNull(author.Follows);
+        Assert.Equal(2, author.Follows[0]);
+        _authorRepository.RemoveFollowerId(author, 2);
+        Assert.Empty(author.Follows);
+
+    }
     
 }
