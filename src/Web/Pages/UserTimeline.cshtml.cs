@@ -27,7 +27,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        await service.CreateCheep(User.Identity!.Name!, User.FindFirst(ClaimTypes.Email)?.Value!, Text);
+        await service.CreateCheep(User.FindFirst(ClaimTypes.Email)?.Value!, Text);
 
         return RedirectToPage("UserTimeline", new { author = Author });
     }

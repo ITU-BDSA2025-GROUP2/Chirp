@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Infrastructure;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Web;
 
@@ -12,12 +14,6 @@ public class Program
     {
         var app = BuildWebApplication(args);
         
-        /*var connectionString = builder.Configuration.GetConnectionString("ChatDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ChatDbContextConnection' not found.");;
-
-        builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlServer(connectionString));
-
-        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ChatDbContext>();*/
-
         //Initialise Database
         if (!app.Environment.IsEnvironment("Testing"))
         {
@@ -45,23 +41,53 @@ public class Program
         var baseDir = AppContext.BaseDirectory;
         string webProjectPath;
 
-        // For Testing environment, use the output directory where files are copied
+        // Determine the correct content root path
         if (environment == "Testing")
         {
-            // Check if Pages exists in the current output directory
-            if (Directory.Exists(Path.Combine(baseDir, "Pages")))
+            var currentDir = new DirectoryInfo(baseDir);
+            DirectoryInfo? solutionRoot = null;
+
+            while (currentDir != null)
             {
-                webProjectPath = baseDir;
+                if (Directory.GetFiles(currentDir.FullName, "*.sln").Length > 0)
+                {
+                    solutionRoot = currentDir;
+                    break;
+                }
+
+                var webCsprojPath = Path.Combine(currentDir.FullName, "src", "Web", "Web.csproj");
+                if (File.Exists(webCsprojPath))
+                {
+                    solutionRoot = currentDir;
+                    break;
+                }
+
+                currentDir = currentDir.Parent;
+            }
+
+            if (solutionRoot != null)
+            {
+                webProjectPath = Path.Combine(solutionRoot.FullName, "src", "Web");
+                Console.WriteLine($"[Testing] Found Web project at: {webProjectPath}");
             }
             else
             {
-                // Fallback: try to find it in the source
                 webProjectPath = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "..", "src", "Web"));
+                Console.WriteLine($"[Testing] Using fallback path: {webProjectPath}");
             }
+
+            if (!Directory.Exists(webProjectPath))
+            {
+                throw new DirectoryNotFoundException($"Web project directory not found at: {webProjectPath}");
+            }
+
+            var areasPath = Path.Combine(webProjectPath, "Areas");
+            var pagesPath = Path.Combine(webProjectPath, "Pages");
+            Console.WriteLine($"[Testing] Areas folder exists: {Directory.Exists(areasPath)}");
+            Console.WriteLine($"[Testing] Pages folder exists: {Directory.Exists(pagesPath)}");
         }
         else
         {
-            // For non-testing, try to find the Web project source directory
             var currentDir = new DirectoryInfo(baseDir);
             DirectoryInfo? foundDir = null;
 
@@ -85,16 +111,15 @@ public class Program
                 currentDir = currentDir.Parent;
             }
 
-            /* webProjectPath = foundDir?.FullName ??
-                             Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "..", "src", "Web")); */
+            webProjectPath = foundDir?.FullName ?? baseDir;
         }
-
-        var root = AppContext.BaseDirectory;
 
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
         {
             Args = args ?? Array.Empty<string>(),
             EnvironmentName = environment ?? Environments.Development,
+            ContentRootPath = webProjectPath,
+            WebRootPath = Path.Combine(webProjectPath, "wwwroot")
         });
 
         builder.Services.AddSession();
@@ -113,11 +138,25 @@ public class Program
                 options.UseSqlite(connectionString));
         }
 
-        builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddEntityFrameworkStores<ChatDbContext>();
+        // CRITICAL FIX: Use AddIdentity instead of AddDefaultIdentity
+        // AddDefaultIdentity includes AddDefaultUI() which forces the RCL and prevents scaffolded pages from working
+        builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => 
+        {
+            options.SignIn.RequireConfirmedAccount = true;
+            // Add any other identity options you need
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequiredLength = 6;
+            options.Password.RequiredUniqueChars = 1;
+        })
+        .AddEntityFrameworkStores<ChatDbContext>()
+        .AddDefaultTokenProviders();  // Required for email confirmation, password reset, etc.
 
-
-        // Load User Secrets given Dev/Testing environment
+        builder.Services.AddTransient<IEmailSender, NoOpEmailSender>();
+        
+        // Load User Secrets
         if (builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("Testing"))
         {
             builder.Configuration.AddUserSecrets<Program>(optional: true);
@@ -131,8 +170,7 @@ public class Program
         if (!builder.Environment.IsDevelopment() && !builder.Environment.IsEnvironment("Testing") &&
             !hasGitHubCredentials)
         {
-            throw new Exception(
-                "GitHub OAuth credentials missing");
+            throw new Exception("GitHub OAuth credentials missing");
         }
 
         var authBuilder = builder.Services.AddAuthentication().AddCookie();
@@ -154,11 +192,12 @@ public class Program
             Console.WriteLine("[DEBUG] GitHub OAuth disabled - no credentials configured");
         }
         
-        // Configure Razor Pages with specific settings for testing
+        // Configure Razor Pages with runtime compilation
         var razorPagesBuilder = builder.Services.AddRazorPages(options =>
         {
-            // Set the root directory for pages
-            options.RootDirectory = "/Pages";
+            // Configure Razor Pages to allow Areas (required for Identity)
+            options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+            options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
         });
 
         // Enable runtime compilation for Testing and Development
@@ -175,11 +214,6 @@ public class Program
         builder.Services.AddScoped<ICheepRepository, CheepRepository>();
         builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
-        //builder.Services.Configure<IdentityOptions>(options =>
-        //{
-            // Define configuration settings for our Identity
-        //});
-
         builder.Services.ConfigureApplicationCookie(options =>
         {
             options.Cookie.HttpOnly = true;
@@ -191,6 +225,13 @@ public class Program
         });
 
         var app = builder.Build();
+
+        // Log important paths in Testing environment
+        if (app.Environment.IsEnvironment("Testing"))
+        {
+            Console.WriteLine($"[Testing] ContentRootPath: {app.Environment.ContentRootPath}");
+            Console.WriteLine($"[Testing] WebRootPath: {app.Environment.WebRootPath}");
+        }
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsEnvironment("Testing"))
