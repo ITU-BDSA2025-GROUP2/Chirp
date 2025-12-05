@@ -21,6 +21,8 @@ public interface IAuthorRepository
     public Task<List<Author>> GetAuthorsFromIdList(List<int> idList);
     public Task<List<int>> GetLikedCheeps(string email);
 
+    public void RemoveLikeId(Author author, int cheepId);
+
     public void AddLikeId(Author author, int cheepId);
 
     public Task<bool> CheckIfAuthorIdIsAvailable(int authorId);

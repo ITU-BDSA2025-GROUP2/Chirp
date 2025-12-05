@@ -1,4 +1,5 @@
 using Core.Interfaces;
+using Core.Model;
 using SupportScripts;
 
 namespace UnitTest;
@@ -51,6 +52,9 @@ public class QueryTests
         Assert.Null(cheeps.Find(x => x.Author.Name == "Adrian"));
     }
 
+    
+    
+
     [Fact]
     public async Task ReadAuthor()
     {
@@ -67,5 +71,88 @@ public class QueryTests
         Assert.Equal("Helge", author[0].Name);
     }
 
+    [Fact]
+    public async Task ReadCheepsFollowing()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Helge");
 
+        var follows = await _authorRepository.ReturnFollowAuthorsIds(author.Email);
+        Assert.NotNull(follows);
+
+        var cheeps = await _cheepRepository.ReadCheepsFollowed(follows, 0);
+        var testCheep = cheeps.Find(x => x.Author.Name == "Adrian");
+        Assert.NotNull(testCheep);
+        Assert.Equal("test answer", testCheep.Text);
+        Assert.Null(cheeps.Find(x => x.Author.Name == "Helge"));
+
+    }
+
+    [Fact]
+    public async Task ReadLikedAuthors()
+    {
+        var likedAuthors = await _cheepRepository.GetLikedAuthors(3);
+
+        Assert.NotNull(likedAuthors);
+
+        Assert.Equal(1, likedAuthors[0]);
+
+    }
+
+    [Fact]
+    public async Task ReadCheepFromId()
+    {
+        var cheep = await _cheepRepository.GetCheepFromId(1);
+
+        Assert.Equal("Join itu lan now", cheep!.Text);
+    }
+
+
+    [Fact]
+    public async Task ReadAuthorCheeps()
+    {
+        var cheeps = await _cheepRepository.GetAuthorCheeps(2);
+        Assert.NotNull(cheeps[0]);
+        Assert.Equal("test answer", cheeps[0].Text);
+    }
+
+    
+    [Fact]
+    public async Task ReadFollowAuthorsIds()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Helge");
+        var follows = await _authorRepository.ReturnFollowAuthorsIds(author.Email);
+        Assert.NotNull(follows);
+        Assert.Equal(2, follows[0]);
+        
+    }
+
+    [Fact]
+    public async Task ReadAuthorId()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Helge");
+        var id = await _authorRepository.ReturnAuthorsId(author.Email);
+        Assert.Equal(1, id);
+    }
+
+    [Fact]
+    public async Task ReadAuthorsFromIdList()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Helge");
+        var author2 = await _authorRepository.ReturnBasedOnNameAsync("Adrian");
+        var follows = await _authorRepository.ReturnFollowAuthorsIds(author.Email);
+
+        var authorFollows = await _authorRepository.GetAuthorsFromIdList(follows);
+        Assert.NotNull(authorFollows);
+        Assert.Equal(author2, authorFollows[0]);
+    }
+
+    [Fact]
+    public async Task ReadLikedCheeps()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Adrian");
+        var cheepLikes = await _authorRepository.GetLikedCheeps(author.Email);
+        Assert.NotNull(cheepLikes);
+        Assert.Equal(1, cheepLikes[0]);
+    }
+    
 }

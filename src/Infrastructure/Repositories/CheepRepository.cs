@@ -33,12 +33,13 @@ public class CheepRepository : ICheepRepository
 
 
 
-
+    //is tested inside CreateCheep_WithExistingAuthor()
     public int FindNewCheepId()
     {
         return _dbContext.Cheeps.Count() + 1;
     }
 
+    //Has test
     public async Task<List<Cheep>> ReadCheeps(int page = 0)
     {
         var query = (
@@ -50,6 +51,7 @@ public class CheepRepository : ICheepRepository
         return result;
     }
 
+    // Has test
     public async Task<List<Cheep>> ReadCheepsPerson(string name, int page)
     {
         var query = (
@@ -63,6 +65,7 @@ public class CheepRepository : ICheepRepository
         return result;
     }
 
+    //Has test
     public async Task<List<Cheep>> ReadCheepsFollowed(List<int> follows, int page)
     {
         
@@ -77,6 +80,7 @@ public class CheepRepository : ICheepRepository
         return result;
     }
 
+    //Has test
     public async Task<List<int>> GetLikedAuthors(int cheepId)
     {
         var query = (
@@ -99,7 +103,7 @@ public class CheepRepository : ICheepRepository
 
     
     
-    
+    //Has test
     public void AddlikedId(Cheep cheep, int authorId)
     {
         cheep.PeopleLikes.Add(authorId);
@@ -108,6 +112,7 @@ public class CheepRepository : ICheepRepository
 
     }
 
+    //Has test
     public void RemovelikedId(Cheep cheep, int authorId)
     {
         cheep.PeopleLikes.Remove(authorId);
@@ -116,6 +121,7 @@ public class CheepRepository : ICheepRepository
 
     }
 
+    //Has test
     public async Task<Cheep?> GetCheepFromId(int cheepId)
     {
         var query = (
@@ -136,6 +142,7 @@ public class CheepRepository : ICheepRepository
         }
     }
 
+    //Has test
     public async Task<List<Cheep>> GetAuthorCheeps(int authorId)
     {
         var query = (
@@ -148,6 +155,7 @@ public class CheepRepository : ICheepRepository
         return returnList;
     }
 
+    //Has test
     public async Task DeleteCheep(Cheep cheep)
     {
         _dbContext.Remove(cheep);

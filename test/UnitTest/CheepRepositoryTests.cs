@@ -73,4 +73,86 @@ public class CheepRepositoryTests
         Assert.Equal(4, _authorRepository.FindNewAuthorId().Result);
         Assert.Equal(6, _cheepRepository.FindNewCheepId());
     }
+    
+    [Fact]
+    public async Task DoesItAddCheepLikeId()
+    {
+        var cheep = await _cheepRepository.GetCheepFromId(2);
+        var likedAuthors = await _cheepRepository.GetLikedAuthors(2);
+        
+        Assert.NotNull(likedAuthors);
+        Assert.Empty(likedAuthors);
+        _cheepRepository.AddlikedId(cheep!, 1);
+        Assert.Equal(1, cheep!.PeopleLikes[0]);
+
+
+    }
+
+    [Fact]
+    public async Task DoesItRemoveCheepLikeId()
+    {
+        var cheep = await _cheepRepository.GetCheepFromId(4);
+        var likedAuthors = await _cheepRepository.GetLikedAuthors(4);
+        
+        Assert.NotNull(likedAuthors);
+        Assert.Equal(1, cheep!.PeopleLikes[0]);
+        _cheepRepository.RemovelikedId(cheep!, 1);
+        likedAuthors = await _cheepRepository.GetLikedAuthors(4);
+        Assert.Empty(likedAuthors);
+
+
+    }
+
+    [Fact]
+    public async Task DoesItDeleteCheep()
+    {
+        var cheep = await _cheepRepository.GetCheepFromId(4);
+        await _cheepRepository.DeleteCheep(cheep!);
+        cheep = await _cheepRepository.GetCheepFromId(4);
+        Assert.Null(cheep);
+    }
+
+    [Fact]
+    public async Task DoesItAddFollowerId()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Adrian");
+        Assert.NotNull(author.Follows);
+        Assert.Empty(author.Follows);
+        _authorRepository.AddFollowerId(author, 1);
+        Assert.Equal(1, author.Follows[0]);
+
+    }
+
+    [Fact]
+    public async Task DoesItRemoveFollowerId()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Helge");
+        Assert.NotNull(author.Follows);
+        Assert.Equal(2, author.Follows[0]);
+        _authorRepository.RemoveFollowerId(author, 2);
+        Assert.Empty(author.Follows);
+
+    }
+
+
+    [Fact]
+    public async Task DoesItRemoveAuthorLikeId()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Adrian");
+        Assert.Equal(1, author.CheepLikes[0]);
+        _authorRepository.RemoveLikeId(author, 1);
+        Assert.Empty(author.CheepLikes);
+
+    }
+
+    [Fact]
+    public async Task DoesItAddAuthorLikeId()
+    {
+         var author = await _authorRepository.ReturnBasedOnNameAsync("Adrian");
+        Assert.Single(author.CheepLikes);
+        _authorRepository.AddLikeId(author, 2);
+        Assert.Equal(2, author.CheepLikes.Count);
+        Assert.Equal(2, author.CheepLikes[1]);
+    }
+
 }
