@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Web.Pages;
-
+/// <summary>
+/// 
+/// </summary>
+/// <param name="service"></param>
 public class AboutMeModel(ICheepService service) : PageModel
 {
     public required List<CheepViewModel> UserCheepsVm { get; set; }

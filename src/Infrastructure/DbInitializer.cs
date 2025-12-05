@@ -2,6 +2,9 @@ using Core.Model;
 
 namespace Infrastructure;
 
+/// <summary>
+/// Initializes our database
+/// </summary>
 public static class DbInitializer
 {
     public static void SeedDatabase(ChatDbContext chirpContext)
