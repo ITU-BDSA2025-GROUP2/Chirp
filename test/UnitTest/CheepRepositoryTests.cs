@@ -121,6 +121,15 @@ public class CheepRepositoryTests
         Assert.Null(cheep);
     }
 
-    
+    [Fact]
+    public async Task DoesItAddFollowerId()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Adrian");
+        Assert.NotNull(author.Follows);
+        Assert.Empty(author.Follows);
+        _authorRepository.AddFollowerId(author, 1);
+        Assert.Equal(1, author.Follows[0]);
+
+    }
     
 }

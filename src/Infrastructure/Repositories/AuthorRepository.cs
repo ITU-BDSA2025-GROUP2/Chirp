@@ -30,7 +30,7 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
     }
 
-
+    //Has test
     public void AddFollowerId(Author author, int id)
     {
         author.Follows.Add(id);

@@ -41,8 +41,8 @@ public class MemoryDbFactory
 
         // Helge is following Adrian
         a1.Follows = new List<int>() {2};
-        // Adrian is following Helge
-        a2.Follows = new List<int>() {1};
+        // Adrian is not following Helge
+        a2.Follows = new List<int>() {};
         // Helge likes her own posts
         a1.CheepLikes = new List<int>() {4, 1, 3};
         // Adrian likes Helges first post
