@@ -12,12 +12,6 @@ public class Program
     {
         var app = BuildWebApplication(args);
         
-        /*var connectionString = builder.Configuration.GetConnectionString("ChatDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ChatDbContextConnection' not found.");;
-
-        builder.Services.AddDbContext<ChatDbContext>(options => options.UseSqlServer(connectionString));
-
-        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ChatDbContext>();*/
-
         //Initialise Database
         if (!app.Environment.IsEnvironment("Testing"))
         {
@@ -158,7 +152,7 @@ public class Program
         var razorPagesBuilder = builder.Services.AddRazorPages(options =>
         {
             // Set the root directory for pages
-            options.RootDirectory = "/Pages";
+            //options.RootDirectory = "/Pages";
         });
 
         // Enable runtime compilation for Testing and Development

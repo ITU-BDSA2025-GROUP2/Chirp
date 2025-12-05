@@ -21,6 +21,7 @@ public class PlaywrightTests : PageTest
     [Test]
     public async Task BasicTest()
     {
+        
         var response = await Page.GotoAsync(ServerAddress);
         Assert.That(response!.Status, Is.EqualTo(200));
     }
