@@ -17,7 +17,7 @@ public class AboutMeModel(ICheepService service) : PageModel
     public required List<CheepViewModel> LikedCheepsVm { get; set; }
 
     /// <summary>
-    /// Gets the users about me info
+    /// Performs on Page Load
     /// </summary>
     /// <param name="page"></param>
     /// <returns></returns>
@@ -32,7 +32,7 @@ public class AboutMeModel(ICheepService service) : PageModel
     }
 
     /// <summary>
-    /// Deletes the user
+    /// Performs when pressing "Forget Me"
     /// </summary>
     /// <returns></returns>
     public async Task<IActionResult> OnPostForget()
@@ -49,6 +49,11 @@ public class AboutMeModel(ICheepService service) : PageModel
     
     [BindProperty] public required string Email { get; set; }
 
+    /// <summary>
+    /// Performs when pressing "Follow" on a Cheep Post
+    /// </summary>
+    /// <param name="page"></param>
+    /// <returns></returns>
     public async Task<IActionResult> OnPostFollow([FromQuery] int page = 0)
     {
         await service.UpdateFollower(User.FindFirst(ClaimTypes.Email)?.Value!, Email);
@@ -57,6 +62,12 @@ public class AboutMeModel(ICheepService service) : PageModel
 
     [BindProperty]
     public int CheepId { get; set; }
+    
+    /// <summary>
+    /// Performs when pressing "Like" on a Cheep
+    /// </summary>
+    /// <param name="page"></param>
+    /// <returns></returns>
     public async Task<IActionResult> OnPostLike([FromQuery] int page = 0)
     {
         await service.UpdateCheepLikes(CheepId, User.FindFirst(ClaimTypes.Email)?.Value!);

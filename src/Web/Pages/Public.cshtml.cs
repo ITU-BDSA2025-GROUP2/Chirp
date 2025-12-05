@@ -15,7 +15,7 @@ public class PublicModel(ICheepService service) : PageModel
     public required List<CheepViewModel> Cheeps { get; set; }
 
     /// <summary>
-    /// Perform on page load
+    /// Perform on Page Load
     /// </summary>
     /// <param name="page"></param>
     /// <returns></returns>
@@ -24,8 +24,6 @@ public class PublicModel(ICheepService service) : PageModel
         Cheeps = await _service.GetAllCheeps(User.Identity!.Name!, User.FindFirst(ClaimTypes.Email)?.Value!, page);
         return Page();
     }
-
-
 
     [BindProperty]
     public required string Text { get; set; }
@@ -48,7 +46,7 @@ public class PublicModel(ICheepService service) : PageModel
     [BindProperty]
     public required string Email { get; set; }
     /// <summary>
-    /// Perform on following a user
+    /// Perform on following a user when pressing "Follow"
     /// </summary>
     /// <param name="page"></param>
     /// <returns></returns>
@@ -60,8 +58,10 @@ public class PublicModel(ICheepService service) : PageModel
     } 
     [BindProperty]
     public int CheepId { get; set; }
+    
+    
     /// <summary>
-    /// Perform on liking a cheep/post
+    /// Perform on liking a cheep/post when pressing "Like"
     /// </summary>
     /// <param name="page"></param>
     /// <returns></returns>
@@ -71,7 +71,4 @@ public class PublicModel(ICheepService service) : PageModel
 
         return RedirectToPage("");
     }
-
-
-    
 }
