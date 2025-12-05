@@ -15,7 +15,7 @@ public class AuthorRepository : IAuthorRepository
 
 
 
-
+    //Has test
     public void CreateAuthor(string name, string email)
     {
         var newAuthor = new Author()
@@ -30,6 +30,7 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
     }
 
+    //Has test
     public void AddFollowerId(Author author, int id)
     {
         author.Follows.Add(id);
@@ -37,6 +38,7 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
     }
 
+    //Has test
     public void RemoveFollowerId(Author author, int id)
     {
         author.Follows.Remove(id);
@@ -45,6 +47,7 @@ public class AuthorRepository : IAuthorRepository
 
     }
 
+    
     public async Task DeleteAuthor(string email)
     {
         //var usersList = _dbContext.Users;
@@ -83,7 +86,7 @@ public class AuthorRepository : IAuthorRepository
 
 
 
-
+    //Has test
     public async Task<List<Author>> ReturnBasedOnEmailAsync(string email, int page = 0)
     {
         var query = (
@@ -96,7 +99,7 @@ public class AuthorRepository : IAuthorRepository
 
         return result;
     }
-
+    //Has test
     public async Task<List<int>> ReturnFollowAuthorsIds(string email)
     {
         var query = (
@@ -117,6 +120,7 @@ public class AuthorRepository : IAuthorRepository
         
     }
 
+    //Has test
     public async Task<int> ReturnAuthorsId(string email)
     {
         var query = (
@@ -134,6 +138,7 @@ public class AuthorRepository : IAuthorRepository
         return result[0];
     }
 
+    //Has test
     public async Task<Author> ReturnBasedOnNameAsync(string name, int page = 0)
     {
         var query = (
@@ -149,6 +154,7 @@ public class AuthorRepository : IAuthorRepository
         return result[0];
     }
     
+    //Has test
     public async Task<List<Author>> GetAuthorsFromIdList(List<int> idList)
     {
         var query = (

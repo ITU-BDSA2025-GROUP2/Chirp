@@ -15,4 +15,10 @@ public interface ICheepRepository
     public void AddlikedId(Cheep cheep, int authorId);
 
     public void RemovelikedId(Cheep cheep, int authorId);
+
+    public Task<Cheep?> GetCheepFromId(int cheepId);
+
+    public Task<List<Cheep>> GetAuthorCheeps(int authorId);
+
+    public Task DeleteCheep(Cheep cheep);
 }

@@ -13,5 +13,6 @@ public class Cheep
     public required int AuthorId { get; set; }
     public required Author Author { get; set; }
 
+    //Author ids that have liked this cheep
     public List<int> PeopleLikes { get; set; } =  new List<int>();
 }
