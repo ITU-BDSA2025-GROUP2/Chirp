@@ -59,15 +59,30 @@ public interface ICheepRepository
     public void AddlikedId(Cheep cheep, int authorId);
 
     /// <summary>
-    /// Delete an author 
+    /// Delete a liked authorID from a Cheep entry
     /// </summary>
-    /// <param name="cheep"></param>
-    /// <param name="authorId"></param>
+    /// <param name="cheep">Cheep object entry to delete from</param>
+    /// <param name="authorId">AuthorID to delete</param>
     public void RemovelikedId(Cheep cheep, int authorId);
 
+    /// <summary>
+    /// Query for a Cheep entry given a matching CheepID
+    /// </summary>
+    /// <param name="cheepId">CheepID to match for</param>
+    /// <returns>Cheep object entry</returns>
     public Task<Cheep?> GetCheepFromId(int cheepId);
 
+    /// <summary>
+    /// Query for a list of Cheep entries belonging to an AuthorID
+    /// </summary>
+    /// <param name="authorId">AuthorID to match for</param>
+    /// <returns>List of Cheeps belonging to an AuthorID</returns>
     public Task<List<Cheep>> GetAuthorCheeps(int authorId);
 
+    /// <summary>
+    /// Delete a Cheep entry given a Cheep object
+    /// </summary>
+    /// <param name="cheep">Cheep object to delete</param>
+    /// <returns></returns>
     public Task DeleteCheep(Cheep cheep);
 }
