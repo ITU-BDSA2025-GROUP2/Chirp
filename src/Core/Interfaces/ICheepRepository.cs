@@ -17,4 +17,6 @@ public interface ICheepRepository
     public void RemovelikedId(Cheep cheep, int authorId);
 
     public Task<Cheep?> GetCheepFromId(int cheepId);
+
+    public Task<List<Cheep>> GetAuthorCheeps(int authorId);
 }

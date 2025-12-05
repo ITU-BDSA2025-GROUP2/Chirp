@@ -107,7 +107,13 @@ public class QueryTests
     }
 
 
-
+    [Fact]
+    public async Task ReadAuthorCheeps()
+    {
+        var cheeps = await _cheepRepository.GetAuthorCheeps(2);
+        Assert.NotNull(cheeps[0]);
+        Assert.Equal(cheeps[0].Text, "test answer");
+    }
 
 
 

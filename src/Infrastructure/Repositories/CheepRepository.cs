@@ -151,6 +151,7 @@ public class CheepRepository : ICheepRepository
         }
     }
 
+    //Has test
     public async Task<List<Cheep>> GetAuthorCheeps(int authorId)
     {
         var query = (
