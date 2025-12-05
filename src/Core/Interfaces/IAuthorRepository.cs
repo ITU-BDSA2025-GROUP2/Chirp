@@ -8,7 +8,7 @@ public interface IAuthorRepository
     public void CreateAuthor(string name, string email);
     public void AddFollowerId(Author author, int id);
     public void RemoveFollowerId(Author author, int id);
-    public int FindNewAuthorId();
+    public Task<int> FindNewAuthorId();
     public Task<List<Author>> ReturnBasedOnEmailAsync(string email, int page = 0);
     
     public Task<List<int>> ReturnFollowAuthorsIds(string email);
@@ -24,4 +24,6 @@ public interface IAuthorRepository
     public void RemoveLikeId(Author author, int cheepId);
 
     public void AddLikeId(Author author, int cheepId);
+
+    public Task<bool> CheckIfAuthorIdIsAvailable(int authorId);
 }

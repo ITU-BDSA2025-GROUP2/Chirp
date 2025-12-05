@@ -1,3 +1,7 @@
+using System;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -16,6 +20,7 @@ public class TestServerFixture : IAsyncDisposable
 
     public async Task StartAsync()
     {
+        
         if (!_serverStarted)
         {
             // Check if port is already in use

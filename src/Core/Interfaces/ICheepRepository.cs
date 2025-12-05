@@ -5,7 +5,7 @@ namespace Core.Interfaces;
 public interface ICheepRepository
 {
     
-    Task CreateCheep(string author, string email, string msg);
+    Task CreateCheep(Author author, string msg);
     Task<List<Cheep>> ReadCheeps(int page);
     Task<List<Cheep>> ReadCheepsPerson(string name, int page);
     Task<List<Cheep>> ReadCheepsFollowed(List<int> follows, int page);

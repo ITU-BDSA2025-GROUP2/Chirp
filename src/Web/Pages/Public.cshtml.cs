@@ -29,7 +29,7 @@ public class PublicModel(ICheepService service) : PageModel
        
         if (cheepMessage.Length < 161)
         {
-            await _service.CreateCheep(User.Identity!.Name!, User.FindFirst(ClaimTypes.Email)?.Value!, cheepMessage);
+            await _service.CreateCheep(User.FindFirst(ClaimTypes.Email)?.Value!, cheepMessage);
         }
 
         return RedirectToPage("");
