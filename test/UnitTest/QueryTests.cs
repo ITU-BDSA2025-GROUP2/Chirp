@@ -98,6 +98,14 @@ public class QueryTests
 
     }
 
+    [Fact]
+    public async Task ReadCheepFromId()
+    {
+        var cheep = await _cheepRepository.GetCheepFromId(1);
+
+        Assert.Equal("Join itu lan now", cheep.Text);
+    }
+
 
 
 
