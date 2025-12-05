@@ -23,5 +23,6 @@ jobs:
       env:
         authentication_github_clientId: ${{ secrets.GITHUBCLIENTID }}
         authentication_github_clientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
+        CI: true
       run: |
         dotnet test --no-build --verbosity normal

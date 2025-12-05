@@ -31,11 +31,14 @@ public class GlobalTestSetup
         
         // Start Playwright and launch browser in headed mode
         _playwright = await Playwright.CreateAsync();
+        var isCiCd = Environment.GetEnvironmentVariable("CI") == "true";
+
         _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
-            Headless = false, // show browser
-            SlowMo = 500      // slow down actions so you can watch
+            Headless = isCiCd,      // headed locally, headless in CI
+            SlowMo = isCiCd ? 0 : 500
         });
+
         
         Console.WriteLine("=== GLOBAL SETUP: Browser launched in headed mode ===");
     }
