@@ -154,4 +154,14 @@ public class CheepRepositoryTests
 
     }
 
+    [Fact]
+    public async Task DoesItAddAuthorLikeId()
+    {
+         var author = await _authorRepository.ReturnBasedOnNameAsync("Adrian");
+        Assert.Single(author.CheepLikes);
+        _authorRepository.AddLikeId(author, 2);
+        Assert.Equal(2, author.CheepLikes.Count);
+        Assert.Equal(2, author.CheepLikes[1]);
+    }
+
 }

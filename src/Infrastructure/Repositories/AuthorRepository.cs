@@ -187,6 +187,7 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
     }
     
+    //Has test
     public void AddLikeId(Author author, int cheepId)
     {
         author.CheepLikes.Add(cheepId);
