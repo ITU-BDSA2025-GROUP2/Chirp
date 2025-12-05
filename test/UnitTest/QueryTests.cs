@@ -94,7 +94,7 @@ public class QueryTests
 
         Assert.NotNull(likedAuthors);
 
-        Assert.Equal(likedAuthors[0], 1);
+        Assert.Equal(1, likedAuthors[0]);
 
     }
 
@@ -103,7 +103,7 @@ public class QueryTests
     {
         var cheep = await _cheepRepository.GetCheepFromId(1);
 
-        Assert.Equal("Join itu lan now", cheep.Text);
+        Assert.Equal("Join itu lan now", cheep!.Text);
     }
 
 
@@ -112,9 +112,9 @@ public class QueryTests
     {
         var cheeps = await _cheepRepository.GetAuthorCheeps(2);
         Assert.NotNull(cheeps[0]);
-        Assert.Equal(cheeps[0].Text, "test answer");
+        Assert.Equal("test answer", cheeps[0].Text);
     }
 
 
-
+    
 }

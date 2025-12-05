@@ -19,4 +19,6 @@ public interface ICheepRepository
     public Task<Cheep?> GetCheepFromId(int cheepId);
 
     public Task<List<Cheep>> GetAuthorCheeps(int authorId);
+
+    public Task DeleteCheep(Cheep cheep);
 }
