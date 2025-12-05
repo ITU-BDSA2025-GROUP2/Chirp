@@ -50,7 +50,7 @@ public class CheepRepositoryTests
         Assert.Equal(4, _authorRepository.FindNewAuthorId());
     }
 
-    
+
     [Fact]
     public async Task CreateCheep_WithExistingAuthor()
     {
@@ -82,6 +82,21 @@ public class CheepRepositoryTests
         
         
     }
+    
+    [Fact]
+    public async Task DoesItAddLikeId()
+    {
+        var cheep = await _cheepRepository.GetCheepFromId(2);
+
+        var likedAuthors = await _cheepRepository.GetLikedAuthors(2);
+        Assert.NotNull(likedAuthors);
+        Assert.Empty(likedAuthors);
+        _cheepRepository.AddlikedId(cheep!, 1);
+        Assert.Equal(cheep.PeopleLikes[0], 1);
+
+
+    }
+
     
     
 }
