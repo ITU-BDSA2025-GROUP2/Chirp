@@ -87,12 +87,27 @@ public class CheepRepositoryTests
     public async Task DoesItAddLikeId()
     {
         var cheep = await _cheepRepository.GetCheepFromId(2);
-
         var likedAuthors = await _cheepRepository.GetLikedAuthors(2);
+        
         Assert.NotNull(likedAuthors);
         Assert.Empty(likedAuthors);
         _cheepRepository.AddlikedId(cheep!, 1);
         Assert.Equal(cheep.PeopleLikes[0], 1);
+
+
+    }
+
+    [Fact]
+    public async Task DoesItRemoveLikeId()
+    {
+        var cheep = await _cheepRepository.GetCheepFromId(4);
+        var likedAuthors = await _cheepRepository.GetLikedAuthors(4);
+        
+        Assert.NotNull(likedAuthors);
+        Assert.Equal(cheep.PeopleLikes[0], 1);
+        _cheepRepository.RemovelikedId(cheep!, 1);
+        likedAuthors = await _cheepRepository.GetLikedAuthors(4);
+        Assert.Empty(likedAuthors);
 
 
     }

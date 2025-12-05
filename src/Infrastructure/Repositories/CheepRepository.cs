@@ -112,7 +112,7 @@ public class CheepRepository : ICheepRepository
 
     
     
-    
+    //Has test
     public void AddlikedId(Cheep cheep, int authorId)
     {
         cheep.PeopleLikes.Add(authorId);
@@ -121,6 +121,7 @@ public class CheepRepository : ICheepRepository
 
     }
 
+    //Has test
     public void RemovelikedId(Cheep cheep, int authorId)
     {
         cheep.PeopleLikes.Remove(authorId);
