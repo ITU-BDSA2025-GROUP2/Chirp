@@ -47,6 +47,7 @@ public class AuthorRepository : IAuthorRepository
 
     }
 
+    
     public async Task DeleteAuthor(string email)
     {
         //var usersList = _dbContext.Users;
@@ -76,7 +77,7 @@ public class AuthorRepository : IAuthorRepository
 
 
 
-
+    //Has test
     public async Task<List<Author>> ReturnBasedOnEmailAsync(string email, int page = 0)
     {
         var query = (
@@ -89,7 +90,7 @@ public class AuthorRepository : IAuthorRepository
 
         return result;
     }
-
+    //Has test
     public async Task<List<int>> ReturnFollowAuthorsIds(string email)
     {
         var query = (

@@ -126,6 +126,14 @@ public class QueryTests
         
     }
 
-    
+    [Fact]
+    public async Task ReadAuthorId()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Helge");
+        var id = await _authorRepository.ReturnAuthorsId(author.Email);
+        Assert.Equal(1, id);
+    }
+
+
     
 }
