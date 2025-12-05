@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Web.Pages;
 /// <summary>
-/// 
+/// Handles logic for the about me page 
 /// </summary>
 /// <param name="service"></param>
 public class AboutMeModel(ICheepService service) : PageModel
@@ -16,6 +16,11 @@ public class AboutMeModel(ICheepService service) : PageModel
     public required List<AuthorViewModel> FollowingVm { get; set; }
     public required List<CheepViewModel> LikedCheepsVm { get; set; }
 
+    /// <summary>
+    /// Gets the users about me info
+    /// </summary>
+    /// <param name="page"></param>
+    /// <returns></returns>
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
         UserCheepsVm = await service.GetUserCheeps(User.FindFirst(ClaimTypes.Email)?.Value!, page);
@@ -26,6 +31,10 @@ public class AboutMeModel(ICheepService service) : PageModel
         return Page();
     }
 
+    /// <summary>
+    /// Deletes the user
+    /// </summary>
+    /// <returns></returns>
     public async Task<IActionResult> OnPostForget()
     {
         var identity = User.FindFirst(ClaimTypes.Email)?.Value;
