@@ -34,7 +34,7 @@ jobs:
           authentication_github_clientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
           CI: true
         run: |
-          dotnet test --no-build --verbosity normal
+          dotnet test --configuration Release --no-build --verbosity normal
       
       #- name: Playwright Browsers
        # run: pwsh test/End2EndTests/bin/Debug/net8.0/playwright.ps1 install --with-deps
