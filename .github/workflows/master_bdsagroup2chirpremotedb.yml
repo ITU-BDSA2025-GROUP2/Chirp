@@ -24,12 +24,17 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
-
+        run: dotnet build Chirp.sln --configuration Release
+      #- name: Playwright Browsers
+       # run: pwsh test/End2EndTests/bin/Debug/net8.0/playwright.ps1 install --with-deps
+      - name: Test
+        run: |
+          export authentication_github_clientId="${{ secrets.GITHUBCLIENTID }}"
+          export authentication_github_clientSecret="${{ secrets.GITHUBCLIENTSECRET }}"
+      
+      
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
-      - name: Upload artifact for deployment job
+        run: dotnet publish src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
@@ -62,4 +67,5 @@ jobs:
           app-name: 'bdsagroup2chirpremotedb'
           slot-name: 'Production'
           package: .
+
           
