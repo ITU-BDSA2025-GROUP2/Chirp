@@ -4,6 +4,7 @@ using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Web;
 
@@ -153,6 +154,8 @@ public class Program
         .AddEntityFrameworkStores<ChatDbContext>()
         .AddDefaultTokenProviders();  // Required for email confirmation, password reset, etc.
 
+        builder.Services.AddTransient<IEmailSender, NoOpEmailSender>();
+        
         // Load User Secrets
         if (builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("Testing"))
         {
