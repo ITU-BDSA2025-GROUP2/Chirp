@@ -26,16 +26,13 @@ jobs:
       - name: Build with dotnet
         run: dotnet build Chirp.sln --configuration Release
       #- name: Playwright Browsers
-        #run: pwsh test/End2EndTests/bin/Debug/net8.0/playwright.ps1 install --with-deps
+       # run: pwsh test/End2EndTests/bin/Debug/net8.0/playwright.ps1 install --with-deps
       - name: Test
-        env:
-          authentication_github_clientId: ${{ secrets.GITHUBCLIENTID }}
-          authentication_github_clientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
-          CI: true
-        #run: |
-         # dotnet test --no-build --verbosity normal
-          export authentication_github_clientId: ${{ secrets.GITHUBCLIENTID }}
-          export authentication_github_clientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
+        run: |
+          export authentication_github_clientId="${{ secrets.GITHUBCLIENTID }}"
+          export authentication_github_clientSecret="${{ secrets.GITHUBCLIENTSECRET }}"
+      
+      
       - name: dotnet publish
         run: dotnet publish src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
@@ -74,5 +71,3 @@ jobs:
           package: .
 
           
-
-
