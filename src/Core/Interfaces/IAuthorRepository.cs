@@ -95,6 +95,13 @@ public interface IAuthorRepository
     public void AddLikeId(Author author, int cheepId);
 
     /// <summary>
+    /// Remove a CheepID into an Author entry's list of LikedCheeps
+    /// </summary>
+    /// <param name="author">Author object</param>
+    /// <param name="cheepId">Cheep Id</param>
+    public void RemoveLikeId(Author author, int cheepId);
+    
+    /// <summary>
     /// Query the Author table for whether an id is available
     /// </summary>
     /// <param name="authorId">A candidate id</param>
