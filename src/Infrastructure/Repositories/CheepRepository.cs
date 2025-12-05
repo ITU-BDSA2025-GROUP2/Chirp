@@ -4,20 +4,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
+/// <summary>
+/// Repository representing the Cheeps table
+/// </summary>
 public class CheepRepository : ICheepRepository
 {
     private readonly ChatDbContext _dbContext;
-    private readonly IAuthorRepository _authorRepository;
     public CheepRepository(ChatDbContext dbContext)
     {
         _dbContext = dbContext;
-        _authorRepository = new AuthorRepository(dbContext);
     }
     
     
     public async Task CreateCheep(Author author, string msg)
     {
-
        var cheep = new Cheep()
         {
             CheepId = FindNewCheepId(),
@@ -28,12 +28,9 @@ public class CheepRepository : ICheepRepository
         };
 
         _dbContext.Cheeps.Add(cheep);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
-
-
-
-
+    
     public int FindNewCheepId()
     {
         return _dbContext.Cheeps.Count() + 1;

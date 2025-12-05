@@ -10,6 +10,11 @@ namespace Web;
 
 public class Program
 {
+    
+    /// <summary>
+    /// Main Program to run
+    /// </summary>
+    /// <param name="args">Optional arguments</param>
     public static void Main(string[] args)
     {
         var app = BuildWebApplication(args);
@@ -36,6 +41,14 @@ public class Program
         app.Run();
     }
 
+    /// <summary>
+    /// Build a WebApplication depending on the runtime environment
+    /// </summary>
+    /// <param name="args">Optional arguments</param>
+    /// <param name="environment">Optional environment to specify</param>
+    /// <returns>Webapplication</returns>
+    /// <exception cref="DirectoryNotFoundException">Cannot find Web directory</exception>
+    /// <exception cref="Exception">Cannot get GitHub credentials</exception>
     public static WebApplication BuildWebApplication(string[]? args = null, string? environment = null)
     {
         var baseDir = AppContext.BaseDirectory;
