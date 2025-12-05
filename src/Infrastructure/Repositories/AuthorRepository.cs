@@ -179,6 +179,7 @@ public class AuthorRepository : IAuthorRepository
         }
     }
     
+    //Has test
     public void RemoveLikeId(Author author, int cheepId)
     {
         author.CheepLikes.Remove(cheepId);
