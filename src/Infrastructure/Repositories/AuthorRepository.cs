@@ -15,7 +15,7 @@ public class AuthorRepository : IAuthorRepository
 
 
 
-
+    //Has test
     public void CreateAuthor(string name, string email)
     {
         var newAuthor = new Author()
@@ -29,6 +29,7 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.Authors.Add(newAuthor);
         _dbContext.SaveChanges();
     }
+
 
     public void AddFollowerId(Author author, int id)
     {
@@ -125,6 +126,7 @@ public class AuthorRepository : IAuthorRepository
         return result[0];
     }
 
+    //Has test
     public async Task<Author> ReturnBasedOnNameAsync(string name, int page = 0)
     {
         var query = (

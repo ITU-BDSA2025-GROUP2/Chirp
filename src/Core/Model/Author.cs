@@ -14,5 +14,6 @@ public class Author
 
     public List<int> Follows { get; set; } = new List<int>();
     
+    //cheep id that author has liked
     public List<int> CheepLikes { get; set; } = new List<int>();
 }

@@ -1,4 +1,5 @@
 using Core.Interfaces;
+using Core.Model;
 using SupportScripts;
 
 namespace UnitTest;
@@ -51,6 +52,24 @@ public class QueryTests
         Assert.Null(cheeps.Find(x => x.Author.Name == "Adrian"));
     }
 
+    
+    [Fact]
+    public async Task ReadCheepsFollowing()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Helge");
+
+        var follows = await _authorRepository.ReturnFollowAuthorsIds(author.Email);
+        Assert.NotNull(follows);
+
+        var cheeps = await _cheepRepository.ReadCheepsFollowed(follows, 0);
+        var testCheep = cheeps.Find(x => x.Author.Name == "Adrian");
+        Assert.NotNull(testCheep);
+        Assert.Equal("test answer", testCheep.Text);
+        Assert.Null(cheeps.Find(x => x.Author.Name == "Helge"));
+
+    }
+    
+
     [Fact]
     public async Task ReadAuthor()
     {
@@ -66,6 +85,11 @@ public class QueryTests
 
         Assert.Equal("Helge", author[0].Name);
     }
+
+
+
+
+
 
 
 }

@@ -14,7 +14,7 @@ public class CheepRepository : ICheepRepository
         _authorRepository = new AuthorRepository(dbContext);
     }
     
-    
+    //Has test
     public async Task CreateCheep(string author, string email, string msg)
     {
 
@@ -42,12 +42,13 @@ public class CheepRepository : ICheepRepository
 
 
 
-
+    //is tested inside CreateCheep_WithExistingAuthor()
     public int FindNewCheepId()
     {
         return _dbContext.Cheeps.Count() + 1;
     }
 
+    //Has test
     public async Task<List<Cheep>> ReadCheeps(int page = 0)
     {
         var query = (
@@ -59,6 +60,7 @@ public class CheepRepository : ICheepRepository
         return result;
     }
 
+    // Has test
     public async Task<List<Cheep>> ReadCheepsPerson(string name, int page)
     {
         var query = (
@@ -72,6 +74,7 @@ public class CheepRepository : ICheepRepository
         return result;
     }
 
+    //Has test
     public async Task<List<Cheep>> ReadCheepsFollowed(List<int> follows, int page)
     {
         
