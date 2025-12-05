@@ -27,7 +27,7 @@ jobs:
         run: dotnet build Chirp.sln --configuration Release
         
       - name: Playwright Browsers
-        run: pwsh test/End2EndTests/bin/Debug/net8.0/playwright.ps1 install --with-deps
+        run: pwsh test/End2EndTests/bin/Release/net8.0/playwright.ps1 install --with-deps
       - name: Test
         env:
           authentication_github_clientId: ${{ secrets.GITHUBCLIENTID }}
