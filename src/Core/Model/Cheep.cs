@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Core.Model;
 
+/// <summary>
+/// Model representing a Cheep in the application's Cheep table
+/// </summary>
 public class Cheep
 {
     public required int CheepId { get; set; }

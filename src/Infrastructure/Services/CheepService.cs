@@ -6,6 +6,9 @@ using Infrastructure.Repositories;
 
 namespace Infrastructure.Services;
 
+/// <summary>
+/// Application Service interacting with Repositories
+/// </summary>
 public class CheepService : ICheepService
 {
     private readonly CheepRepository _cheepRepository;
