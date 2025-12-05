@@ -146,6 +146,13 @@ public class QueryTests
         Assert.Equal(author2, authorFollows[0]);
     }
 
-
+    [Fact]
+    public async Task ReadLikedCheeps()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Adrian");
+        var cheepLikes = await _authorRepository.GetLikedCheeps(author.Email);
+        Assert.NotNull(cheepLikes);
+        Assert.Equal(1, cheepLikes[0]);
+    }
     
 }
