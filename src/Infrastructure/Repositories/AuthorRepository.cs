@@ -4,18 +4,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
+/// <summary>
+/// Repository representing the Author table
+/// </summary>
 public class AuthorRepository : IAuthorRepository
 {
-
     private readonly ChatDbContext _dbContext;
     public AuthorRepository(ChatDbContext dbContext)
     {
         _dbContext = dbContext;
     }
-
-
-
-    //Has test
+    
     public void CreateAuthor(string name, string email)
     {
         var newAuthor = new Author()
@@ -30,7 +29,6 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
     }
 
-    //Has test
     public void AddFollowerId(Author author, int id)
     {
         author.Follows.Add(id);
@@ -38,7 +36,6 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
     }
 
-    //Has test
     public void RemoveFollowerId(Author author, int id)
     {
         author.Follows.Remove(id);
@@ -46,7 +43,6 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
 
     }
-
     
     public async Task DeleteAuthor(string email)
     {
@@ -62,7 +58,6 @@ public class AuthorRepository : IAuthorRepository
         
         await _dbContext.SaveChangesAsync();
     }
-    
 
     #region Helper methods
 
@@ -83,10 +78,7 @@ public class AuthorRepository : IAuthorRepository
     }
 
     #endregion
-
-
-
-    //Has test
+    
     public async Task<List<Author>> ReturnBasedOnEmailAsync(string email, int page = 0)
     {
         var query = (
@@ -99,7 +91,7 @@ public class AuthorRepository : IAuthorRepository
 
         return result;
     }
-    //Has test
+    
     public async Task<List<int>> ReturnFollowAuthorsIds(string email)
     {
         var query = (
@@ -120,7 +112,6 @@ public class AuthorRepository : IAuthorRepository
         
     }
 
-    //Has test
     public async Task<int> ReturnAuthorsId(string email)
     {
         var query = (
@@ -138,7 +129,6 @@ public class AuthorRepository : IAuthorRepository
         return result[0];
     }
 
-    //Has test
     public async Task<Author> ReturnBasedOnNameAsync(string name, int page = 0)
     {
         var query = (
@@ -154,7 +144,6 @@ public class AuthorRepository : IAuthorRepository
         return result[0];
     }
     
-    //Has test
     public async Task<List<Author>> GetAuthorsFromIdList(List<int> idList)
     {
         var query = (
