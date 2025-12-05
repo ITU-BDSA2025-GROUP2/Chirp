@@ -111,6 +111,7 @@ public class AuthorRepository : IAuthorRepository
         
     }
 
+    //Has test
     public async Task<int> ReturnAuthorsId(string email)
     {
         var query = (
@@ -144,6 +145,7 @@ public class AuthorRepository : IAuthorRepository
         return result[0];
     }
     
+    //Has test
     public async Task<List<Author>> GetAuthorsFromIdList(List<int> idList)
     {
         var query = (

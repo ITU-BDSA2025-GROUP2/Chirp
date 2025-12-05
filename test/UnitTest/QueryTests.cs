@@ -134,6 +134,18 @@ public class QueryTests
         Assert.Equal(1, id);
     }
 
+    [Fact]
+    public async Task ReadAuthorsFromIdList()
+    {
+        var author = await _authorRepository.ReturnBasedOnNameAsync("Helge");
+        var author2 = await _authorRepository.ReturnBasedOnNameAsync("Adrian");
+        var follows = await _authorRepository.ReturnFollowAuthorsIds(author.Email);
+
+        var authorFollows = await _authorRepository.GetAuthorsFromIdList(follows);
+        Assert.NotNull(authorFollows);
+        Assert.Equal(author2, authorFollows[0]);
+    }
+
 
     
 }
