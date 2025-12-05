@@ -36,7 +36,7 @@ public class GlobalTestSetup
         _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
             Headless = isCiCd,      // headed locally, headless in CI
-            SlowMo = isCiCd ? 0 : 500
+            SlowMo = isCiCd ? 0 : 100
         });
 
         
