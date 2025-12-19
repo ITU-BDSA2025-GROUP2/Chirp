@@ -25,7 +25,7 @@ The four images below show our domain model. The fourth picture shows the entire
 ![domainWeb](./images/domainWeb.png)
 
 #### Full Domain Model
-![domainWhole](./images/do)
+![domainWhole](./images/domainWhole.png)
 
 ## Architecture — In the small
 
@@ -38,10 +38,10 @@ We made sure to keep our architecture clean and avoid redundancy. The model may 
 
 | Object Type | Description | Visual |
 | -------- | -------- | -------- |
-| Onion Layer     | Coloured Package Box    | ![image](https://hackmd.io/_uploads/ry_kyg77bg.png) |
-| Project | Dark Grey Package Box |![image](https://hackmd.io/_uploads/rkT0AJXQZl.png) |
-| Folder | Light Grey Box | ![image](https://hackmd.io/_uploads/SyH00k7XWe.png) |
-| Class | White Class Box | ![image](https://hackmd.io/_uploads/rkv7C17mWe.png) |
+| Onion Layer     | Coloured Package Box    | ![image](./images/OnionLayer.png) |
+| Project | Dark Grey Package Box |![image](./images/Project.png) |
+| Folder | Light Grey Box | ![image](./images/Folder.png) |
+| Class | White Class Box | ![image](./images/Class.png) |
 
 
 
@@ -95,7 +95,7 @@ Our program contains the following github workflows.
 ## Team work
 
 The picture below shows the project board on the 19th of December 2025. All issues have been completed.
-![projectBoard]()
+![projectBoard](./images/projectBoard.png)
 
 Each time a new requirement for the project was found, an issue was made to describe it. The issue would then be analysed and team members would be assigned to work on it. A new branch was made for the new requirements to be worked on. Some issues would be assigned to the same branch, to make it easier to integrate them together. Members worked together using primarily pair programming. They would make a commit to the branch whenever necessary.
 
