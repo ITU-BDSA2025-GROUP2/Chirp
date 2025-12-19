@@ -7,6 +7,15 @@ author:
 - "Madsemil Søndergaard Søgaard <msso@itu.dk>"
 - "David Kvistorf Larsen (Vee) <dakl@itu.dk>"
 - "Mohamed Karam Haybout <mhay@itu.dk>"
+header-includes: |
+  \usepackage{float}
+  \let\origfigure\figure
+  \let\endorigfigure\endfigure
+  \renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+  } {
+    \endorigfigure
+  }
 numbersections: true
 ---
 
@@ -72,7 +81,7 @@ Users can view the *public timeline*, *my timeline*, *logout* button and *about 
 
 ## Sequence of functionality/calls trough _Chirp!_
 Whenever a client opens up the website, via a HTTP request, the Chirp application will immediatly call upon a function that travels through the system to query all Cheeps and then returns the List of Cheeps back to the Public Page as the HTTP finishes a response to the client. 
-![Chirp](./images/Chirp.jpg) { width=70% }
+![Chirp](./images/Chirp.jpg)
 
 
 # Process
@@ -91,7 +100,7 @@ Our program contains the following github workflows.
 
 * **Deploy to Azure:** It builds, tests and deploys the application to Azure. Triggered on every push to master branch. 
 
-![deploy_to_azure](./images/deploy_to_azure.png) .
+![deploy_to_azure](./images/deploy_to_azure.png)
 
 ## Team work
 
@@ -113,6 +122,7 @@ To download and run the program locally you have to do the following steps.
 3. In the submenu it opens, copy the url.
 
 ![github_code_button](./images/github_code_button.png)
+
 4. Open your prefered terminal.
 5. Type ``git clone <url>``
 6. Next type `cd Chirp`
@@ -147,4 +157,3 @@ Our project uses the Apache 2.0 license. This license was chosen because it was 
 ## LLMs, ChatGPT, CoPilot, and others
 
 Yes LLMs were used during the project. Our used  chatbots include ChatGPT, Grok and Claude. Chatbots were used as a sparing partner, or to find a specific part like a function in a bigger library documentation. Chatbots have also been used in a few cases where the solution was really good and was copied. Every time that happened, the respective chatbot has been credited with a GitHub co-author.
-
