@@ -54,7 +54,8 @@ jobs:
           with:
             fetch-depth: 0
             dotnet-version: 8.0.x
-
+        - name: Clean
+          run: dotnet clean
         - name: Build
           shell: bash
           run: | 
