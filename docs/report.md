@@ -16,22 +16,22 @@ numbersections: true
 The four images below show our domain model. The fourth picture shows the entire domain model, while the first three images are cuts of the fourth, this is done so that it is easier for the reader to see the content of the domain model. Next to the arrows, that go out of the image, there is a name which depicts the class or interface that is on the other side of the arrow. 
 
 #### Core:
-![domainCore](https://hackmd.io/_uploads/BkDUlkXQZg.png)
+![domainCore](./images/domainCore.PNG)
 
 #### Infrastructure and ASPNETCORE Identity
-![domainInfra](https://hackmd.io/_uploads/B1YweJ77-e.png)
+![domainInfra](./images/domainInfra.png)
 
 #### Web
-![domainWeb](https://hackmd.io/_uploads/rkgdgy7m-l.png)
+![domainWeb](./images/domainWeb.png)
 
 #### Full Domain Model
-![domainWhole](https://hackmd.io/_uploads/By1qrpf7bx.png)
+![domainWhole](./images/do)
 
 ## Architecture — In the small
 
 Our application architecture is based on the Onion Skin layer architecture. Each layer is only coupled with its inner layer, thus allowing for a high level of decoupling.
 
-![Architecture_Small](https://hackmd.io/_uploads/rJHO5J7QWx.jpg)
+![Architecture_Small](./images/Architecture_Small.jpg)
 
 
 We made sure to keep our architecture clean and avoid redundancy. The model may have some inconsistencies but it accurately represents our application.
@@ -55,7 +55,7 @@ We made sure to keep our architecture clean and avoid redundancy. The model may 
 ## Architecture of deployed application
 The deployed application takes HTTPS request from a user, and establishes a connection with the user. With this connection, they can now interact with the website. (We could not find a cylinder for the DB)
 
-![Deployment of Chirp](https://hackmd.io/_uploads/ryo-6af7-g.jpg)
+![Deployment of Chirp](./images/Deployment%20of%20Chirp.jpg)
 
 
 ## User activities
@@ -63,16 +63,16 @@ Below are two activity diagrams for our Chirp application. The first diagram sho
 
 #### Unauthenticated user
 Users can view the *public timeline*, *login* page and *register* page. They can be accessed at all times. User timeline of other users can also be accessed in the public timeline. On the *register* page you can register with either email or GitHub.
-![Activity Diagram logged out](https://hackmd.io/_uploads/ryaFEx7QZg.jpg)
+![Activity Diagram logged out](./images/Activity%20Diagram%20logged%20out.jpg)
 
 #### Authenticated user
 Users can view the *public timeline*, *my timeline*, *logout* button and *about me* page. They can be accessed at all times. Users can *follow/unfollow* other users and *like/unlike* theirs and your own post in every timeline. Users can *post* a cheep on the public timeline and their own timeline. Users can also click the *forget me* button on their *about me* page and delete themselves.
-![Activity Diagram logged in](https://hackmd.io/_uploads/rJKhhg77bg.jpg)
+![Activity Diagram logged in](./images/Activity%20Diagram%20logged%20in.jpg)
 
 
 ## Sequence of functionality/calls trough _Chirp!_
 Whenever a client opens up the website, via a HTTP request, the Chirp application will immediatly call upon a function that travels through the system to query all Cheeps and then returns the List of Cheeps back to the Public Page as the HTTP finishes a response to the client. 
-![Chirp](https://hackmd.io/_uploads/H15NpJQXZg.jpg)
+![Chirp](./images/Chirp.jpg)
 
 
 # Process
@@ -82,20 +82,20 @@ Whenever a client opens up the website, via a HTTP request, the Chirp applicatio
 Our program contains the following github workflows.
 * **Build and test:** Builds and test the program. it's triggered on push and pull requests on any branch.
 
-![build and test](https://hackmd.io/_uploads/SJ7E_0fX-l.jpg)
+![build and test](./images/build%20and%20test.jpg)
 
 * **Verify and publish:** Builds and tests the application, afterwards it makes a published version. It's triggered on pushes with a new version tag.
 
-![build_and_publish](https://hackmd.io/_uploads/ryPHuCGQZe.jpg)
+![build_and_publish](./images/build_and_publish.jpg)
 
 * **Deploy to Azure:** It builds, tests and deploys the application to Azure. Triggered on every push to master branch. 
 
-![deploy_to_azure](https://hackmd.io/_uploads/SJu8ORG7be.jpg)
+![deploy_to_azure](./images/deploy_to_azure.jpg)
 
 ## Team work
 
 The picture below shows the project board on the 19th of December 2025. All issues have been completed.
-![projectBoard](https://hackmd.io/_uploads/HyRk_pMXZl.png)
+![projectBoard]()
 
 Each time a new requirement for the project was found, an issue was made to describe it. The issue would then be analysed and team members would be assigned to work on it. A new branch was made for the new requirements to be worked on. Some issues would be assigned to the same branch, to make it easier to integrate them together. Members worked together using primarily pair programming. They would make a commit to the branch whenever necessary.
 
@@ -108,7 +108,7 @@ To download and run the program locally you have to do the following steps.
 1. First go to the following website https://github.com/ITU-BDSA2025-GROUP2/Chirp
 2. Click the button "code" 
 3. In the submenu it opens, copy the url.
-![github_code_button](https://hackmd.io/_uploads/HJlBhkm7-l.png)
+![github_code_button](./images/github_code_button.png)
 4. Open your prefered terminal.
 5. Type ``git clone <url>``
 6. Next type `cd Chirp`
@@ -117,7 +117,7 @@ To download and run the program locally you have to do the following steps.
 9. The terminal will show you that a localhost has opened. 
 10. In the terminal press the link or open a browser and copy the url from the terminal.
 
-![teminal code](https://hackmd.io/_uploads/HkdK2yQXWg.png)
+![teminal code](./images/teminal%20code.png)
     
 11. If your url is not `127.0.0.1:<your port>` please change it to that if you want to log in with GitHub.
 12. Now you should be able to interact with the webpage 
