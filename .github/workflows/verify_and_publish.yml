@@ -1,4 +1,4 @@
-name: verify and pulish newest version
+name: verify and publish newest version
 
 on:
     push: 
@@ -18,8 +18,12 @@ jobs:
           dotnet-version: 8.0.x
       - name: Restore dependencies
         run: dotnet restore
+      - name: Clean
+        run: dotnet clean
       - name: Build
         run: dotnet build --no-restore
+      - name: Playwright Browsers
+        run: pwsh test/End2EndTests/bin/Debug/net8.0/playwright.ps1 install --with-deps
       - name: Test
         env:
           authentication_github_clientId: ${{ secrets.GITHUBCLIENTID }}
@@ -50,7 +54,8 @@ jobs:
           with:
             fetch-depth: 0
             dotnet-version: 8.0.x
-
+        - name: Clean
+          run: dotnet clean
         - name: Build
           shell: bash
           run: | 
