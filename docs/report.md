@@ -3,7 +3,7 @@ title: _Chirp!_ Project Report
 subtitle: ITU BDSA 2025 Group `2`
 author:
 - "Madeleine Jakobsen <majak@itu.dk>"
-- "Tim Hounsgaard <thou@itu.dk>"
+- "Tim Vogensen Hounsgaard <thou@itu.dk>"
 - "Madsemil Søndergaard Søgaard <msso@itu.dk>"
 - "David Kvistorf Larsen (Vee) <dakl@itu.dk>"
 - "Mohamed Karam Haybout <mhay@itu.dk>"
@@ -82,20 +82,21 @@ Whenever a client opens up the website, via a HTTP request, the Chirp applicatio
 Our program contains the following github workflows.
 * **Build and test:** Builds and test the program. it's triggered on push and pull requests on any branch.
 
-![build and test](./images/build%20and%20test.jpg)
+![build and test](./images/build%20and%20test.png)
 
 * **Verify and publish:** Builds and tests the application, afterwards it makes a published version. It's triggered on pushes with a new version tag.
 
-![build_and_publish](./images/build_and_publish.jpg)
+![build_and_publish](./images/build_and_publish.png)
 
 * **Deploy to Azure:** It builds, tests and deploys the application to Azure. Triggered on every push to master branch. 
 
-![deploy_to_azure](./images/deploy_to_azure.jpg)
+![deploy_to_azure](./images/deploy_to_azure.png)
 
 ## Team work
 
 The picture below shows the project board on the 19th of December 2025. All issues have been completed.
 ![projectBoard](./images/projectBoard.png)
+
 
 Each time a new requirement for the project was found, an issue was made to describe it. The issue would then be analysed and team members would be assigned to work on it. A new branch was made for the new requirements to be worked on. Some issues would be assigned to the same branch, to make it easier to integrate them together. Members worked together using primarily pair programming. They would make a commit to the branch whenever necessary.
 
@@ -108,6 +109,7 @@ To download and run the program locally you have to do the following steps.
 1. First go to the following website https://github.com/ITU-BDSA2025-GROUP2/Chirp
 2. Click the button "code" 
 3. In the submenu it opens, copy the url.
+
 ![github_code_button](./images/github_code_button.png)
 4. Open your prefered terminal.
 5. Type ``git clone <url>``
