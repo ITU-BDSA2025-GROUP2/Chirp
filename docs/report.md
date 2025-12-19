@@ -72,7 +72,7 @@ Users can view the *public timeline*, *my timeline*, *logout* button and *about 
 
 ## Sequence of functionality/calls trough _Chirp!_
 Whenever a client opens up the website, via a HTTP request, the Chirp application will immediatly call upon a function that travels through the system to query all Cheeps and then returns the List of Cheeps back to the Public Page as the HTTP finishes a response to the client. 
-![Chirp](./images/Chirp.jpg)
+![Chirp](./images/Chirp.jpg) { width=70% }
 
 
 # Process
@@ -80,6 +80,7 @@ Whenever a client opens up the website, via a HTTP request, the Chirp applicatio
 ## Build, test, release, and deployment
 
 Our program contains the following github workflows.
+
 * **Build and test:** Builds and test the program. it's triggered on push and pull requests on any branch.
 
 ![build and test](./images/build%20and%20test.png)
@@ -90,11 +91,12 @@ Our program contains the following github workflows.
 
 * **Deploy to Azure:** It builds, tests and deploys the application to Azure. Triggered on every push to master branch. 
 
-![deploy_to_azure](./images/deploy_to_azure.png)
+![deploy_to_azure](./images/deploy_to_azure.png) .
 
 ## Team work
 
 The picture below shows the project board on the 19th of December 2025. All issues have been completed.
+
 ![projectBoard](./images/projectBoard.png)
 
 
